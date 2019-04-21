@@ -25,7 +25,6 @@ const ELEMENT_DATA: PeriodicElement[] = [
  * @title Table with filtering
  */
 @Component({
-  selector: 'product-list',
   styleUrls: ['./product-list.component.css'],
   templateUrl: './product-list.component.html',
 })
