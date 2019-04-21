@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {MatTableDataSource} from '@angular/material';
+import {Router} from '@angular/router';
 
 export interface PeriodicElement {
   name: string;
@@ -29,10 +30,19 @@ const ELEMENT_DATA: PeriodicElement[] = [
   templateUrl: './product-list.component.html',
 })
 export class ProductListComponent {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol', 'action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
+  constructor(private router: Router){ }
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  private navigate(id) {
+    this.router.navigate(['/products/', id, 'edit']);
+  }
+
+  private delete(id) {
+    
   }
 }
