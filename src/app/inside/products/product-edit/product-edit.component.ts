@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { IProduct } from '../product';
 
 @Component({
@@ -15,7 +15,7 @@ export class ProductEditComponent implements OnInit {
   ngOnInit() {
     this.productForm = this.formBuilder.group({
       productId: '',
-      productName: '',
+      productName: ['', [Validators.required, Validators.minLength(3)]],
       productCode: '',
       category: '',
       tags: '',
@@ -26,6 +26,21 @@ export class ProductEditComponent implements OnInit {
       imageUrl:'',
       stock: 0
     })
+  }
+
+  get productName() {
+    return this.productForm.get('productName');
+  }
+
+  getErrorMessage(){
+    let errs = this.productForm.get('productName').errors;
+    if(errs.required){
+      return 'Please enter product name';
+    }
+    
+    if (errs.minlength){
+      return 'Product name is too short'
+    }
   }
 
 }

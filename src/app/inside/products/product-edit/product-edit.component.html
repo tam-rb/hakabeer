@@ -4,6 +4,7 @@
   </mat-form-field>
   <mat-form-field class="example-full-width">
     <input matInput placeholder="productName" formControlName="productName">
+    <mat-error *ngIf="productName.invalid">{{getErrorMessage()}}</mat-error>   
   </mat-form-field>
   <mat-form-field class="example-full-width">
     <input matInput placeholder="productCode" formControlName="productCode">
