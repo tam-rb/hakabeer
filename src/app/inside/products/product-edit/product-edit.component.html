@@ -1,3 +1,35 @@
-<p>
-  product-edit works!
-</p>
+<form class="example-form" [formGroup]="productForm">
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="productId" formControlName="productId">
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="productName" formControlName="productName">
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="productCode" formControlName="productCode">
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="category" formControlName="category">
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="tag" formControlName="tags">
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="releaseDate" formControlName="releaseDate">
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="price" formControlName="price">
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="starRating" formControlName="starRating">
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="imageUrl" formControlName="imageUrl">
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="stock" formControlName="stock">
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <textarea matInput placeholder="Leave a comment" formControlName="description"></textarea>
+  </mat-form-field>
+</form>  
