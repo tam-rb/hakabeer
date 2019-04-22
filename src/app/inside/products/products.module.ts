@@ -6,13 +6,15 @@ import { MatTableModule, MatButtonModule, MatIconModule, MatCardModule, MatFormF
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { ProductEditComponent } from './product-edit/product-edit.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TestfirebaseComponent } from './testfirebase/testfirebase.component';
 
 
 @NgModule({
   declarations: [
       ProductListComponent,
       ProductDetailComponent,
-      ProductEditComponent      
+      ProductEditComponent,
+      TestfirebaseComponent      
   ],
   imports: [
     CommonModule,
