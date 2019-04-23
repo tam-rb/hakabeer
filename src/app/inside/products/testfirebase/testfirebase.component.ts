@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { ProductService } from '../product.service';
+
+export interface tamse {
+  name : string;
+  love: string
+}
 
 @Component({
   selector: 'app-testfirebase',
@@ -7,10 +12,13 @@ import { AngularFireDatabase } from 'angularfire2/database';
   styleUrls: ['./testfirebase.component.css']
 })
 export class TestfirebaseComponent implements OnInit {
+  tamsee;
+  constructor(private productService : ProductService) { }
 
-  constructor(private db: AngularFireDatabase) { }
-
-  ngOnInit() {
+  ngOnInit() {    
+     //this.productService.createProduct(data)
+      this.productService.gettamse().subscribe(data => (this.tamsee =data ));
+  
   }
 
 }

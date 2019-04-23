@@ -32,7 +32,8 @@ import { TestfirebaseComponent } from './testfirebase/testfirebase.component';
     RouterModule.forChild([
         {path: '', component: ProductListComponent},
         {path: ':id', component: ProductDetailComponent},
-        {path: ':id/edit', component: ProductEditComponent}
+        {path: ':id/edit', component: ProductEditComponent},
+        {path: ':id/xedit', component: TestfirebaseComponent}
     ])
   ]
 })

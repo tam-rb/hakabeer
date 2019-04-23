@@ -1,3 +1,8 @@
-<p>
-  testfirebase works!
-</p>
+<table>    
+    <tbody>
+      <tr *ngFor="let ts of tamsee">  
+        <td>{{ts.payload.doc.data().name}}</td>
+        <td>{{ts.payload.doc.data().love}}</td>        
+      </tr>
+    </tbody>
+  </table>
