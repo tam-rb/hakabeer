@@ -3,6 +3,7 @@ import {MatTableDataSource} from '@angular/material';
 import {Router} from '@angular/router';
 import { IProduct } from './product';
 import { ProductService } from './product.service';
+import { Metadata } from "./metadata"
 
 export interface PeriodicElement {
   name: string;
@@ -21,7 +22,8 @@ export interface PeriodicElement {
 })
 
 export class ProductListComponent implements OnInit {
-  products: IProduct[] = [];
+  products: IProduct[] = [];  
+  productTexts = Metadata.productTexts;
   dataSource;
   displayedColumns: string[] = [];
 

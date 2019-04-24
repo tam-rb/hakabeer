@@ -20,5 +20,4 @@ export class TestfirebaseComponent implements OnInit {
       this.productService.gettamse().subscribe(data => (this.tamsee =data ));
   
   }
-
 }

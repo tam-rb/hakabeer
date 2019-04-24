@@ -7,7 +7,6 @@ export class ProductsMock{
     public static getProducts() :IProduct[] {
         return  [
             {
-                "productId": 1,
                 "productName": "Beer 01",
                 "category": "beer",
                 "description": "Sản phẩm bia 01",
@@ -15,11 +14,10 @@ export class ProductsMock{
                 "price": 12000,
                 "starRating": 4,
                 "imageUrl": "",
-                "releaseDate": "20/04/2019",
-                "stock": 10
+                "availableDate": "20/04/2019",
+                "inventory": 10
             },
             {
-                "productId": 2,
                 "productName": "Beer 02",
                 "category": "beer",
                 "description": "Sản phẩm bia 02",
@@ -27,11 +25,10 @@ export class ProductsMock{
                 "price": 12000,
                 "starRating": 3,
                 "imageUrl": "",
-                "releaseDate": "20/04/2019",
-                "stock": 10
+                "availableDate": "20/04/2019",
+                "inventory": 10
             },
             {
-                "productId": 3,
                 "productName": "Beer 03",
                 "category": "beer",
                 "description": "Sản phẩm bia 03",
@@ -39,20 +36,19 @@ export class ProductsMock{
                 "price": 12000,
                 "starRating": 5,
                 "imageUrl": "",
-                "releaseDate": "20/04/2019",
-                "stock": 10
+                "availableDate": "20/04/2019",
+                "inventory": 10
             },
             {
-                "productId": 4,
-                "productName": "Beer 04",
+                "productName": "Beer 03",
                 "category": "beer",
-                "description": "Sản phẩm bia 04",
+                "description": "Sản phẩm bia 03",
                 "productCode": "B01",
                 "price": 12000,
-                "starRating": 4.5,
+                "starRating": 5,
                 "imageUrl": "",
-                "releaseDate": "20/04/2019",
-                "stock": 10
+                "availableDate": "20/04/2019",
+                "inventory": 10
             }
         ];
     } 

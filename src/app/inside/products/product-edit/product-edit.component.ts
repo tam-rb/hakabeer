@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { IProduct } from '../product';
+import { Metadata } from '../metadata';
 
 @Component({
   selector: 'app-product-edit',
@@ -8,23 +9,23 @@ import { IProduct } from '../product';
   styleUrls: ['./product-edit.component.css']
 })
 export class ProductEditComponent implements OnInit {
+  productTexts = Metadata.productTexts;
   productForm : FormGroup;
   product : IProduct;
   constructor(private formBuilder  : FormBuilder) { }
 
   ngOnInit() {
     this.productForm = this.formBuilder.group({
-      productId: '',
       productName: ['', [Validators.required, Validators.minLength(3)]],
       productCode: '',
       category: '',
       tags: '',
-      releaseDate: '',
+      availableDate: '',
       price: 0,
       description: '',
       starRating:'',
       imageUrl:'',
-      stock: 0
+      inventory: 0
     })
   }
 

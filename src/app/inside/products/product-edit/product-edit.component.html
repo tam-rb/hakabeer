@@ -1,36 +1,36 @@
 <form class="example-form" [formGroup]="productForm">
+  
   <mat-form-field class="example-full-width">
-    <input matInput placeholder="productId" formControlName="productId">
-  </mat-form-field>
-  <mat-form-field class="example-full-width">
-    <input matInput placeholder="productName" formControlName="productName">
+    <input matInput placeholder="{{productTexts.productName}}" formControlName="productName">
     <mat-error *ngIf="productName.invalid">{{getErrorMessage()}}</mat-error>   
   </mat-form-field>
   <mat-form-field class="example-full-width">
-    <input matInput placeholder="productCode" formControlName="productCode">
+    <input matInput placeholder="{{productTexts.productCode}}" formControlName="productCode">
   </mat-form-field>
   <mat-form-field class="example-full-width">
-    <input matInput placeholder="category" formControlName="category">
+    <input matInput placeholder="{{productTexts.category}}" formControlName="category">
+  </mat-form-field>  
+  <mat-form-field class="example-full-width">    
+    <input matInput [matDatepicker]="picker" placeholder="{{productTexts.availableDate}}" formControlName="availableDate">
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="{{productTexts.price}}" formControlName="price">
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="{{productTexts.starRating}}" formControlName="starRating">
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="{{productTexts.imageUrl}}" formControlName="imageUrl">
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="{{productTexts.inventory}}" formControlName="inventory">
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <textarea matInput placeholder="{{productTexts.description}}" formControlName="description"></textarea>
   </mat-form-field>
   <mat-form-field class="example-full-width">
     <input matInput placeholder="tag" formControlName="tags">
-  </mat-form-field>
-  <mat-form-field class="example-full-width">
-    <input matInput placeholder="releaseDate" formControlName="releaseDate">
-  </mat-form-field>
-  <mat-form-field class="example-full-width">
-    <input matInput placeholder="price" formControlName="price">
-  </mat-form-field>
-  <mat-form-field class="example-full-width">
-    <input matInput placeholder="starRating" formControlName="starRating">
-  </mat-form-field>
-  <mat-form-field class="example-full-width">
-    <input matInput placeholder="imageUrl" formControlName="imageUrl">
-  </mat-form-field>
-  <mat-form-field class="example-full-width">
-    <input matInput placeholder="stock" formControlName="stock">
-  </mat-form-field>
-  <mat-form-field class="example-full-width">
-    <textarea matInput placeholder="Leave a comment" formControlName="description"></textarea>
   </mat-form-field>
 </form>  

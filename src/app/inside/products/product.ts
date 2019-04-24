@@ -1,18 +1,28 @@
 export interface IProduct {
-    productId: number;
     productName: string;
     productCode: string;
     category: string;
     tags?: string[];
-    releaseDate: string;
+    availableDate: string;
     price: number;
     description: string;
     starRating: number;
     imageUrl: string;
-    stock: number
+    inventory: number
   }
   
   export interface ProductResolved {
     product: IProduct;
     error?: any;
+  }
+
+  export interface IOrder{
+    id: string;
+    dateCreated: string;
+    createdby: string;
+    total: number;
+    table: number;
+    active: boolean;
+    pax: number;
+    items: [IProduct]    
   }
