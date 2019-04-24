@@ -10,12 +10,12 @@ import { AngularFirestore } from '@angular/fire/firestore';
 export class ProductService{
     constructor(private firestore: AngularFirestore){}
 
-    createProduct(data){
+    createProduct(data, code){
         return new Promise<any> ((resolve, reject) => {
             this.firestore
-                .collection("products")
-                .add(data)
-                .then(res => {}, err => reject(err));
+                .collection("products").doc(code)
+                .set(data)
+                .then(res => {}, err => reject(console.log(err)));
         })
     }
     getProducts(): IProduct[]{
