@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { IProduct } from './product';
-import {ProductsMock} from './products-mock';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 
 @Injectable({
@@ -18,8 +19,14 @@ export class ProductService{
                 .then(res => {}, err => reject(console.log(err)));
         })
     }
-    getProducts(): IProduct[]{
-        return ProductsMock.getProducts();
+    getProducts(){ 
+        return this.firestore.collection("products").snapshotChanges().pipe(map(products =>{
+            return products.map(p=>{
+                const data = p.payload.doc.data() as IProduct;
+                const id = p.payload.doc.id;
+                return {data}
+            })
+        })); 
     }
 
     gettamse(){

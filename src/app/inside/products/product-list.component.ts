@@ -4,6 +4,9 @@ import {Router} from '@angular/router';
 import { IProduct } from './product';
 import { ProductService } from './product.service';
 import { Metadata } from "./metadata"
+import { AngularFirestoreCollection } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export interface PeriodicElement {
   name: string;
@@ -22,9 +25,10 @@ export interface PeriodicElement {
 })
 
 export class ProductListComponent implements OnInit {
-  products: IProduct[] = [];  
+  productsCollection: AngularFirestoreCollection<IProduct>;  
+  products: any;
   productTexts = Metadata.productTexts;
-  dataSource;
+  dataSource : any;
   displayedColumns: string[] = [];
 
   constructor(private router: Router, private productService: ProductService){
@@ -41,10 +45,15 @@ export class ProductListComponent implements OnInit {
     
   }
 
-  ngOnInit(): void{
-    this.products = this.productService.getProducts();
-    this.displayedColumns = Object.keys(this.products[0]);
-    this.displayedColumns.push("action");
+  ngOnInit(): void{ 
+    
+    this.products = this.productService.getProducts().subscribe(data => {
+      
+      //console.log(data);
+    });
+    //this.displayedColumns = Object.keys(this.products[0]);
+    //this.displayedColumns.push("action");
+    console.log(this.products);
     this.dataSource = new MatTableDataSource(this.products);  
   }
 }
