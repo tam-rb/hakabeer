@@ -28,7 +28,7 @@ export class ProductListComponent implements OnInit {
   productsCollection: AngularFirestoreCollection<IProduct>;  
   products: any;
   productTexts = Metadata.productTexts;
-  dataSource : any;
+  dataSource ;
   displayedColumns: string[] = [];
 
   constructor(private router: Router, private productService: ProductService){
@@ -45,15 +45,13 @@ export class ProductListComponent implements OnInit {
     
   }
 
-  ngOnInit(): void{ 
-    
-    this.products = this.productService.getProducts().subscribe(data => {
-      
-      //console.log(data);
+  ngOnInit(): void{     
+    this.productService.getProducts().subscribe((data:IProduct[]) => {      
+      this.dataSource = new MatTableDataSource(data);
+      console.log(data);
+      this.displayedColumns = Object.keys(data[0]);
+      this.displayedColumns.push("action");
+      console.log(this.displayedColumns);
     });
-    //this.displayedColumns = Object.keys(this.products[0]);
-    //this.displayedColumns.push("action");
-    console.log(this.products);
-    this.dataSource = new MatTableDataSource(this.products);  
   }
 }

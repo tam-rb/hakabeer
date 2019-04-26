@@ -31,9 +31,8 @@ import { TestfirebaseComponent } from './testfirebase/testfirebase.component';
     ReactiveFormsModule,
     RouterModule.forChild([
         {path: '', component: ProductListComponent},
-        {path: ':id', component: ProductDetailComponent},
-        {path: ':id/edit', component: ProductEditComponent},
-        {path: ':id/xedit', component: TestfirebaseComponent}
+        {path: ':code', component: ProductDetailComponent},
+        {path: ':code/edit', component: ProductEditComponent},
     ])
   ]
 })
