@@ -10,6 +10,8 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { UserRowComponent } from './shared/user-row/user-row.component';
 import { HomeComponent } from './public/home/home.component';
 import { environment } from 'src/environments/environment';
+import { MatButtonModule, MatMenuModule, MatCardModule, MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatButtonToggleGroup, MatButtonToggleGroupMultiple, MatButtonToggleModule } from '@angular/material';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -18,11 +20,20 @@ import { environment } from 'src/environments/environment';
     HomeComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule, 
+    FlexLayoutModule,
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     AppRoutingModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatCardModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatSidenavModule,
+    MatListModule,
+    MatButtonToggleModule
       
   ],
   providers: [],

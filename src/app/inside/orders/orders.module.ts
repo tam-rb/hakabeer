@@ -1,14 +1,33 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { OrdersListComponent } from './orders-list/orders-list.component';
 import { RouterModule } from '@angular/router';
+import { MatTableModule, MatButtonModule, MatIconModule, MatCardModule, MatFormFieldModule, MatDatepickerModule, MatRadioModule, MatSelectModule, MatNativeDateModule, MatInputModule } from '@angular/material';
+import { ReactiveFormsModule } from '@angular/forms';
+import { OrdersListComponent } from './orders-list/orders-list.component';
+import { OrderEditComponent } from './order-edit/order-edit.component';
 
 @NgModule({
-  declarations: [OrdersListComponent],
+  declarations: [
+    OrdersListComponent,
+    OrderEditComponent
+  ],
   imports: [
     CommonModule,
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatSelectModule,
+    MatRadioModule,
+    MatNativeDateModule,
+    MatInputModule,
+    ReactiveFormsModule,    
     RouterModule.forChild([
-      {path: '', component: OrdersListComponent}
+        {path: '', component: OrderEditComponent},
+        {path: ':code', component: OrderEditComponent},
+        {path: ':code/edit', component: OrderEditComponent},
     ])
   ]
 })

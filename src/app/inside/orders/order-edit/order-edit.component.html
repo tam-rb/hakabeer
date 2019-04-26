@@ -1,0 +1,12 @@
+<form class="example-form" [formGroup]="orderForm" (ngSubmit)="onSubmit()">  
+  <mat-form-field class="order-full-width" [floatLabel]="always">
+    <input matInput placeholder="Bàn số" formControlName="table" >
+  </mat-form-field>
+  <mat-form-field class="order-full-width"  [floatLabel]="always">
+    <input matInput placeholder="Số người" formControlName="pax">
+  </mat-form-field>
+  
+  <button mat-raised-button color="primary" type="submit" [disabled]="!orderForm.valid">Lưu SP</button>
+  <button mat-raised-button color="basic" [routerLink]="['/products']">Quay về</button>
+</form>  
+
