@@ -14,6 +14,7 @@ export class ProductEditComponent implements OnInit {
   productTexts = Metadata.productTexts;
   productForm : FormGroup;
   product : IProduct;
+  errorMessage : string;
   
   constructor(private formBuilder  : FormBuilder, private productService: ProductService, private route: ActivatedRoute) {    
    }
@@ -46,10 +47,32 @@ export class ProductEditComponent implements OnInit {
   getProduct(code:string){
     this.productService.getProduct(code)
       .subscribe(
-        (product:IProduct) => this.onProductRetreived(product),
-      )
+        (product:IProduct) => this.displayProduct(product),
+        error =>this.errorMessage = <any>error        
+      );
   }
+  
+  displayProduct(product : IProduct) : void{
+    if (this.productForm){
+      this.productForm.reset();
+    }
 
+    this.product = product;
+
+    this.productForm.patchValue({
+      productName: this.product.productName,
+      productCode: this.product.productCode,
+      category:this.product.category,
+      tags:this.product.tags,
+      availableDate:this.product.availableDate,
+      price:this.product.price,
+      description:this.product.description,
+      starRating:this.product.starRating,
+      imageUrl:this.product.imageUrl,
+      inventory:this.product.inventory
+    });
+  }
+  
   get productName() {
     return this.productForm.get('productName');
   }

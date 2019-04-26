@@ -17,7 +17,7 @@ export class TestfirebaseComponent implements OnInit {
 
   ngOnInit() {    
      //this.productService.createProduct(data)
-      this.productService.gettamse().subscribe(data => (this.tamsee =data ));
+      //this.productService.gettamse().subscribe(data => (this.tamsee =data ));
   
   }
 }

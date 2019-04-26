@@ -33,8 +33,9 @@ export class ProductService{
 
     getProduct(code:string):Observable<IProduct>{
         if(code === "0"){
-            return of(this.initProduct());
+            //return of(this.initProduct());
         }
-        return this.firestore.collection("products").snapshotChanges();   
+        return this.firestore.collection("products").doc<IProduct>(code).valueChanges();  
     }
+
 }
