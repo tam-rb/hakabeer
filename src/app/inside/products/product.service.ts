@@ -20,8 +20,7 @@ export class ProductService{
         })
     }
 
-    getProducts(){ 
-
+    getProducts(): Observable<IProduct[]> { 
         return this.firestore.collection("products").snapshotChanges().pipe(map(products =>{
             return products.map(p=>{
                 const data = p.payload.doc.data() as IProduct;

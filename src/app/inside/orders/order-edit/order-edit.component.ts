@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { OrderService } from './order.service';
+import { IProduct } from '../../products/product';
+import { ProductService } from '../../products/product.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-order-edit',
@@ -10,9 +13,11 @@ import { OrderService } from './order.service';
 })
 export class OrderEditComponent implements OnInit {
   orderForm : FormGroup;
-  errorMessage: string
+  errorMessage: string;
+  products : IProduct[];
+  filteredOption: string[] = ["one", "two", "three"];
 
-  constructor(private fb:FormBuilder, private orderService: OrderService, private route:ActivatedRoute) { 
+  constructor(private fb:FormBuilder, private productService:ProductService, private orderService: OrderService, private route:ActivatedRoute) { 
 
   }
 
@@ -28,8 +33,24 @@ export class OrderEditComponent implements OnInit {
     });
     this.onChanges();
 
+    this.loadProducts();
+
+    this.populateProducts();
+
   }
 
+  loadProducts() {  
+    this.productService.getProducts().subscribe(data => {      
+      console.log(JSON.stringify(data));
+      this.products = data;
+    });
+  }
+
+  populateProducts():void {
+    console.log('populateProducts');
+    console.log(this.products);
+
+  }
   buildItems() : FormGroup {
     return this.fb.group({
       productName: '',
