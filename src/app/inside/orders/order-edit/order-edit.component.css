@@ -1,0 +1,25 @@
+.order-form {
+    min-width: 150px;
+    max-width: 100%;
+    width: 100%;
+  }
+  
+  .order-full-width {
+    width: 100%;
+  }
+  .order-50-width {
+    width: 49%;
+  }
+
+  .order-onethird-width {
+    width: 33%;
+  }
+
+  .order-25-width {
+    width: 25%;
+  }
+
+  .example-container {
+    display: flex;
+    flex-direction: column;
+  }
