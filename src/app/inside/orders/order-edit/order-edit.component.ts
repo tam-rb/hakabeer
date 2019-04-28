@@ -29,9 +29,7 @@ export class OrderEditComponent implements OnInit {
       pax: '',
       //promo: '',
       total: '',
-      items: this.fb.array([
-        this.buildItems()
-      ])
+      items: this.fb.array([this.buildItems()])
     });
     
     this.onChanges();
@@ -46,7 +44,6 @@ export class OrderEditComponent implements OnInit {
   populateProducts(data):void {
     this.products = data;
     this.filteredProducts = data;
-    console.log (this.filteredProducts);
   }
 
   buildItems() : FormGroup {
@@ -82,4 +79,14 @@ export class OrderEditComponent implements OnInit {
     }
     return total;
   }
+
+  itemSelected(productCode){
+    this.displayItemPrice(productCode);
+  }
+
+  displayItemPrice(productCode){
+    console.log(productCode);
+
+  }
+
 }
