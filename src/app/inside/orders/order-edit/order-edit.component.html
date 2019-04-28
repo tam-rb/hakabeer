@@ -13,8 +13,8 @@
         <mat-label>Bia</mat-label>
         <input type="text" matInput placeholder="" formControlName="productName" [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete" >
-          <mat-option *ngFor="let option of filteredOption" [value]="option">
-            {{option}}
+          <mat-option *ngFor="let option of filteredProducts" [value]="option.productCode">
+            {{option.productName}}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>

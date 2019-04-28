@@ -15,13 +15,15 @@ export class OrderEditComponent implements OnInit {
   orderForm : FormGroup;
   errorMessage: string;
   products : IProduct[];
-  filteredOption: string[] = ["one", "two", "three"];
+  filteredProducts: IProduct[];
 
   constructor(private fb:FormBuilder, private productService:ProductService, private orderService: OrderService, private route:ActivatedRoute) { 
 
   }
 
   ngOnInit() {
+    this.loadProducts();
+
     this.orderForm = this.fb.group({
       table:['', [Validators.required]],
       pax: '',
@@ -31,26 +33,22 @@ export class OrderEditComponent implements OnInit {
         this.buildItems()
       ])
     });
+    
     this.onChanges();
-
-    this.loadProducts();
-
-    this.populateProducts();
-
   }
 
   loadProducts() {  
     this.productService.getProducts().subscribe(data => {      
-      console.log(JSON.stringify(data));
-      this.products = data;
+      this.populateProducts(data);
     });
   }
 
-  populateProducts():void {
-    console.log('populateProducts');
-    console.log(this.products);
-
+  populateProducts(data):void {
+    this.products = data;
+    this.filteredProducts = data;
+    console.log (this.filteredProducts);
   }
+
   buildItems() : FormGroup {
     return this.fb.group({
       productName: '',
@@ -58,6 +56,7 @@ export class OrderEditComponent implements OnInit {
       price: ''
     })
   }
+
   get items(): FormArray{
     return <FormArray>this.orderForm.get('items');
   }
