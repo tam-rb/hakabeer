@@ -5,6 +5,7 @@ import { OrderService } from './order.service';
 import { IProduct } from '../../products/product';
 import { ProductService } from '../../products/product.service';
 import { Observable } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-order-edit',
@@ -15,7 +16,7 @@ export class OrderEditComponent implements OnInit {
   orderForm : FormGroup;
   errorMessage: string;
   products : IProduct[];
-  filteredProducts: IProduct[];
+  filteredProducts: Observable<IProduct[]>;
 
   constructor(private fb:FormBuilder, private productService:ProductService, private orderService: OrderService, private route:ActivatedRoute) { 
 
@@ -23,7 +24,7 @@ export class OrderEditComponent implements OnInit {
 
   ngOnInit() {
     this.loadProducts();
-
+       
     this.orderForm = this.fb.group({
       table:['', [Validators.required]],
       pax: '',
@@ -33,6 +34,15 @@ export class OrderEditComponent implements OnInit {
     });
     
     this.onChanges();
+    
+    //this.filteredProducts = this.orderForm..valueChanges.pipe(startWith(''),map(value => this._filter(value)));
+    
+  }
+
+  private _filter(value: string): IProduct[] {
+    const filterValue = value.toLowerCase();
+
+    return this.products.filter(option => option.productName.toLowerCase().includes(filterValue));
   }
 
   loadProducts() {  
@@ -43,7 +53,6 @@ export class OrderEditComponent implements OnInit {
 
   populateProducts(data):void {
     this.products = data;
-    this.filteredProducts = data;
   }
 
   buildItems() : FormGroup {
@@ -80,13 +89,13 @@ export class OrderEditComponent implements OnInit {
     return total;
   }
 
-  itemSelected(productCode){
-    this.displayItemPrice(productCode);
+  itemSelected(event, rowIndex){
+    let itemPrice = this.products.filter(item => item.productCode === event.option.value)[0].price;
+    this.orderForm.get("items." + rowIndex + ".price").patchValue(itemPrice);
   }
 
-  displayItemPrice(productCode){
-    console.log(productCode);
-
+  displayProductFn(product? :IProduct) : string | undefined {
+    console.log(product);
+    return product? product.productName : undefined;
   }
-
 }

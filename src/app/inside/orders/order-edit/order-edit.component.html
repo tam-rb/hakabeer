@@ -12,8 +12,8 @@
       <mat-form-field class="order-50-width" appearance="outline">
         <mat-label>Bia</mat-label>
         <input type="text" matInput placeholder="" formControlName="productName" [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete" (optionSelected)='itemSelected($event)'>
-          <mat-option *ngFor="let option of filteredProducts" [value]="option.productCode" >
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="itemSelected($event, i)" [displayWith] = "displayProductFn" >
+          <mat-option *ngFor="let option of products" [value]="option.productCode" >
             {{option.productName}}
           </mat-option>
         </mat-autocomplete>
@@ -27,7 +27,7 @@
             <input matInput placeholder="" formControlName="quantity">
           </mat-form-field>
       </div>
-      <hr>
+      
     </div>    
     <button mat-raised-button color="basic" (click)="addItem()" type="button">Thêm bia</button>
     <mat-form-field class="order-full-width" appearance="outline">
