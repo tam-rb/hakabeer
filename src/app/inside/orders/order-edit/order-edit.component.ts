@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { OrderService } from './order.service';
 import { IProduct } from '../../products/product';
 import { ProductService } from '../../products/product.service';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 
 @Component({
@@ -16,7 +16,7 @@ export class OrderEditComponent implements OnInit {
   orderForm : FormGroup;
   errorMessage: string;
   products : IProduct[];
-  filteredProducts: Observable<IProduct[]>;
+  filteredProducts: Observable<Array<IProduct>>;
 
   constructor(private fb:FormBuilder, private productService:ProductService, private orderService: OrderService, private route:ActivatedRoute) { 
 
@@ -35,12 +35,13 @@ export class OrderEditComponent implements OnInit {
     
     this.onChanges();
     
-    //this.filteredProducts = this.orderForm..valueChanges.pipe(startWith(''),map(value => this._filter(value)));
+    this.filteredProducts = this.orderForm.valueChanges.pipe(startWith(''),map(value => this._filter(value)));
     
   }
 
-  private _filter(value: string): IProduct[] {
-    const filterValue = value.toLowerCase();
+  private _filter(value): IProduct[] {
+    if(this.products === undefined){ return; }
+    const filterValue = value.items[0].productName.toLowerCase();
 
     return this.products.filter(option => option.productName.toLowerCase().includes(filterValue));
   }
@@ -53,6 +54,7 @@ export class OrderEditComponent implements OnInit {
 
   populateProducts(data):void {
     this.products = data;
+    this.filteredProducts = from(data);
   }
 
   buildItems() : FormGroup {

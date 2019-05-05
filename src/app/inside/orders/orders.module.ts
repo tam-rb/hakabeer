@@ -24,11 +24,11 @@ import { OrderEditComponent } from './order-edit/order-edit.component';
     MatNativeDateModule,
     MatInputModule,
     MatAutocompleteModule,
-    ReactiveFormsModule,    
+    ReactiveFormsModule,  
     RouterModule.forChild([
         {path: '', component: OrderEditComponent},
         {path: ':code', component: OrderEditComponent},
-        {path: ':code/edit', component: OrderEditComponent},
+        {path: ':code/edit', component: OrderEditComponent}
     ])
   ]
 })

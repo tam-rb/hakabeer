@@ -5,19 +5,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-
-
-import { UserRowComponent } from './shared/user-row/user-row.component';
-import { HomeComponent } from './public/home/home.component';
 import { environment } from 'src/environments/environment';
-import { MatButtonModule, MatMenuModule, MatCardModule, MatToolbarModule, MatIconModule, MatSidenavModule, MatListModule, MatButtonToggleGroup, MatButtonToggleGroupMultiple, MatButtonToggleModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { HomeComponent } from './public/home/home.component';
+import { UserRowComponent } from './public/user-row/user-row.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    UserRowComponent,
-    HomeComponent
+    HomeComponent,
+    UserRowComponent
   ],
   imports: [
     BrowserModule, 
@@ -25,16 +22,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
-    AppRoutingModule,
-    MatButtonModule,
-    MatMenuModule,
-    MatCardModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatSidenavModule,
-    MatListModule,
-    MatButtonToggleModule
-      
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
