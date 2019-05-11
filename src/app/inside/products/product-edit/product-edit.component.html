@@ -1,6 +1,4 @@
-<app-menu-bar></app-menu-bar>
-<form class="example-form" [formGroup]="productForm" (ngSubmit)="onSubmit()">
-  
+<form class="example-form" [formGroup]="productForm" (ngSubmit)="onSubmit()">  
   <mat-form-field class="example-full-width" appearance="outline">
       <mat-label>{{productTexts.productName}}</mat-label>
     <input matInput formControlName="productName">
@@ -45,7 +43,7 @@
     <input matInput  formControlName="tags">
   </mat-form-field>
   <button mat-raised-button color="primary" type="submit" [disabled]="!productForm.valid">Lưu SP</button>
-  <button mat-raised-button color="basic" [routerLink]="['/products']">Quay về</button>
+  <button mat-raised-button color="basic" [routerLink]="['/inside/products']">Quay về</button>
 </form>  
 
 value {{productForm.value | json}}
