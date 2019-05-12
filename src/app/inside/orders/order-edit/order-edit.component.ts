@@ -16,7 +16,7 @@ export class OrderEditComponent implements OnInit {
   orderForm : FormGroup;
   errorMessage: string;
   products : IProduct[];
-  filteredProducts: Observable<Array<IProduct>>;
+  filteredProducts: Observable<IProduct[]>;
 
   constructor(private fb:FormBuilder, private productService:ProductService, private orderService: OrderService, private route:ActivatedRoute) { 
 
@@ -34,13 +34,18 @@ export class OrderEditComponent implements OnInit {
     });
     
     this.onChanges();
-    
-    this.filteredProducts = this.orderForm.valueChanges.pipe(startWith(''),map(value => this._filter(value)));
-    
+    if(this.filteredProducts !== undefined){
+      this.filteredProducts = this.orderForm.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );  
+    }  
   }
 
   private _filter(value): IProduct[] {
+    
     if(this.products === undefined){ return; }
+
     const filterValue = value.items[0].productName.toLowerCase();
 
     return this.products.filter(option => option.productName.toLowerCase().includes(filterValue));
@@ -92,7 +97,8 @@ export class OrderEditComponent implements OnInit {
   }
 
   itemSelected(event, rowIndex){
-    let itemPrice = this.products.filter(item => item.productCode === event.option.value)[0].price;
+    console.log(event.option.value);
+    let itemPrice = event.option.value.price;
     this.orderForm.get("items." + rowIndex + ".price").patchValue(itemPrice);
   }
 

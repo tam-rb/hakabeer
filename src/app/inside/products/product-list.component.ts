@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {MatTableDataSource} from '@angular/material';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {MatTableDataSource, MatPaginator} from '@angular/material';
 import {Router} from '@angular/router';
 import { IProduct } from './product';
 import { ProductService } from './product.service';
@@ -31,6 +31,8 @@ export class ProductListComponent implements OnInit {
   dataSource ;
   displayedColumns: string[] = [];
 
+  @ViewChild(MatPaginator) paginator : MatPaginator;
+
   constructor(private router: Router, private productService: ProductService){
    }
   applyFilter(filterValue: string) {
@@ -48,10 +50,9 @@ export class ProductListComponent implements OnInit {
   ngOnInit(): void{     
     this.productService.getProducts().subscribe((data:IProduct[]) => {      
       this.dataSource = new MatTableDataSource(data);
-      console.log(data);
-      this.displayedColumns = Object.keys(data[0]);
+      this.dataSource.paginator = this.paginator;
+      this.displayedColumns = Object.keys(this.productTexts);
       this.displayedColumns.push("action");
-      console.log(this.displayedColumns);
     });
   }
 }

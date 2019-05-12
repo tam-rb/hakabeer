@@ -45,6 +45,9 @@ export class ProductEditComponent implements OnInit {
   }
 
   getProduct(code:string){
+    if(code === "0") {
+      return;
+    }
     this.productService.getProduct(code)
       .subscribe(
         (product:IProduct) => this.displayProduct(product),
