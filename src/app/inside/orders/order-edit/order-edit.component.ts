@@ -33,21 +33,22 @@ export class OrderEditComponent implements OnInit {
       items: this.fb.array([this.buildItems()])
     });
     
-    this.onChanges();
-    if(this.filteredProducts !== undefined){
-      this.filteredProducts = this.orderForm.valueChanges.pipe(
-        startWith(''),
-        map(value => this._filter(value))
-      );  
-    }  
+    this.onChanges();     
   }
 
   private _filter(value): IProduct[] {
-    
     if(this.products === undefined){ return; }
+    if(value ===''){
+      return this.products;
+    }
+    let  filterValue = '';
 
-    const filterValue = value.items[0].productName.toLowerCase();
-
+    if(typeof (value.items[0].product) ==='object'){
+      filterValue = value.items[0].product.productName.toLowerCase();
+    }
+    else {
+      filterValue =  value.items[0].product.toLowerCase();
+    }
     return this.products.filter(option => option.productName.toLowerCase().includes(filterValue));
   }
 
@@ -59,12 +60,16 @@ export class OrderEditComponent implements OnInit {
 
   populateProducts(data):void {
     this.products = data;
-    this.filteredProducts = from(data);
+    //this.filteredProducts = from(data);
+    this.filteredProducts = this.orderForm.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value))
+    ); 
   }
 
   buildItems() : FormGroup {
     return this.fb.group({
-      productName: '',
+      product: '',
       quantity: '',
       price: ''
     })
