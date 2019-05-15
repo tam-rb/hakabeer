@@ -1,0 +1,35 @@
+ 
+  .login-full-width {
+    width: 100%;
+  }
+  .login-50-width {
+    width: 49%;
+  }
+
+  .login-onethird-width {
+    width: 33%;
+  }
+
+  .login-25-width{
+      width: 350px;
+  }
+
+  .loginRow-25 {
+  }
+
+  .loginContainer {
+      display: flex;
+      justify-content: center;
+      flex-flow: row wrap;
+      text-align: center;
+    
+  }
+
+  .loginContainer > * {
+    flex: 1 100%;
+  }
+
+  .title{
+      background: #355438 ;
+      color: #FFBF3F;
+  }

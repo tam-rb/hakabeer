@@ -10,10 +10,12 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { HomeComponent } from './public/home/home.component';
 import { UserRowComponent } from './public/user-row/user-row.component';
 import { SideNavbarComponent } from './public/side-navbar/side-navbar.component';
-import { MatSidenavModule } from '@angular/material';
+import { MatSidenavModule, MatInputModule, MatButtonModule } from '@angular/material';
 import { MenuBarComponent } from './public/menu-bar/menu-bar.component';
 import { ProductsComponent } from './public/products/products.component';
 import { FooterComponent } from './public/footer/footer.component';
+import { LoginComponent } from './user/login/login.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -23,13 +25,16 @@ import { FooterComponent } from './public/footer/footer.component';
     SideNavbarComponent,
     MenuBarComponent,
     ProductsComponent,
-    FooterComponent
+    FooterComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule, 
-    FlexLayoutModule,
+    MatButtonModule,
     MatSidenavModule,
+    MatInputModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     AppRoutingModule

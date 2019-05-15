@@ -1,8 +1,16 @@
-ul {
+ul a {
     text-decoration: none;
 }
 
 .logo {
-    width: 278px;
+   
     height: 180px;
+    background: cyan;
+    width: 278px;
+}
+
+.menu-links{
+    background: green;
+    justify-content: flex-end;
+    flex: 0.5;
 }

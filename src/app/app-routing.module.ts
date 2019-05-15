@@ -1,13 +1,28 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './public/home/home.component';
+import { AuthGuard } from './user/auth.guard';
+import { LoginComponent } from './user/login/login.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
-  {path: 'inside', loadChildren: './inside/inside.module#InsideModule'},
-  {path: 'products', loadChildren: './inside/products/products.module#ProductsModule'},
-  {path: 'orders', loadChildren: './inside/orders/orders.module#OrdersModule'},
-  {path: '**', component: HomeComponent }
+  {
+    path: 'login', component:LoginComponent
+  },
+  {
+    path: 'inside',
+    canLoad: [AuthGuard],
+    loadChildren: './inside/inside.module#InsideModule'},
+  {
+    path: 'products',    
+    canLoad: [AuthGuard],
+    loadChildren: './inside/products/products.module#ProductsModule'},
+  {
+    path: 'orders',
+    canLoad: [AuthGuard],
+    loadChildren: './inside/orders/orders.module#OrdersModule'},
+  {
+    path: '**', component: HomeComponent }
 ];
 
 @NgModule({

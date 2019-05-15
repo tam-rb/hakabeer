@@ -1,35 +1,40 @@
-main, header, section, aside, footer {
-    margin: 0;
-    padding: rem-calc(20);
-    border: 1px solid #000000;
-    color: #ffffff;
+.hkb-container{
+    display: flex;
+    flex-direction: row;
+    flex: 1 100%;
+    flex-wrap: wrap;
 }
 
-main {
-    /*background: #000000;*/
+.hkb-item{
+    background:  #7c0a02;
+    flex: 1;
 }
 
-.header {
-    background-color: #7c0a02;
+.hkb-header {
+    background: linear-gradient(to top,  #7c0a02 0%, #7c0a02 50%, #7c0a02 50%,white 50%,white 100%);
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
-    
-}
+    flex-wrap: nowrap; 
+    flex: 1 100%;
+    }
 
-.hero {
+.hkb-hero {
     background: #d22b1f;
 }
 
-.content {
+.hkb-content {
     background: #129a22;
+    flex: 1;
 }
 
-.sidebar {
+.hkb-sidebar {
     border: 1px solid #000000;
     background: #673ab7;
+    flex: 1;
 }
 
-.footer {
+.hkb-footer {
     border: 1px solid #000000;
     background: #616161;
+    flex: 1;
 }

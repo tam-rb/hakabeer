@@ -1,0 +1,27 @@
+<div class="loginContainer">  
+  <div class="title">    
+      <h1>Login to HAKABEER</h1>
+      <span><img src="assets/img/apple-touch-icon.png" width="92px" height="60px" alt=""></span>
+  </div>
+  <p></p>
+<form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">  
+    <div class="loginRow-25">
+  <mat-form-field class="login-25-width" appearance="outline">
+    <mat-label>Email</mat-label>
+    <input matInput placeholder="" formControlName="email" >
+  </mat-form-field>
+  </div>
+  <div class="loginRow-25">
+  <mat-form-field class="login-25-width"  [floatLabel]="always" appearance="outline">
+      <mat-label>Password</mat-label>
+    <input matInput type="password" placeholder="" formControlName="password">
+  </mat-form-field>
+</div>
+<div class="loginRow-25">
+<button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid">login</button> 
+</div>
+</form> 
+</div>
+
+
+
