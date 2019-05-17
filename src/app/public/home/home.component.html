@@ -1,7 +1,82 @@
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <div class="hakabeer-header mdl-layout__header mdl-layout__header--waterfall">
+      <div class="mdl-layout__header-row">            
+        <span class="hakabeer-title mdl-layout-title">
+          <img class="hakabeer-logo-image" src="assets/img/logo.png">
+        </span>
+        <!-- Add spacer, to align navigation to the right in desktop -->
+        <div class="hakabeer-header-spacer mdl-layout-spacer"></div>
+        <div class="hakabeer-search-box mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right mdl-textfield--full-width">
+          <label class="mdl-button mdl-js-button mdl-button--icon" for="search-field">
+            <i class="material-icons">search</i>
+          </label>
+          <div class="mdl-textfield__expandable-holder">
+            <input class="mdl-textfield__input" type="text" id="search-field">
+          </div>
+        </div>
+        <!-- Navigation -->
+        <div class="hakabeer-navigation-container">
+          <nav class="hakabeer-navigation mdl-navigation">
+            <a class="mdl-navigation__link mdl-typography--text-uppercase" href="">Who</a>
+            <a class="mdl-navigation__link mdl-typography--text-uppercase" href="">Drinks</a>
+            <a class="mdl-navigation__link mdl-typography--text-uppercase" href="">event</a>
+            <a class="mdl-navigation__link mdl-typography--text-uppercase" href="">Connect</a>
+            <a class="mdl-navigation__link mdl-typography--text-uppercase" href="">Call</a>            
+          </nav>
+        </div>
+        <span class="hakabeer-mobile-title mdl-layout-title">
+                <img class="hakabeer-logo-image-mobile" src="assets/img/logo.png">
+        </span>        
+      </div>
+    </div>
 
-<div class="hkb-container">
+    <div class="hakabeer-drawer mdl-layout__drawer">
+      <span class="mdl-layout-title">            
+            <img class="hakabeer-logo-image" src="assets/img/android-chrome-192x192.png">
+      </span>
+      <nav class="mdl-navigation">
+        <a class="mdl-navigation__link" href="">who</a>
+        <a class="mdl-navigation__link" href="">drinks</a>
+        <a class="mdl-navigation__link" href="">event</a>
+        <a class="mdl-navigation__link" href="">connect</a>
+        <a class="mdl-navigation__link" href="">call</a>        
+      </nav>
+    </div>
+
+    <div class="hakabeer-content mdl-layout__content">
+      <a name="top"></a>
+      <div class="hakabeer-be-together-section mdl-typography--text-center">
+        <div class="logo-font hakabeer-slogan">be yourself. do your thing. drink your way.</div>
+        <div class="logo-font hakabeer-sub-slogan">welcome to hakabeer</div>
+        <a href="#screens">
+          <button class="hakabeer-fab mdl-button mdl-button--colored mdl-js-button mdl-button--fab mdl-js-ripple-effect">
+            <i class="material-icons">expand_more</i>
+          </button>
+        </a>
+      </div>
+      
+
+      <footer class="hakabeer-footer mdl-mega-footer">
+        <div class="mdl-mega-footer--top-section">
+          
+          <div class="mdl-mega-footer--right-section">
+            <a class="mdl-typography--font-light" href="#top">
+              Back to Top
+              <i class="material-icons">expand_less</i>
+            </a>
+          </div>
+        </div>
+
+        <div class="mdl-mega-footer--middle-section">
+          <p class="mdl-typography--font-light">CS31 Prosper Plaza, 22/14 Phan Văn Hớn, P. Tân Thới Nhất, Quận 12, Thành Phố Hồ Chí Minh</p>
+          <p class="mdl-typography--font-light">comming soon...</p>
+        </div>
+      </footer>
+    </div>
+  </div>
+<!--div class="hkb-container">
     <div class="hkb-header"><user-row></user-row></div>
     <div class="hkb-side-bar"><app-menu-bar></app-menu-bar></div>
     <div class="hkb-content"><app-products></app-products></div>
     <div class="hkb-footer"><app-footer></app-footer></div>
-</div>
+</div>-->
