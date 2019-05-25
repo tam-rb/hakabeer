@@ -20,23 +20,26 @@
       </mat-form-field>
       <mat-form-field class="order-25-width" appearance="outline">
           <mat-label>Giá</mat-label>
-          <input matInput placeholder="" formControlName="price">
+          <input matInput placeholder="" formControlName="price" type="number">
         </mat-form-field>
         <mat-form-field class="order-25-width" appearance="outline">
             <mat-label>Số lượng</mat-label>
-            <input matInput placeholder="" formControlName="quantity">
+            <input matInput placeholder="" formControlName="quantity" type="number">
           </mat-form-field>
+          <button aria-raise-button color="basic" (click)="removeItem(i)" type="button"><i class="material-icons">
+            delete_forever
+            </i></button>
       </div>
       
     </div>    
-    <button mat-raised-button color="basic" (click)="addItem()" type="button">Thêm bia</button>
+    <button mat-raised-button color="primary" (click)="addItem()" type="button">Thêm bia</button>
     <mat-form-field class="order-full-width" appearance="outline">
         <mat-label>Thành tiền</mat-label>
-        <input matInput placeholder="" formControlName="total" value="{{total}}" >
+        <input matInput placeholder="" formControlName="total" value="{{total}}" type="number" >
       </mat-form-field>
 <br><p></p>
 <button mat-raised-button color="primary" type="submit" [disabled]="!orderForm.valid">Lưu SP</button>
-  <button mat-raised-button color="basic" [routerLink]="['/products']">Quay về</button>
+  <button mat-raised-button color="warn" [routerLink]="['/products']" type="button" (click)="cancel()">Quay về</button>
 </form> 
 
 <br>Dirty: {{ orderForm.dirty }}

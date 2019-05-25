@@ -9,7 +9,7 @@ export interface IOrder{
     pax: number;
     total: number;
     items: [IProduct],
-    promo: IPromo    
+    promo: IPromo        
   }
 
   export interface IPromo{
@@ -20,3 +20,4 @@ export interface IOrder{
       active: boolean,
       description: string
   }
+  

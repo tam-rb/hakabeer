@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ProductService } from '../product.service';
 import { IProduct } from '../product';
 import { Metadata } from '../metadata';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-edit',
@@ -16,7 +16,7 @@ export class ProductEditComponent implements OnInit {
   product : IProduct;
   errorMessage : string;
   
-  constructor(private formBuilder  : FormBuilder, private productService: ProductService, private route: ActivatedRoute) {    
+  constructor(private formBuilder  : FormBuilder, private productService: ProductService, private route: ActivatedRoute, private router: Router) {    
    }
 
   ngOnInit() {
@@ -48,6 +48,7 @@ export class ProductEditComponent implements OnInit {
     if(code === "0") {
       return;
     }
+    
     this.productService.getProduct(code)
       .subscribe(
         (product:IProduct) => this.displayProduct(product),
@@ -93,6 +94,9 @@ export class ProductEditComponent implements OnInit {
 
   onSubmit() {
     this.productService.createProduct(this.productForm.value, this.productForm.controls["productCode"].value);
+
+    this.router.navigate(['/inside/products']);
+    
   }
 
 }

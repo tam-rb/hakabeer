@@ -9,6 +9,7 @@ export class AuthService {
   isValidLoggedIn: boolean;
 
   get isLoggedIn(): boolean {
+    return true;
     return this.isValidLoggedIn;
     return !!this.currentUser;
   }

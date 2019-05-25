@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { OrderService } from './order.service';
-import { IProduct } from '../../products/product';
+import { IProduct, IOrder } from '../../products/product';
 import { ProductService } from '../../products/product.service';
 import { Observable, from } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
@@ -17,19 +17,27 @@ export class OrderEditComponent implements OnInit {
   errorMessage: string;
   products : IProduct[];
   filteredProducts: Observable<IProduct[]>;
+  order: IOrder;
 
-  constructor(private fb:FormBuilder, private productService:ProductService, private orderService: OrderService, private route:ActivatedRoute) { 
+  constructor(private fb:FormBuilder, private productService:ProductService, private orderService: OrderService, private route:ActivatedRoute, private router: Router) { 
 
   }
 
   ngOnInit() {
+
+    this.route.paramMap.subscribe(
+      params => {
+        const orderCode = params.get('code');
+        this.getOrder(orderCode);
+      }
+    )    
+
     this.loadProducts();
        
     this.orderForm = this.fb.group({
       table:['', [Validators.required]],
       pax: '',
-      //promo: '',
-      total: '',
+      total: ['', [Validators.required]],
       items: this.fb.array([this.buildItems()])
     });
     
@@ -52,6 +60,29 @@ export class OrderEditComponent implements OnInit {
     return this.products.filter(option => option.productName.toLowerCase().includes(filterValue));
   }
 
+  getOrder(code:string){
+    if(code === "0" || code === undefined) {
+      return;
+    }
+
+    this.orderService.getOrder(code)
+      .subscribe(
+        (order:IOrder) => this.displayOrder(order),
+        error =>this.errorMessage = <any>error        
+      );
+  }
+  
+  displayOrder(order : IOrder) : void{
+    if (this.orderForm){
+      this.orderForm.reset();
+    }
+
+    this.order = order;
+
+    this.orderForm.patchValue({
+      
+    });
+  }
   loadProducts() {  
     this.productService.getProducts().subscribe(data => {      
       this.populateProducts(data);
@@ -70,8 +101,8 @@ export class OrderEditComponent implements OnInit {
   buildItems() : FormGroup {
     return this.fb.group({
       product: '',
-      quantity: '',
-      price: ''
+      quantity: ['', [Validators.required]],
+      price: ['', [Validators.required]]
     })
   }
 
@@ -81,6 +112,10 @@ export class OrderEditComponent implements OnInit {
 
   addItem(){
     this.items.push(this.buildItems());
+  }
+  
+  removeItem(i : number){
+    this.items.removeAt(i);
   }
 
   getErrorMessage(){}
@@ -111,4 +146,13 @@ export class OrderEditComponent implements OnInit {
     console.log(product);
     return product? product.productName : undefined;
   }
+
+  cancel(){
+    this.router.navigate(['inside/orders']);
+  }
+
+  onSubmit() {
+    this.orderService.createOrder(this.orderForm.value, this.orderForm["createdDate"].value);
+  }
+
 }
