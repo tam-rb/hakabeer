@@ -16,13 +16,3 @@ export interface IProduct {
     error?: any;
   }
 
-  export interface IOrder{
-    id: string;
-    dateCreated: string;
-    createdby: string;
-    total: number;
-    table: number;
-    active: boolean;
-    pax: number;
-    items: [IProduct]    
-  }

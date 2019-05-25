@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrderService } from './order.service';
-import { IProduct, IOrder } from '../../products/product';
+import { IProduct } from '../../products/product';
 import { ProductService } from '../../products/product.service';
 import { Observable, from } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
+import { IOrder } from '../order';
 
 @Component({
   selector: 'app-order-edit',
@@ -65,11 +66,11 @@ export class OrderEditComponent implements OnInit {
       return;
     }
 
-    this.orderService.getOrder(code)
+     this.orderService.getOrder(code)
       .subscribe(
-        (order:IOrder) => this.displayOrder(order),
+        (order) => this.displayOrder(order),
         error =>this.errorMessage = <any>error        
-      );
+      ); 
   }
   
   displayOrder(order : IOrder) : void{
@@ -77,11 +78,11 @@ export class OrderEditComponent implements OnInit {
       this.orderForm.reset();
     }
 
-    this.order = order;
+    /* this.order = order;
 
     this.orderForm.patchValue({
       
-    });
+    }); */
   }
   loadProducts() {  
     this.productService.getProducts().subscribe(data => {      

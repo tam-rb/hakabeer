@@ -28,7 +28,7 @@ import { OrderEditComponent } from './order-edit/order-edit.component';
     MatToolbarModule,
     ReactiveFormsModule,  
     RouterModule.forChild([
-        {path: '', component: OrderEditComponent},
+        {path: '', component: OrdersListComponent},
         {path: ':code', component: OrderEditComponent},
         {path: ':code/edit', component: OrderEditComponent}
     ])
