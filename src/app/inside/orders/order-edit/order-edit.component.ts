@@ -153,7 +153,31 @@ export class OrderEditComponent implements OnInit {
   }
 
   onSubmit() {
-    this.orderService.createOrder(this.orderForm.value, this.orderForm["createdDate"].value);
+    let createdDate = this.getDateString(this.orderForm["createdDate"]);
+    this.orderService.createOrder(this.orderForm.value, createdDate);
+  }
+
+  getDateString(createdDate){
+    if(createdDate === undefined){
+      let today = new Date();
+      let dd = today.getDate();
+      let mm = today.getMonth() +1;
+      let yyyy = today.getFullYear();
+      let D = '' + dd;
+      let M = ''+ mm;
+      let Y = ''+ yyyy;
+
+      if(dd < 10){
+        D = '0' + D;
+      }
+
+      if(mm < 10){
+        M = '0' + M;
+      }
+      return Y + M + D;
+    }
+    
+    return createdDate;
   }
 
 }

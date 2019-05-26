@@ -1,62 +1,38 @@
    
-  <a mat-flat-button color="warn" [routerLink]="['/inside/orders', 0, 'edit']">New Product</a>
-  <p></p>
+    <p></p>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <!-- ProductName Column -->
-       <ng-container matColumnDef="productName">
-         <th mat-header-cell *matHeaderCellDef>{{productTexts.productName}} </th>
+       <ng-container matColumnDef="createdDate">
+         <th mat-header-cell *matHeaderCellDef>Created Date </th>
          <td mat-cell *matCellDef="let element">
-           <a [routerLink] = "['/inside/products', element.productCode]">{{element.productName}}</a></td>
+           <a [routerLink] = "['/inside/orders', element.id]">ID</a></td>
        </ng-container>
-     
-       <ng-container matColumnDef="productCode">
-         <th mat-header-cell *matHeaderCellDef> {{productTexts.productCode}} </th>
-         <td mat-cell *matCellDef="let element"> {{element.productCode}} </td>
-       </ng-container>
-     
-       <ng-container matColumnDef="category">
-         <th mat-header-cell *matHeaderCellDef> {{productTexts.category}} </th>
-         <td mat-cell *matCellDef="let element"> {{element.category}} </td>
+          
+       <ng-container matColumnDef="createdBy">
+         <th mat-header-cell *matHeaderCellDef> Created by </th>
+         <td mat-cell *matCellDef="let element"> {{element.createdBy}} </td>
        </ng-container>
        
-       <ng-container matColumnDef="tags">
-         <th mat-header-cell *matHeaderCellDef> {{productTexts.tags }}</th>
-         <td mat-cell *matCellDef="let element"> {{element.tags}} </td>
+       <ng-container matColumnDef="table">
+         <th mat-header-cell *matHeaderCellDef> Table</th>
+         <td mat-cell *matCellDef="let element"> {{element.table}} </td>
        </ng-container>
 
-       <ng-container matColumnDef="price">
-         <th mat-header-cell *matHeaderCellDef> {{productTexts.price}} </th>
-         <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+       <ng-container matColumnDef="total">
+         <th mat-header-cell *matHeaderCellDef> total </th>
+         <td mat-cell *matCellDef="let element"> {{element.total}} </td>
        </ng-container>
 
-       <ng-container matColumnDef="description">
-         <th mat-header-cell *matHeaderCellDef> {{productTexts.description}} </th>
-         <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+       <ng-container matColumnDef="items">
+         <th mat-header-cell *matHeaderCellDef> product </th>
+         <td mat-cell *matCellDef="let element"> {{element.items}} </td>
        </ng-container>
 
-       <ng-container matColumnDef="availableDate">
-         <th mat-header-cell *matHeaderCellDef> {{productTexts.availableDate}} </th>
-         <td mat-cell *matCellDef="let element"> {{element.availableDate}} </td>
-       </ng-container>
-
-       <ng-container matColumnDef="imageUrl">
-         <th mat-header-cell *matHeaderCellDef> {{productTexts.imageUrl}} </th>
-         <td mat-cell *matCellDef="let element"> {{element.imageUrl}} </td>
-       </ng-container>
-
-       <ng-container matColumnDef="starRating">
-         <th mat-header-cell *matHeaderCellDef> {{productTexts.starRating}} </th>
-         <td mat-cell *matCellDef="let element"> {{element.starRating}} </td>
-       </ng-container>
-       <ng-container matColumnDef="inventory">
-         <th mat-header-cell *matHeaderCellDef> {{productTexts.inventory}} </th>
-         <td mat-cell *matCellDef="let element"> {{element.inventory}} </td>
-       </ng-container>
        <ng-container matColumnDef="action">
          <th mat-header-cell *matHeaderCellDef></th>
          <td mat-cell *matCellDef="let element">
-             <a mat-stroked-button color="primary" [routerLink]="['/inside/products', element.productCode, 'edit']">Edit</a>
-             <a mat-stroked-button color="warn" routerLink="." (click)="delete(element.productCode)">Delete</a>
+             <a mat-stroked-button color="primary" [routerLink]="['/inside/orders', element.id, 'edit']">Edit</a>
+             <a mat-stroked-button color="warn" routerLink="." (click)="delete(element.id)">Delete</a>
            </td>
        </ng-container>
        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

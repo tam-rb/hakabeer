@@ -1,10 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AngularFirestoreCollection } from '@angular/fire/firestore';
-import { IProduct } from '../../products/product';
-import { Metadata } from '../../products/metadata';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
-import { ProductService } from '../../products/product.service';
+import { OrderService } from '../order-edit/order.service';
+import { IOrder } from '../order';
 
 @Component({
   selector: 'app-orders-list',
@@ -13,22 +12,21 @@ import { ProductService } from '../../products/product.service';
 })
 export class OrdersListComponent implements OnInit {
 
-  productsCollection: AngularFirestoreCollection<IProduct>;  
-  products: any;
-  productTexts = Metadata.productTexts;
+  ordersCollection: AngularFirestoreCollection<IOrder>;  
+  orders: any;
   dataSource ;
   displayedColumns: string[] = [];
 
   @ViewChild(MatPaginator) paginator : MatPaginator;
 
-  constructor(private router: Router, private productService: ProductService){
+  constructor(private router: Router, private orderService: OrderService){
    }
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   private navigate(id) {
-    this.router.navigate(['/products/', id, 'edit']);
+    this.router.navigate(['/orders/', id, 'edit']);
   }
 
   private delete(id) {
@@ -36,11 +34,11 @@ export class OrdersListComponent implements OnInit {
   }
 
   ngOnInit(): void{     
-    this.productService.getProducts().subscribe((data:IProduct[]) => {      
+    this.orderService.getOrders().subscribe((data:IOrder[]) => {      
       this.dataSource = new MatTableDataSource(data);
       this.dataSource.paginator = this.paginator;
-      this.displayedColumns = Object.keys(this.productTexts);
-      this.displayedColumns.push("action");
+      this.displayedColumns = ["table", "total", "items", "action"]
+      //this.displayedColumns.push("action");
     });
   }
 

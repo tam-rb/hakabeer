@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { MatTableModule, MatButtonModule, MatIconModule, MatCardModule, MatFormFieldModule, MatDatepickerModule, MatRadioModule, MatSelectModule, MatNativeDateModule, MatInputModule, MatAutocompleteModule, MatButtonToggleModule, MatToolbarModule } from '@angular/material';
+import { MatTableModule, MatButtonModule, MatIconModule, MatCardModule, MatFormFieldModule, MatDatepickerModule, MatRadioModule, MatSelectModule, MatNativeDateModule, MatInputModule, MatAutocompleteModule, MatButtonToggleModule, MatToolbarModule, MatPaginatorModule } from '@angular/material';
 import { ReactiveFormsModule } from '@angular/forms';
 import { OrdersListComponent } from './orders-list/orders-list.component';
 import { OrderEditComponent } from './order-edit/order-edit.component';
@@ -25,6 +25,7 @@ import { OrderEditComponent } from './order-edit/order-edit.component';
     MatInputModule,
     MatAutocompleteModule,
     MatButtonToggleModule,
+    MatPaginatorModule,
     MatToolbarModule,
     ReactiveFormsModule,  
     RouterModule.forChild([

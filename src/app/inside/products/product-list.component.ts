@@ -5,8 +5,6 @@ import { IProduct } from './product';
 import { ProductService } from './product.service';
 import { Metadata } from "./metadata"
 import { AngularFirestoreCollection } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 export interface PeriodicElement {
   name: string;
