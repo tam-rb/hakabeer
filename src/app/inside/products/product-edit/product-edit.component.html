@@ -11,37 +11,53 @@
   <mat-form-field class="example-full-width" appearance="outline">
       <mat-label>{{productTexts.category}}</mat-label>
     <input matInput  formControlName="category">
-  </mat-form-field>  
-  <mat-form-field class="example-full-width" appearance="outline">  
-      <mat-label>{{productTexts.availableDate}}</mat-label>  
-    <input matInput [matDatepicker]="picker"  formControlName="availableDate">
-  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-  <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
+  
+  <mat-form-field class="example-full-width" appearance="outline">
+    <mat-label>{{productTexts.odour}}</mat-label>
+  <input matInput  formControlName="odour">
+</mat-form-field>
+
+  <mat-form-field class="example-full-width" appearance="outline">
+    <mat-label>{{productTexts.flavor}}</mat-label>
+  <input matInput  formControlName="flavor">
+</mat-form-field>
+
+<mat-form-field class="example-full-width" appearance="outline">
+  <mat-label>{{productTexts.color}}</mat-label>
+<input matInput  formControlName="color">
+</mat-form-field>
+
+<mat-form-field class="example-full-width" appearance="outline">
+  <mat-label>{{productTexts.abv}}</mat-label>
+<input matInput  formControlName="abv">
+</mat-form-field>
+
+<mat-form-field class="example-full-width" appearance="outline">
+  <mat-label>{{productTexts.ibu}}</mat-label>
+<input matInput  formControlName="ibu">
+</mat-form-field> 
+
   <mat-form-field class="example-full-width" appearance="outline">
       <mat-label>{{productTexts.price}}</mat-label>
     <input matInput formControlName="price">
   </mat-form-field>
-  <mat-form-field class="example-full-width" appearance="outline">
-      <mat-label>{{productTexts.starRating}}</mat-label>
-    <input matInput  formControlName="starRating">
-  </mat-form-field>
-  <mat-form-field class="example-full-width" appearance="outline">
-      <mat-label>{{productTexts.imageUrl}}</mat-label>
-    <input matInput  formControlName="imageUrl">
-  </mat-form-field>
+   
   <mat-form-field class="example-full-width" appearance="outline">
       <mat-label>{{productTexts.inventory}}</mat-label>
     <input matInput  formControlName="inventory">
   </mat-form-field>
+
   <mat-form-field class="example-full-width" appearance="outline">
       <mat-label>{{productTexts.description}}</mat-label>
     <textarea matInput  formControlName="description"></textarea>
   </mat-form-field>
+
   <mat-form-field class="example-full-width" appearance="outline">
       <mat-label>tag</mat-label>
     <input matInput  formControlName="tags">
   </mat-form-field>
+  
   <button mat-raised-button color="primary" type="submit" [disabled]="!productForm.valid">Lưu SP</button>
   <button mat-raised-button color="basic" [routerLink]="['/inside/products']">Quay về</button>
 </form>  

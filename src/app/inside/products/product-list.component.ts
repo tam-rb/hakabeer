@@ -27,7 +27,21 @@ export class ProductListComponent implements OnInit {
   products: any;
   productTexts = Metadata.productTexts;
   dataSource ;
-  displayedColumns: string[] = [];
+  displayedColumns: string[] = [
+    "productName",
+    "productCode",
+    "category",
+    "flavor",
+    "odour",
+    "color",
+    "abv",
+    "ibu",
+    "price",
+    "description",
+    "tags",    
+    "imageUrl",
+    "inventory"    
+  ];
 
   @ViewChild(MatPaginator) paginator : MatPaginator;
 
@@ -49,7 +63,6 @@ export class ProductListComponent implements OnInit {
     this.productService.getProducts().subscribe((data:IProduct[]) => {      
       this.dataSource = new MatTableDataSource(data);
       this.dataSource.paginator = this.paginator;
-      this.displayedColumns = Object.keys(this.productTexts);
       this.displayedColumns.push("action");
     });
   }

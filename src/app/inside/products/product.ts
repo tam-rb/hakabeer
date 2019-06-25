@@ -8,7 +8,12 @@ export interface IProduct {
     description: string;
     starRating: number;
     imageUrl: string;
-    inventory: number
+    inventory: number,
+    flavor: string,
+    odour: string,
+    color: string,
+    abv: number,
+    ibu: number
   }
   
   export interface ProductResolved {
