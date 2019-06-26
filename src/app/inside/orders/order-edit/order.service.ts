@@ -13,7 +13,7 @@ export class OrderService{
     createOrder(data, code){
             return new Promise<any> ((resolve, reject) => {
             this.firestore
-                .collection("products").doc(code)
+                .collection("orders").doc(code)
                 .set(data)
                 .then(res => {}, err => reject(console.log(err)));
         })

@@ -38,11 +38,10 @@ export class OrderEditComponent implements OnInit {
        
     this.orderForm = this.fb.group({
       table:['', [Validators.required]],
-      pax: '',
+      pax: '',      
       total: ['', [Validators.required]],
-      discount: '',
-      totalQuantity : '',
-      discountRate: '',
+      discount: 0,
+      discountRate: 0,
 
       items: this.fb.array([this.buildItems()])
     });
@@ -107,8 +106,9 @@ export class OrderEditComponent implements OnInit {
   buildItems() : FormGroup {
     return this.fb.group({
       product: '',
-      quantity: ['', [Validators.required]],
-      price: ['', [Validators.required]]
+      quantity: [1, [Validators.required]],
+      price: [0, [Validators.required]],
+      pack: ""
     })
   }
 
@@ -128,55 +128,44 @@ export class OrderEditComponent implements OnInit {
 
   onChanges(): void {
     this.orderForm.valueChanges.subscribe(val =>{
-    let bill = this.totalBill();
-     this.orderForm.patchValue({
-       total: bill["total"],
-       discount: bill["discount"],
-       discountRate: bill["discountRate"]
-     }, { emitEvent: false })
+      this.updateOrderItem();     
     })
   }
 
-  totalBill(): Object {
-    let bill = {
-      "total" : 0,
-      "discountRate": 0,
-      "discount": 0
-    };
-
+  updateOrderItem(){
+    let data = this.orderForm.value;
     let total = 0;
     let num = 0;
-    for(let item of this.items.value){
-      num += +item['quantity'];
-      total += +item['quantity']*(+item['price']);
-    }
-    let discountRate = this.discount(num);
-    let discount = total * discountRate;
-    total = total - discount;
+    for (let i = 0; i < data.items.length; i ++){
+      if(data.items[i].product===''){
+        continue;
+      }
+      data.items[i].price = +data.items[i].product["price" +data.items[i].pack];
+
     
-    bill.total = total,
-    bill.discountRate = discountRate;
-    bill.discount = discount;
+      num += +data.items[i]['quantity'];
+      total += +data.items[i]['quantity']*(+data.items[i]['price']);
+      
+    data.discount = (total * data.discountRate).toFixed(2);
+    total = total - data.discount;
+    }
 
-    return bill;
+    data.quantity = num;
+    data.total = total;
+
+    this.orderForm.patchValue(data, {emitEvent:false});
   }
 
-  discount (num: number): number{
-     let discountRate = 0;
-    if(num < 10 && num >= 6){
-      discountRate = 0.1;
-    } else if (num >= 10) {
-      discountRate = 0.15;
-    }       
-    return discountRate;
-  }
+  
+  /*
 
   itemSelected(event, rowIndex){
     console.log(event.option.value);
-    let itemPrice = event.option.value.price;
+    let pack = "price" + this.orderForm.get("items." + rowIndex + ".pack");
+    let itemPrice = event.option.value[pack];
     this.orderForm.get("items." + rowIndex + ".price").patchValue(itemPrice);
   }
-
+*/
   displayProductFn(product? :IProduct) : string | undefined {
     console.log(product);
     return product? product.productName : undefined;
@@ -208,7 +197,7 @@ export class OrderEditComponent implements OnInit {
       if(mm < 10){
         M = '0' + M;
       }
-      return Y + M + D;
+      return Y + '-' + M + '-' + D;
     }
     
     return createdDate;

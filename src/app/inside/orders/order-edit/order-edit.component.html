@@ -1,18 +1,18 @@
 <form class="order-form" [formGroup]="orderForm" (ngSubmit)="onSubmit()">  
-  <mat-form-field class="order-full-width" appearance="outline">
+  <mat-form-field class="order-50-width" appearance="outline">
     <mat-label>Bàn số</mat-label>
-    <input matInput placeholder="" formControlName="table" >
+    <input matInput placeholder="" formControlName="table" type="number">
   </mat-form-field>
-  <mat-form-field class="order-full-width"  [floatLabel]="always" appearance="outline">
+  <mat-form-field class="order-50-width"  [floatLabel]="always" appearance="outline">
       <mat-label>Số người</mat-label>
     <input matInput placeholder="" formControlName="pax">
   </mat-form-field>
     <div formArrayName="items" *ngFor="let item of items.controls, let i=index">
-      <div [formGroupName]="i">
+      <div [formGroupName]="i" class="itemrow">
       <mat-form-field class="order-50-width" appearance="outline">
         <mat-label>Bia</mat-label>
         <input type="text" matInput placeholder="" formControlName="product" [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="itemSelected($event, i)" [displayWith]="displayProductFn">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayProductFn">
           <mat-option *ngFor="let option of (filteredProducts | async) " [value]="option" >
             {{option.productName}}
           </mat-option>
@@ -26,27 +26,28 @@
             <mat-label>Số lượng</mat-label>
             <input matInput placeholder="" formControlName="quantity" type="number">
           </mat-form-field>
-          <button aria-raise-button color="basic" (click)="removeItem(i)" type="button"><i class="material-icons">
-            delete
+          &nbsp;<button  color="basic" (click)="removeItem(i)" type="button"><i class="material-icons">
+            clear
             </i></button>
-      </div>
-      
-    </div>    
+          <mat-radio-group formControlName="pack">
+            <mat-radio-button  value="">Chai lẻ</mat-radio-button>&nbsp;&nbsp;
+            <mat-radio-button  value="six">Gói 6 </mat-radio-button>&nbsp;&nbsp;
+            <mat-radio-button   value="ten">Gói 10 </mat-radio-button>&nbsp;&nbsp;
+          </mat-radio-group><p></p>
+      </div>      
+    </div> 
+    
     <button mat-raised-button color="primary" (click)="addItem()" type="button"><i class="material-icons">
       add
       </i></button>
-      <hr />
-      <mat-form-field class="oorder-25-width" appearance="outline">
-        <mat-label>Tổng số bia</mat-label>
-        <input matInput placeholder="" formControlName="totalQuantity" value="{{totalQuantity}}" type="number" >
-      </mat-form-field>
+      <hr />  
 
-      <mat-form-field class="order-25-width" appearance="outline">
-        <mat-label>Tỷ lệ khuyến mãi</mat-label>
+      <mat-form-field class="order-50-width" appearance="outline" [hidden]="!orderForm.value.discountRate">
+        <mat-label>Khuyến mãi</mat-label>
         <input matInput placeholder="" formControlName="discountRate" value="{{discountRate}}" type="number" >
       </mat-form-field>
 
-      <mat-form-field class="order-50-width" appearance="outline">
+      <mat-form-field class="order-50-width" appearance="outline" [hidden]="!orderForm.value.discountRate">
         <mat-label>Tiền khuyến mãi</mat-label>
         <input matInput placeholder="" formControlName="discount" value="{{discount}}" type="number" >
       </mat-form-field>
