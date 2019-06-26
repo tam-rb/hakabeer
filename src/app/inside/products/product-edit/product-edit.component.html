@@ -42,6 +42,16 @@
       <mat-label>{{productTexts.price}}</mat-label>
     <input matInput formControlName="price">
   </mat-form-field>
+
+  <mat-form-field class="example-full-width" appearance="outline">
+    <mat-label>{{productTexts.pricesix}}</mat-label>
+  <input matInput formControlName="pricesix">
+</mat-form-field>
+
+<mat-form-field class="example-full-width" appearance="outline">
+  <mat-label>{{productTexts.priceten}}</mat-label>
+<input matInput formControlName="priceten">
+</mat-form-field>
    
   <mat-form-field class="example-full-width" appearance="outline">
       <mat-label>{{productTexts.inventory}}</mat-label>
@@ -58,7 +68,7 @@
     <input matInput  formControlName="tags">
   </mat-form-field>
   
-  <button mat-raised-button color="primary" type="submit" [disabled]="!productForm.valid">Lưu SP</button>
+  <button mat-raised-button color="primary" type="submit" >Lưu SP</button>
   <button mat-raised-button color="basic" [routerLink]="['/inside/products']">Quay về</button>
 </form>  
 

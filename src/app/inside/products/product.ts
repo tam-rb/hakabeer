@@ -5,6 +5,8 @@ export interface IProduct {
     tags?: string[];
     availableDate: string;
     price: number;
+    pricesix: number;
+    priceten: number;
     description: string;
     starRating: number;
     imageUrl: string;

@@ -11,6 +11,8 @@ export class Metadata {
         tags: "Tag",
         availableDate: "Ngày dự kiến bán",
         price: "Giá thành",
+        pricesix: "Giá gói 6",
+        priceten: "Giá gói 10",
         description: "Mô tả thêm",
         starRating: "Người dùng đánh giá",
         imageUrl: "URL hình sản phẩm",

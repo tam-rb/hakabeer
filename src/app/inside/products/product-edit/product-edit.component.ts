@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ProductService } from '../product.service';
 import { IProduct } from '../product';
 import { Metadata } from '../metadata';
@@ -42,6 +42,8 @@ export class ProductEditComponent implements OnInit {
       tags: '',
       availableDate: '',
       price: 0,
+      pricesix: 0,
+      priceten: 0,
       description: '',
       starRating:'',
       imageUrl:'',
@@ -80,6 +82,8 @@ export class ProductEditComponent implements OnInit {
       tags:this.product.tags,
       availableDate:this.product.availableDate,
       price:this.product.price,
+      pricesix: this.product.pricesix,
+      priceten: this.product.priceten,
       description:this.product.description,
       starRating:this.product.starRating,
       imageUrl:this.product.imageUrl,
@@ -103,10 +107,23 @@ export class ProductEditComponent implements OnInit {
   }
 
   onSubmit() {
-    this.productService.createProduct(this.productForm.value, this.productForm.controls["productCode"].value);
+    if(this.productForm.valid){
+      this.productService.createProduct(this.productForm.value, this.productForm.controls["productCode"].value);
+      this.router.navigate(['/inside/products']);
+    } else {
+      this.validateAll(this.productForm);
+    }    
+  }
 
-    this.router.navigate(['/inside/products']);
-    
+  validateAll(formGroup: FormGroup){
+    Object.keys(formGroup.controls).forEach(field => {  
+      const control = formGroup.get(field);            
+      if (control instanceof FormControl) {             
+        control.markAsTouched({ onlySelf: true });
+      } else if (control instanceof FormGroup) {        
+        this.validateAll(control);            
+      }
+    });
   }
 
 }
