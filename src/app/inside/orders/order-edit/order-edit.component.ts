@@ -7,6 +7,7 @@ import { ProductService } from '../../products/product.service';
 import { Observable, from } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { IOrder } from '../order';
+import { summaryFileName } from '@angular/compiler/src/aot/util';
 
 @Component({
   selector: 'app-order-edit',
@@ -39,6 +40,10 @@ export class OrderEditComponent implements OnInit {
       table:['', [Validators.required]],
       pax: '',
       total: ['', [Validators.required]],
+      discount: '',
+      totalQuantity : '',
+      discountRate: '',
+
       items: this.fb.array([this.buildItems()])
     });
     
@@ -123,18 +128,47 @@ export class OrderEditComponent implements OnInit {
 
   onChanges(): void {
     this.orderForm.valueChanges.subscribe(val =>{
+    let bill = this.totalBill();
      this.orderForm.patchValue({
-       total: this.totalBill()
+       total: bill["total"],
+       discount: bill["discount"],
+       discountRate: bill["discountRate"]
      }, { emitEvent: false })
     })
   }
 
-  totalBill(): number {
+  totalBill(): Object {
+    let bill = {
+      "total" : 0,
+      "discountRate": 0,
+      "discount": 0
+    };
+
     let total = 0;
+    let num = 0;
     for(let item of this.items.value){
+      num += +item['quantity'];
       total += +item['quantity']*(+item['price']);
     }
-    return total;
+    let discountRate = this.discount(num);
+    let discount = total * discountRate;
+    total = total - discount;
+    
+    bill.total = total,
+    bill.discountRate = discountRate;
+    bill.discount = discount;
+
+    return bill;
+  }
+
+  discount (num: number): number{
+     let discountRate = 0;
+    if(num < 10 && num >= 6){
+      discountRate = 0.1;
+    } else if (num >= 10) {
+      discountRate = 0.15;
+    }       
+    return discountRate;
   }
 
   itemSelected(event, rowIndex){

@@ -15,7 +15,7 @@ export class ProductService{
         return new Promise<any> ((resolve, reject) => {
             this.firestore
                 .collection("products").doc(code)
-                .set(data)
+                .update(data)
                 .then(res => {}, err => reject(console.log(err)));
         })
     }

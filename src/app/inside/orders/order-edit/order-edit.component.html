@@ -27,12 +27,30 @@
             <input matInput placeholder="" formControlName="quantity" type="number">
           </mat-form-field>
           <button aria-raise-button color="basic" (click)="removeItem(i)" type="button"><i class="material-icons">
-            delete_forever
+            delete
             </i></button>
       </div>
       
     </div>    
-    <button mat-raised-button color="primary" (click)="addItem()" type="button">Thêm bia</button>
+    <button mat-raised-button color="primary" (click)="addItem()" type="button"><i class="material-icons">
+      add
+      </i></button>
+      <hr />
+      <mat-form-field class="oorder-25-width" appearance="outline">
+        <mat-label>Tổng số bia</mat-label>
+        <input matInput placeholder="" formControlName="totalQuantity" value="{{totalQuantity}}" type="number" >
+      </mat-form-field>
+
+      <mat-form-field class="order-25-width" appearance="outline">
+        <mat-label>Tỷ lệ khuyến mãi</mat-label>
+        <input matInput placeholder="" formControlName="discountRate" value="{{discountRate}}" type="number" >
+      </mat-form-field>
+
+      <mat-form-field class="order-50-width" appearance="outline">
+        <mat-label>Tiền khuyến mãi</mat-label>
+        <input matInput placeholder="" formControlName="discount" value="{{discount}}" type="number" >
+      </mat-form-field>
+
     <mat-form-field class="order-full-width" appearance="outline">
         <mat-label>Thành tiền</mat-label>
         <input matInput placeholder="" formControlName="total" value="{{total}}" type="number" >
