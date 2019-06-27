@@ -7,7 +7,8 @@ import { ProductService } from '../../products/product.service';
 import { Observable, from } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { IOrder } from '../order';
-import { summaryFileName } from '@angular/compiler/src/aot/util';
+import * as printJS from 'print-js';
+import { jsonpCallbackContext } from '@angular/common/http/src/module';
 
 @Component({
   selector: 'app-order-edit',
@@ -42,7 +43,7 @@ export class OrderEditComponent implements OnInit {
       total: ['', [Validators.required]],
       discount: 0,
       discountRate: 0,
-
+      close: false,
       items: this.fb.array([this.buildItems()])
     });
     
@@ -178,6 +179,55 @@ export class OrderEditComponent implements OnInit {
   onSubmit() {
     let createdDate = this.getDateString(this.orderForm["createdDate"]);
     this.orderService.createOrder(this.orderForm.value, createdDate);
+  }
+
+  printReceipt(){  
+    let p = '<p style="font-family:Old Standard TT; font-size: 14px; padding-left:-12px">';  
+    if(!this.orderForm.value.active){
+      let header='<div style="text-align: center; left:-15px;"><H4>HAKABEER STATION</H4>'
+      header += p + 'CS31 Prosper Plaza</p>';
+      header += p + '22/14 Phan Van Hon, Dist. 12, HCMc</p>';
+      header += p + 'www.Hakabeerstation.com</p>';
+      header += p + '0938 2000 20</p> ';
+      header += '<p>';
+      header += '<hr /> </div>';
+      header += 'Table ' + this.orderForm.value.table;
+    let printable = [];
+
+    let data = this.orderForm.value;
+    
+    for (let i = 0; i < data.items.length; i ++){
+      if(data.items[i].product===''){
+        continue;
+      }
+      let row = {
+        "item":data.items[i].product.productName,
+        "qty":data.items[i].quantity,
+        "cost": data.items[i].price * data.items[i].quantity
+      };
+      
+      printable.push(row);       
+    }
+
+    printable.push ({
+      "item": "Thành Tiền",
+      "qty": "",
+      "cost": data.total
+    })
+
+      printJS({
+        printable: printable,
+        properties: [
+          {field: 'item', displayName: ''},
+          {field: 'qty', displayName: ''},
+          {field: 'cost', displayName: ''}
+        ],
+        type: 'json',
+        gridHeaderStyle: 'color :black; border: 0;',
+        gridStyle: 'border: 0; font-size:8px',
+        header: header
+      })
+    }
   }
 
   getDateString(createdDate){
