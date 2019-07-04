@@ -8,7 +8,6 @@ import { Observable, from } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { IOrder } from '../order';
 import * as printJS from 'print-js';
-import { jsonpCallbackContext } from '@angular/common/http/src/module';
 
 @Component({
   selector: 'app-order-edit',
@@ -38,6 +37,7 @@ export class OrderEditComponent implements OnInit {
     this.loadProducts();
        
     this.orderForm = this.fb.group({
+      createdDate: [Date.now()],
       table:['', [Validators.required]],
       pax: '',      
       total: ['', [Validators.required]],
@@ -177,12 +177,12 @@ export class OrderEditComponent implements OnInit {
   }
 
   onSubmit() {
-    let createdDate = this.getDateString(this.orderForm["createdDate"]);
-    this.orderService.createOrder(this.orderForm.value, createdDate);
+    //let createdDate = this.getDateString(this.orderForm["createdDate"]);
+    this.orderService.createOrder(this.orderForm.value, this.orderForm.value.createdDate.toString());
   }
 
-  printReceipt(){  
-    let p = '<p style="font-family:Old Standard TT; font-size: 14px; padding-left:-12px">';  
+  printReceiptJSON(){  
+    let p = '<p style="font-family:Impact; font-size: 14px; padding-left:-12px">';  
     if(!this.orderForm.value.active){
       let header='<div style="text-align: center; left:-15px;"><H4>HAKABEER STATION</H4>'
       header += p + 'CS31 Prosper Plaza</p>';
@@ -230,8 +230,66 @@ export class OrderEditComponent implements OnInit {
     }
   }
 
+  printReceiptHTML(){  
+    const style = `
+    td {
+      font-family: Merchant Copy;
+      text-transform: uppercase;
+
+    }
+
+    th{
+      font-size: 16px;
+    }
+      .header {
+        text-align: center;
+        
+        font-size: 12px;
+        font-style: bold;
+      }
+    `;
+    let printhtml =`
+    <table width='100%'><tr><th class='header' colspan='3'>HAKABEER STATION</th></tr>"
+      <tr><td colspan='3' class='header'>CS31 Prosper Plaza</td></tr>
+      <tr><td colspan='3' class='header'>22/14 Phan Van Hon, Dist. 12, HCMc</td></tr>
+      <tr><td colspan='3' class='header'>www.Hakabeerstation.com</td></tr>
+      <tr><td colspan='3' class='header'>0938 2000 20</td></tr>
+      <tr><td colspan='3' ></td><tr>
+      <tr><td>Date</td><td></td><td>` + this.orderForm.value.createdDate + `</td><tr>
+      <tr><td>Table</td><td></td><td>` + this.orderForm.value.table + `</td><tr>
+      <tr><td colspan='3' >Details</td><tr>`;
+
+    let data = this.orderForm.value;
+    
+    for (let i = 0; i < data.items.length; i ++){
+      if(data.items[i].product===''){
+        continue;
+      }
+      let row = "<tr><td>" + data.items[i].product.productName + "</td>";
+        row += "<td>" + data.items[i].quantity + "</td>",
+        row += "<td>" + data.items[i].price * data.items[i].quantity + "</td></tr>"
+        
+        printhtml += row;
+    }
+
+    
+    printhtml += `<tr><td>Total</td><td></td><td>` + this.orderForm.value.total + `</td><tr>
+    <tr><td colspan='3' ></td><tr>
+    <tr><td colspan='3' ></td><tr>
+    <tr><td colspan='3' class='header'>Thank you and hope to see you again</td><tr>
+    </table>`;
+
+      printJS({
+        printable: printhtml,
+        type: 'raw-html',
+        style: style,
+        scanStyles: false
+      })
+    }
+  
+
   getDateString(createdDate){
-    if(createdDate === undefined){
+    if(createdDate === undefined || createdDate === ''){
       let today = new Date();
       let dd = today.getDate();
       let mm = today.getMonth() +1;
@@ -247,7 +305,8 @@ export class OrderEditComponent implements OnInit {
       if(mm < 10){
         M = '0' + M;
       }
-      return Y + '-' + M + '-' + D;
+      //return Y + '-' + M + '-' + D;
+      return Date.now().toString();
     }
     
     return createdDate;

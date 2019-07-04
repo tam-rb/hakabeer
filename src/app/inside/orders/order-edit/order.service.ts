@@ -31,7 +31,6 @@ export class OrderService{
         return this.firestore.collection("orders").snapshotChanges().pipe(map(order =>{
             return order.map(p=>{
                 const data = p.payload.doc.data() as IOrder;
-                const id = p.payload.doc.id;
                 return data;
             })
         }));        

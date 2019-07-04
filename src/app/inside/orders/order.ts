@@ -1,7 +1,6 @@
 import { IProduct } from '../products/product';
 
 export interface IOrder{
-    id: string;
     createdDate: string;
     createdby: string;
     table: number;

@@ -37,7 +37,7 @@ export class OrdersListComponent implements OnInit {
     this.orderService.getOrders().subscribe((data:IOrder[]) => {      
       this.dataSource = new MatTableDataSource(data);
       this.dataSource.paginator = this.paginator;
-      this.displayedColumns = ["table", "total", "items", "action"]
+      this.displayedColumns = ["createdDate", "table", "total", "action"];
       //this.displayedColumns.push("action");
     });
   }
