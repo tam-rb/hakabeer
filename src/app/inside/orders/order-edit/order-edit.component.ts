@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrderService } from './order.service';
 import { IProduct } from '../../products/product';
@@ -37,7 +37,7 @@ export class OrderEditComponent implements OnInit {
     this.loadProducts();
        
     this.orderForm = this.fb.group({
-      createdDate: [Date.now()],
+      createdDate: new FormControl({value:  Date.now(), disabled: false}),
       table:['', [Validators.required]],
       pax: '',      
       total: ['', [Validators.required]],
@@ -74,20 +74,30 @@ export class OrderEditComponent implements OnInit {
      this.orderService.getOrder(code)
       .subscribe(
         (order) => this.displayOrder(order),
-        error =>this.errorMessage = <any>error        
+        error =>console.log("get order error" + error)       
       ); 
   }
   
   displayOrder(order : IOrder) : void{
+    console.log(order);
+    if(order === undefined) return;
     if (this.orderForm){
       this.orderForm.reset();
     }
 
-    /* this.order = order;
+    this.order = order;
 
     this.orderForm.patchValue({
+      createdDate: order.createdDate,
+      table: order.table,
+      pax: order.pax,
+      total: order.total,
+      discount: order.discount,
+      discountRate: order.discountRate,
+      close: order.close,
+      items: order.items 
       
-    }); */
+    }, {emitEvent:false});
   }
   loadProducts() {  
     this.productService.getProducts().subscribe(data => {      
@@ -135,6 +145,7 @@ export class OrderEditComponent implements OnInit {
 
   updateOrderItem(){
     let data = this.orderForm.value;
+    if (data.createdDate === null) return;
     let total = 0;
     let num = 0;
     for (let i = 0; i < data.items.length; i ++){
@@ -255,7 +266,7 @@ export class OrderEditComponent implements OnInit {
       <tr><td colspan='3' class='header'>www.Hakabeerstation.com</td></tr>
       <tr><td colspan='3' class='header'>0938 2000 20</td></tr>
       <tr><td colspan='3' ></td><tr>
-      <tr><td>Date</td><td></td><td>` + this.orderForm.value.createdDate + `</td><tr>
+      <tr><td>Date</td><td colspan='2'>` + this.getDateString(this.orderForm.value.createdDate) + `</td><tr>
       <tr><td>Table</td><td></td><td>` + this.orderForm.value.table + `</td><tr>
       <tr><td colspan='3' >Details</td><tr>`;
 
@@ -276,7 +287,10 @@ export class OrderEditComponent implements OnInit {
     printhtml += `<tr><td>Total</td><td></td><td>` + this.orderForm.value.total + `</td><tr>
     <tr><td colspan='3' ></td><tr>
     <tr><td colspan='3' ></td><tr>
+    <tr><td colspan='3' class='header'>xin cam on va hen gap lai quy khach</td><tr>
+
     <tr><td colspan='3' class='header'>Thank you and hope to see you again</td><tr>
+
     </table>`;
 
       printJS({
@@ -289,11 +303,21 @@ export class OrderEditComponent implements OnInit {
   
 
   getDateString(createdDate){
+    var dateString = '';
+    var billDate;
     if(createdDate === undefined || createdDate === ''){
-      let today = new Date();
-      let dd = today.getDate();
-      let mm = today.getMonth() +1;
-      let yyyy = today.getFullYear();
+       billDate = new Date();
+    } else {
+      billDate = new Date(createdDate);
+    }
+    
+      let dd = billDate.getDate();
+      let mm = billDate.getMonth() +1;
+      let yyyy = billDate.getFullYear();
+      let h = '' + billDate.getHours();
+      let m = '' + billDate.getMinutes();
+      let s = '' + billDate.getSeconds();
+      
       let D = '' + dd;
       let M = ''+ mm;
       let Y = ''+ yyyy;
@@ -305,11 +329,10 @@ export class OrderEditComponent implements OnInit {
       if(mm < 10){
         M = '0' + M;
       }
-      //return Y + '-' + M + '-' + D;
-      return Date.now().toString();
-    }
+      dateString =  Y + '-' + M + '-' + D + ' ' + h + ":" + m;
     
-    return createdDate;
-  }
+
+    return dateString;
+    }
 
 }

@@ -22,9 +22,12 @@ export class OrderService{
 
     getOrder(code:string):Observable<IOrder>{
         if(code === "0"){
-            //return of(this.initProduct());
         }
-        return this.firestore.collection("orders").doc<IOrder>(code).valueChanges();  
+        let docRef = this.firestore.collection("orders").doc<IOrder>(code);  
+        let getDoc = docRef.get();
+
+        return ;
+        
     }
 
     getOrders(): Observable<IOrder[]> { 

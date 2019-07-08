@@ -4,11 +4,12 @@ export interface IOrder{
     createdDate: string;
     createdby: string;
     table: number;
-    active: boolean;
+    close: boolean;
     pax: number;
     total: number;
     items: [IProduct],
-    promo: IPromo        
+    discount: number,
+    discountRate: number        
   }
 
   export interface IPromo{

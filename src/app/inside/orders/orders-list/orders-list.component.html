@@ -5,7 +5,7 @@
        <ng-container matColumnDef="createdDate">
          <th mat-header-cell *matHeaderCellDef>Created Date </th>
          <td mat-cell *matCellDef="let element">
-           <a [routerLink] = "['/inside/orders', element.createdDate]">ID</a></td>
+           <a [routerLink] = "['/inside/orders', element.createdDate]">{{element.createdDate}}</a></td>
        </ng-container>
           
        
