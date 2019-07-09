@@ -19,8 +19,8 @@ export class OrderEditComponent implements OnInit {
   errorMessage: string;
   products : IProduct[];
   filteredProducts: Observable<IProduct[]>;
-  order: IOrder;
-  const DISCOUNT_RATE = 0.15;
+  order: any;
+  DISCOUNT_RATE = 0.15;
 
   constructor(private fb:FormBuilder, private productService:ProductService, private orderService: OrderService, private route:ActivatedRoute, private router: Router) { 
 

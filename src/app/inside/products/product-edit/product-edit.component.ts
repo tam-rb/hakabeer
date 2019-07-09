@@ -4,6 +4,7 @@ import { ProductService } from '../product.service';
 import { IProduct } from '../product';
 import { Metadata } from '../metadata';
 import { ActivatedRoute, Router } from '@angular/router';
+import {BeersData} from '../beersData';
 
 @Component({
   selector: 'app-product-edit',
@@ -115,6 +116,13 @@ export class ProductEditComponent implements OnInit {
     }    
   }
 
+  createAllProducts(){
+    let data = BeersData.data;
+    for(var i = 0; i <= data.length; i ++){
+      this.productService.createProduct(data[i], data[i].productCode);
+    }
+  }
+
   validateAll(formGroup: FormGroup){
     Object.keys(formGroup.controls).forEach(field => {  
       const control = formGroup.get(field);            
@@ -125,5 +133,7 @@ export class ProductEditComponent implements OnInit {
       }
     });
   }
+
+
 
 }

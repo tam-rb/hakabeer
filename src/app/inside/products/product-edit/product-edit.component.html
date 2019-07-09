@@ -70,6 +70,7 @@
   
   <button mat-raised-button color="primary" type="submit" >Lưu SP</button>
   <button mat-raised-button color="basic" [routerLink]="['/inside/products']">Quay về</button>
+  <button mat-raised-button color="primary" type="button" (click)="createAllProducts()" >Create All</button>
 </form>  
 
 value {{productForm.value | json}}

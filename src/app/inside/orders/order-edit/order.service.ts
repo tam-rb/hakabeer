@@ -29,10 +29,17 @@ export class OrderService{
     }
 
     getOrders(): Observable<IOrder[]> { 
-        return this.firestore.collection<IOrder>('orders', ref =>{
-            return ref
-                .orderBy('table', 'desc')
-        }).valueChanges();
+        return this.firestore.collection(
+            'orders',
+                ref=>ref.where("close", "==", false)
+                .orderBy('table', 'asc'))        
+        .snapshotChanges()
+        .pipe(map(snaps => {
+            return snaps.map(snap=>{
+                const data= snap.payload.doc.data() as IOrder;
+                return data;
+            })
+        }));        
     }
 
 } 
