@@ -1,13 +1,12 @@
    
-    <p><a mat-flat-button color="warn" [routerLink]="['/inside/orders', 0, 'edit']">New Order</a></p>
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <p center><a mat-flat-button color="warn" [routerLink]="['/inside/orders', 0, 'edit']">New Order</a></p>
+    <table mat-table [dataSource]="dataSource" class="order-form mat-elevation-z8">
       <!-- ProductName Column -->
        <ng-container matColumnDef="createdDate">
-         <th mat-header-cell *matHeaderCellDef>Created Date </th>
+         <th mat-header-cell *matHeaderCellDef>ID </th>
          <td mat-cell *matCellDef="let element">
            <a [routerLink] = "['/inside/orders', element.createdDate]">{{element.createdDate}}</a></td>
-       </ng-container>
-          
+       </ng-container>          
        
        <ng-container matColumnDef="table">
          <th mat-header-cell *matHeaderCellDef> Table</th>

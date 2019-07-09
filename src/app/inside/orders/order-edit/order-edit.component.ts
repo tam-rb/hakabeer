@@ -20,6 +20,7 @@ export class OrderEditComponent implements OnInit {
   products : IProduct[];
   filteredProducts: Observable<IProduct[]>;
   order: IOrder;
+  const DISCOUNT_RATE = 0.15;
 
   constructor(private fb:FormBuilder, private productService:ProductService, private orderService: OrderService, private route:ActivatedRoute, private router: Router) { 
 
@@ -42,7 +43,7 @@ export class OrderEditComponent implements OnInit {
       pax: '',      
       total: ['', [Validators.required]],
       discount: 0,
-      discountRate: 0,
+      discountRate: this.DISCOUNT_RATE,
       close: false,
       items: this.fb.array([this.buildItems()])
     });
@@ -81,24 +82,36 @@ export class OrderEditComponent implements OnInit {
   displayOrder(order : IOrder) : void{
     console.log(order);
     if(order === undefined) return;
+   
+    this.order = order;    
+
     if (this.orderForm){
       this.orderForm.reset();
+      this.displayOrderItems();
     }
 
-    this.order = order;
-
     this.orderForm.patchValue({
-      createdDate: order.createdDate,
-      table: order.table,
-      pax: order.pax,
-      total: order.total,
-      discount: order.discount,
-      discountRate: order.discountRate,
-      close: order.close,
-      items: order.items 
-      
-    }, {emitEvent:false});
+      createdDate: this.order.createdDate,
+      table: this.order.table,
+      total: this.order.total,
+      pax: this.order.pax,
+      discount: this.order.discount,
+      discountRate: this.order.discountRate,
+      close: this.order.close
+    }, {emitEvent:false})
   }
+
+  displayOrderItems(){
+    while(this.items.length !==0){
+      this.items.removeAt(0);
+    }
+    let items = this.order.items;
+    for(var i =0; i < items.length; i ++){
+      this.items.push(this.buildItemsWithValue([items[i].product, items[i].quantity, items[i].price, items[i].pack]));
+    }
+    
+  }
+
   loadProducts() {  
     this.productService.getProducts().subscribe(data => {      
       this.populateProducts(data);
@@ -120,6 +133,15 @@ export class OrderEditComponent implements OnInit {
       quantity: [1, [Validators.required]],
       price: [0, [Validators.required]],
       pack: ""
+    })
+  }
+
+  buildItemsWithValue(values) : FormGroup {
+    return this.fb.group({
+      product: values[0],
+      quantity: [values[1], [Validators.required]],
+      price: [values[2], [Validators.required]],
+      pack: values[3]
     })
   }
 
@@ -188,8 +210,11 @@ export class OrderEditComponent implements OnInit {
   }
 
   onSubmit() {
-    //let createdDate = this.getDateString(this.orderForm["createdDate"]);
-    this.orderService.createOrder(this.orderForm.value, this.orderForm.value.createdDate.toString());
+    if(this.orderForm.valid){
+      this.orderService.createOrder(this.orderForm.value, this.orderForm.value.createdDate.toString());
+    } else {
+      this.validateAll(this.orderForm);
+    }
   }
 
   printReceiptJSON(){  
@@ -242,6 +267,8 @@ export class OrderEditComponent implements OnInit {
   }
 
   printReceiptHTML(){  
+    this.onSubmit();
+    if(!this.orderForm.valid){ return; }
     const style = `
     td {
       font-family: Merchant Copy;
@@ -260,13 +287,14 @@ export class OrderEditComponent implements OnInit {
       }
     `;
     let printhtml =`
-    <table width='100%'><tr><th class='header' colspan='3'>HAKABEER STATION</th></tr>"
+    <table width='100%'><tr><th class='header' colspan='3'>HAKABEER STATION</th></tr>
+    <tr><td colspan='3' class='header'><img src='assets/img/apple-touch-icon.png' height='50' width='70'></td></tr>
       <tr><td colspan='3' class='header'>CS31 Prosper Plaza</td></tr>
       <tr><td colspan='3' class='header'>22/14 Phan Van Hon, Dist. 12, HCMc</td></tr>
       <tr><td colspan='3' class='header'>www.Hakabeerstation.com</td></tr>
       <tr><td colspan='3' class='header'>0938 2000 20</td></tr>
       <tr><td colspan='3' ></td><tr>
-      <tr><td>Date</td><td colspan='2'>` + this.getDateString(this.orderForm.value.createdDate) + `</td><tr>
+      <tr><td>Date</td><td colspan='2' style='font-size:10px'>` + this.getDateString(this.orderForm.value.createdDate) + `</td><tr>
       <tr><td>Table</td><td></td><td>` + this.orderForm.value.table + `</td><tr>
       <tr><td colspan='3' >Details</td><tr>`;
 
@@ -283,6 +311,10 @@ export class OrderEditComponent implements OnInit {
         printhtml += row;
     }
 
+    if(this.orderForm.value.discount > 0) {
+    printhtml += `<tr><td>Discount </td><td></td><td>` + 100* this.orderForm.value.discountRate + `%</td><tr>
+                  <tr><td>Discount amount</td><td></td><td>` + this.orderForm.value.discount + `</td><tr>`  
+    }
     
     printhtml += `<tr><td>Total</td><td></td><td>` + this.orderForm.value.total + `</td><tr>
     <tr><td colspan='3' ></td><tr>
@@ -333,6 +365,17 @@ export class OrderEditComponent implements OnInit {
     
 
     return dateString;
+    }
+
+    validateAll(formGroup: FormGroup){
+      Object.keys(formGroup.controls).forEach(field => {  
+        const control = formGroup.get(field);            
+        if (control instanceof FormControl) {             
+          control.markAsTouched({ onlySelf: true });
+        } else if (control instanceof FormGroup) {        
+          this.validateAll(control);            
+        }
+      });
     }
 
 }

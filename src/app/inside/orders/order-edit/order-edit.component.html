@@ -63,13 +63,13 @@
 <br><p></p>
 <p><mat-checkbox formControlName="close" >Đóng bill (In bill & Thanh toán)</mat-checkbox>  
 </p>
-<button mat-raised-button color="primary" type="submit" [disabled]="!orderForm.valid">Lưu SP</button>
+<button mat-raised-button color="primary" type="submit" >Lưu SP</button>
 <button mat-raised-button color="warn" [routerLink]="['/products']" type="button" (click)="cancel()">Quay về</button>
-<button mat-raised-button color="primary" type="button" (click)="printReceiptHTML()" [disabled]="!orderForm.value.close">In receipt</button>
+<button mat-raised-button color="primary" type="button" (click)="printReceiptHTML()" [disabled]="!orderForm.value.close ">In receipt</button>
 </form> 
-
+<!-- 
 <br>Dirty: {{ orderForm.dirty }}
 <br>Touched: {{ orderForm.touched }}
 <br>Valid: {{ orderForm.valid }}
 <br>Value: {{ orderForm.value | json }}
-<br>Street: {{ orderForm.get('0.street1')?.value }}
+<br>Street: {{ orderForm.get('0.street1')?.value }}-->

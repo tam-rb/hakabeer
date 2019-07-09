@@ -9,7 +9,6 @@ export class AuthService {
   isValidLoggedIn: boolean;
 
   get isLoggedIn(): boolean {
-    return true;
     return this.isValidLoggedIn;
     return !!this.currentUser;
   }
@@ -17,7 +16,7 @@ export class AuthService {
 
   login(loginInfo){
     if((loginInfo.email === 'mr.tamnt@gmail.com' || loginInfo.email === 'staff@hakabeerstation.com') && 
-        loginInfo.password === 'abc'){
+        loginInfo.password === 'hakabeer@12#$'){
           this.isValidLoggedIn = true;
         }
         else{

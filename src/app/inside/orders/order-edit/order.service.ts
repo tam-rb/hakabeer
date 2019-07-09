@@ -23,20 +23,16 @@ export class OrderService{
     getOrder(code:string):Observable<IOrder>{
         if(code === "0"){
         }
-        let docRef = this.firestore.collection("orders").doc<IOrder>(code);  
-        let getDoc = docRef.get();
-
-        return ;
+        
+        return this.firestore.collection("orders").doc<IOrder>(code).valueChanges();  
         
     }
 
     getOrders(): Observable<IOrder[]> { 
-        return this.firestore.collection("orders").snapshotChanges().pipe(map(order =>{
-            return order.map(p=>{
-                const data = p.payload.doc.data() as IOrder;
-                return data;
-            })
-        }));        
+        return this.firestore.collection<IOrder>('orders', ref =>{
+            return ref
+                .orderBy('table', 'desc')
+        }).valueChanges();
     }
 
-}
+} 
