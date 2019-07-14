@@ -118,7 +118,7 @@ export class ProductEditComponent implements OnInit {
 
   createAllProducts(){
     let data = BeersData.data;
-    for(var i = 0; i <= data.length; i ++){
+    for(var i = 0; i < data.length; i ++){
       this.productService.createProduct(data[i], data[i].productCode);
     }
   }

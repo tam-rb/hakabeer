@@ -16,7 +16,7 @@ export class BeersData{
         "description":"",
         "starRating":"",
         "imageUrl":"",
-        "inventory":"10"
+        "inventory":"10", "cost": ""
      },
 
      {
@@ -36,7 +36,7 @@ export class BeersData{
         "description":"",
         "starRating":"",
         "imageUrl":"",
-        "inventory":"10"
+        "inventory":"10", "cost": ""
      },
 
      {
@@ -56,7 +56,7 @@ export class BeersData{
         "description":"",
         "starRating":"",
         "imageUrl":"",
-        "inventory":"10"
+        "inventory":"10", "cost": ""
      },
      {
         "productName":"Saigon Rose",
@@ -75,7 +75,7 @@ export class BeersData{
         "description":"",
         "starRating":"",
         "imageUrl":"",
-        "inventory":"10"
+        "inventory":"10", "cost": ""
      },
      {
         "productName":"Snow White",
@@ -94,7 +94,7 @@ export class BeersData{
         "description":"",
         "starRating":"",
         "imageUrl":"",
-        "inventory":"10"
+        "inventory":"10", "cost": ""
      },
      {
         "productName":"The Red Prince",
@@ -113,7 +113,7 @@ export class BeersData{
         "description":"",
         "starRating":"",
         "imageUrl":"",
-        "inventory":"10"
+        "inventory":"10", "cost": ""
      },
      {
         "productName":"Mulberry Mermaid",
@@ -132,7 +132,7 @@ export class BeersData{
         "description":"",
         "starRating":"",
         "imageUrl":"",
-        "inventory":"10"
+        "inventory":"10", "cost": ""
      },
      {
         "productName":"Belle Passion Fruit",
@@ -151,7 +151,7 @@ export class BeersData{
         "description":"",
         "starRating":"",
         "imageUrl":"",
-        "inventory":"10"
+        "inventory":"10", "cost": ""
      },
      {
         "productName":"Plantinum Golden Ale",
@@ -170,7 +170,7 @@ export class BeersData{
         "description":"",
         "starRating":"",
         "imageUrl":"",
-        "inventory":"10"
+        "inventory":"10", "cost": ""
      },
 
      {
@@ -190,7 +190,7 @@ export class BeersData{
         "description":"",
         "starRating":"",
         "imageUrl":"",
-        "inventory":"10"
+        "inventory":"10", "cost": ""
      },
 
      {
@@ -210,7 +210,7 @@ export class BeersData{
         "description":"",
         "starRating":"",
         "imageUrl":"",
-        "inventory":"10"
+        "inventory":"10", "cost": ""
      },
 
      {
@@ -230,7 +230,7 @@ export class BeersData{
         "description":"",
         "starRating":"",
         "imageUrl":"",
-        "inventory":"10"
+        "inventory":"10", "cost": ""
      },
 
      {
@@ -250,7 +250,7 @@ export class BeersData{
         "description":"",
         "starRating":"",
         "imageUrl":"",
-        "inventory":"10"
+        "inventory":"10", "cost": ""
      },
      {
         "productName":"Tiger Bạc",
@@ -269,7 +269,7 @@ export class BeersData{
         "description":"",
         "starRating":"",
         "imageUrl":"",
-        "inventory":"10"
+        "inventory":"10", "cost": ""
      },
 
      {
@@ -289,8 +289,27 @@ export class BeersData{
         "description":"",
         "starRating":"",
         "imageUrl":"",
-        "inventory":"10"
+        "inventory":"10", "cost": ""
      },
+     {
+      "productName":"Kumlmbacher Export",
+      "productCode":"B16",
+      "category":"beer",
+      "flavor":"",
+      "odour":"",
+      "color":"",
+      "abv":"5.4%",
+      "ibu":"23",
+      "tags":"",
+      "availableDate":"",
+      "price":"57000",
+      "pricesix":"308000",
+      "priceten":"470000",
+      "description":"",
+      "starRating":"",
+      "imageUrl":"",
+      "inventory":"10", "cost": ""
+   },
 
      {
         "productName":"Strongbow Red Berries",
@@ -309,7 +328,7 @@ export class BeersData{
         "description":"",
         "starRating":"",
         "imageUrl":"",
-        "inventory":"10"
+        "inventory":"10", "cost": ""
      },
 
      {
@@ -329,7 +348,7 @@ export class BeersData{
         "description":"",
         "starRating":"",
         "imageUrl":"",
-        "inventory":"10"
+        "inventory":"10", "cost": ""
      },
 
      {
@@ -349,7 +368,7 @@ export class BeersData{
         "description":"",
         "starRating":"",
         "imageUrl":"",
-        "inventory":"10"
+        "inventory":"10", "cost": ""
      },
 
      {
@@ -369,7 +388,7 @@ export class BeersData{
         "description":"",
         "starRating":"",
         "imageUrl":"",
-        "inventory":"10"
+        "inventory":"10", "cost": ""
      },
 
      {
@@ -389,7 +408,7 @@ export class BeersData{
         "description":"",
         "starRating":"",
         "imageUrl":"",
-        "inventory":"10"
+        "inventory":"10", "cost": ""
      },
 
      {
@@ -409,7 +428,7 @@ export class BeersData{
         "description":"",
         "starRating":"",
         "imageUrl":"",
-        "inventory":"10"
+        "inventory":"10", "cost": ""
      },
      {
         "productName":"Xúc xích chiên",
@@ -428,7 +447,7 @@ export class BeersData{
         "description":"",
         "starRating":"",
         "imageUrl":"",
-        "inventory":"10"
+        "inventory":"10", "cost": ""
      },
      {
         "productName":"Chả cá chiên",
@@ -447,7 +466,7 @@ export class BeersData{
         "description":"",
         "starRating":"",
         "imageUrl":"",
-        "inventory":"10"
+        "inventory":"10", "cost": ""
      },
 
      {
@@ -467,7 +486,7 @@ export class BeersData{
         "description":"",
         "starRating":"",
         "imageUrl":"",
-        "inventory":"10"
+        "inventory":"10", "cost": ""
      },
      {
         "productName":"Nem chua",
@@ -486,7 +505,8 @@ export class BeersData{
         "description":"",
         "starRating":"",
         "imageUrl":"",
-        "inventory":"10"
+        "inventory":"10", 
+        "cost": ""
      },
      {
         "productName":"Chả lụa",
@@ -505,7 +525,7 @@ export class BeersData{
         "description":"",
         "starRating":"",
         "imageUrl":"",
-        "inventory":"10"
+        "inventory":"10", "cost": ""
      },
      {
         "productName":"Chả Quế",
@@ -524,7 +544,7 @@ export class BeersData{
         "description":"",
         "starRating":"",
         "imageUrl":"",
-        "inventory":"10"
+        "inventory":"10", "cost": ""
      },
      {
         "productName":"Chả giò",
@@ -543,7 +563,8 @@ export class BeersData{
         "description":"",
         "starRating":"",
         "imageUrl":"",
-        "inventory":"10"
+        "inventory":"10",
+        "cost":""
      },
 
      {
@@ -563,7 +584,154 @@ export class BeersData{
         "description":"",
         "starRating":"",
         "imageUrl":"",
-        "inventory":"10"
+        "inventory":"10",
+        "cost":""
      },
+
+     // cafe 
+     {
+      "productName":"Cafe đá",
+      "productCode":"C01",
+      "category":"coffee",
+      "flavor":"",
+      "odour":"",
+      "color":"",
+      "abv":"",
+      "ibu":"",
+      "tags":"",
+      "availableDate":"",
+      "price":"18000",
+      "pricesix":"",
+      "priceten":"",
+      "description":"",
+      "starRating":"",
+      "imageUrl":"",
+      "inventory":"10",
+      "cost":""
+   },
+
+   {
+      "productName":"Cafe sữa đá",
+      "productCode":"C02",
+      "category":"coffee",
+      "flavor":"",
+      "odour":"",
+      "color":"",
+      "abv":"",
+      "ibu":"",
+      "tags":"",
+      "availableDate":"",
+      "price":"21000",
+      "pricesix":"",
+      "priceten":"",
+      "description":"",
+      "starRating":"",
+      "imageUrl":"",
+      "inventory":"10",
+      "cost":""
+   },  
+
+   {
+      "productName":"Nước suối",
+      "productCode":"S01",
+      "category":"soft",
+      "flavor":"",
+      "odour":"",
+      "color":"",
+      "abv":"",
+      "ibu":"",
+      "tags":"",
+      "availableDate":"",
+      "price":"16000",
+      "pricesix":"",
+      "priceten":"",
+      "description":"",
+      "starRating":"",
+      "imageUrl":"",
+      "inventory":"10",
+      "cost":""
+   },
+
+   {
+      "productName":"7Up",
+      "productCode":"S02",
+      "category":"soft",
+      "flavor":"",
+      "odour":"",
+      "color":"",
+      "abv":"",
+      "ibu":"",
+      "tags":"",
+      "availableDate":"",
+      "price":"20000",
+      "pricesix":"",
+      "priceten":"",
+      "description":"",
+      "starRating":"",
+      "imageUrl":"",
+      "inventory":"10",
+      "cost":""
+   },
+
+   {
+      "productName":"Pepsi",
+      "productCode":"S03",
+      "category":"soft",
+      "flavor":"",
+      "odour":"",
+      "color":"",
+      "abv":"",
+      "ibu":"",
+      "tags":"",
+      "availableDate":"",
+      "price":"20000",
+      "pricesix":"",
+      "priceten":"",
+      "description":"",
+      "starRating":"",
+      "imageUrl":"",
+      "inventory":"10",
+      "cost":""
+   },
+   {
+      "productName":"Sting",
+      "productCode":"S04",
+      "category":"soft",
+      "flavor":"",
+      "odour":"",
+      "color":"",
+      "abv":"",
+      "ibu":"",
+      "tags":"",
+      "availableDate":"",
+      "price":"20000",
+      "pricesix":"",
+      "priceten":"",
+      "description":"",
+      "starRating":"",
+      "imageUrl":"",
+      "inventory":"10",
+      "cost":""
+   },
+   {
+      "productName":"Bạc xỉu",
+      "productCode":"C05",
+      "category":"coffee",
+      "flavor":"",
+      "odour":"",
+      "color":"",
+      "abv":"",
+      "ibu":"",
+      "tags":"",
+      "availableDate":"",
+      "price":"20000",
+      "pricesix":"",
+      "priceten":"",
+      "description":"",
+      "starRating":"",
+      "imageUrl":"",
+      "inventory":"10",
+      "cost":""
+   },
     ];
 }

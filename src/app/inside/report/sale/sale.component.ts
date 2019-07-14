@@ -1,25 +1,28 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AngularFirestoreCollection } from '@angular/fire/firestore';
+import { IOrder } from '../../orders/order';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
-import { OrderService } from '../order-edit/order.service';
-import { IOrder } from '../order';
+import { ReportService } from '../report.service';
 
 @Component({
-  selector: 'app-orders-list',
-  templateUrl: './orders-list.component.html',
-  styleUrls: ['./orders-list.component.css']
+  selector: 'app-sale',
+  templateUrl: './sale.component.html',
+  styleUrls: ['./sale.component.css']
 })
-export class OrdersListComponent implements OnInit {
+export class SaleComponent implements OnInit {
 
   ordersCollection: AngularFirestoreCollection<IOrder>;  
   orders: any;
   dataSource ;
   displayedColumns: string[] = [];
+  ordersCount = 0;
+  ordersSum = 0;
+
 
   @ViewChild(MatPaginator) paginator : MatPaginator;
 
-  constructor(private router: Router, private orderService: OrderService){
+  constructor(private router: Router, private reportService: ReportService){
    }
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -34,12 +37,32 @@ export class OrdersListComponent implements OnInit {
   }
 
   ngOnInit(): void{     
-    this.orderService.getOrders().subscribe((data:IOrder[]) => {     
-      this.dataSource = new MatTableDataSource(data);
+    this.reportService.getOrders().subscribe((data:IOrder[]) => {
+      let from = new Date(2019, 6, 14, 0, 0, 0);
+      let to = new Date(2019, 6, 14, 23, 59, 59);
+
+      let fromstamp =  from.getTime();
+      let tostamp = to.getTime();
+      this.dataSource = new MatTableDataSource(this.filterData(data, fromstamp, tostamp));
       this.dataSource.paginator = this.paginator;
-      this.displayedColumns = ["date", "table", "total", "action"];
+      this.displayedColumns = ["createdDate", "date", "table", "total", "state", "action"];
       //this.displayedColumns.push("action");
     });
+  }
+
+  filterData(data: IOrder[], from, to){
+    var returnData =[];
+    this.ordersCount = 0;
+    this.ordersSum = 0;
+    for(var i = 0; i < data.length; i ++){
+      if(data[i].createdDate > from && data[i].createdDate < to){
+        returnData.push(data[i]);
+        this.ordersCount ++;
+        this.ordersSum += data[i].total;
+      }
+    }
+
+    return returnData;
   }
 
   parseState(isClose){
@@ -50,16 +73,6 @@ export class OrdersListComponent implements OnInit {
       return "Chưa thanh toán";
     }
 
-  }
-
-  parseItems(items){
-    let itemList = "<ol>";
-    for(var i = 0; i < items.length; i ++){
-      itemList += "<li>" + items[i].product.productName + "</li>";
-    }
-
-    itemList += "</ol>";
-    return itemList;
   }
   getDateString(createdDate){
     var dateString = '';
@@ -93,5 +106,6 @@ export class OrdersListComponent implements OnInit {
 
     return dateString;
     }
+
 
 }

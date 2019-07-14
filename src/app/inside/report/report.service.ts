@@ -2,37 +2,16 @@ import {Injectable } from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
-import { IOrder } from '../order';
+import { IOrder } from '../orders/order';
 
 @Injectable({
     providedIn: 'root'
 })
-export class OrderService{
+export class ReportService{
     constructor(private firestore: AngularFirestore){}
 
-    createOrder(data, code){
-            return new Promise<any> ((resolve, reject) => {
-            this.firestore
-                .collection("orders").doc(code)
-                .set(data)
-                .then(res => {}, err => reject(console.log(err)));
-        })
-
-    }
-
-    getOrder(code:string):Observable<IOrder>{
-        if(code === "0"){
-        }
-        
-        return this.firestore.collection("orders").doc<IOrder>(code).valueChanges();  
-        
-    }
-
     getOrders(): Observable<IOrder[]> { 
-        return this.firestore.collection('orders',
-        ref => ref
-        .where("close", "==", false)
-        .orderBy('createdDate', 'desc'))        
+        return this.firestore.collection('orders')
         .snapshotChanges()
         .pipe(map(snaps => {
             return snaps.map(snap=>{

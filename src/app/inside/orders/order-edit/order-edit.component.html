@@ -46,12 +46,22 @@
       </i></button>
       <hr />  
 
-      <mat-form-field class="order-50-width" appearance="outline" [hidden]="!orderForm.value.discountRate">
+      <mat-form-field class="order-50-width" appearance="outline" >
         <mat-label>Khuyến mãi</mat-label>
-        <input matInput placeholder="" formControlName="discountRate" value="{{discountRate}}" type="number" >
+        <mat-select formControlName="discountRate">
+          <mat-option *ngFor="let discountrate of discountList" [value]="discountrate">{{(discountrate * 100) + "%"}}</mat-option>
+          <!--<mat-option [value]="0.05">5%</mat-option>
+          <mat-option value="0.1">10%</mat-option>
+          <mat-option value="0.2">20%</mat-option>
+          <mat-option value="0.25">25%</mat-option>
+          <mat-option value="0.3">30%</mat-option>
+          <mat-option value="0.35">35%</mat-option>
+          <mat-option value="0.4">40%</mat-option>
+          <mat-option value="0.5">50%</mat-option>-->
+        </mat-select>
       </mat-form-field>
 
-      <mat-form-field class="order-50-width" appearance="outline" [hidden]="!orderForm.value.discountRate">
+      <mat-form-field class="order-50-width" appearance="outline">
         <mat-label>Tiền khuyến mãi</mat-label>
         <input matInput placeholder="" formControlName="discount" value="{{discount}}" type="number" >
       </mat-form-field>
@@ -67,9 +77,9 @@
 <button mat-raised-button color="warn" [routerLink]="['/products']" type="button" (click)="cancel()">Quay về</button>
 <button mat-raised-button color="primary" type="button" (click)="printReceiptHTML()" [disabled]="!orderForm.value.close ">In receipt</button>
 </form> 
-
+<!--
 <br>Dirty: {{ orderForm.dirty }}
 <br>Touched: {{ orderForm.touched }}
 <br>Valid: {{ orderForm.valid }}
 <br>Value: {{ orderForm.value | json }}
-<br>Street: {{ orderForm.get('0.street1')?.value }}
+<br>Street: {{ orderForm.get('0.street1')?.value }}-->

@@ -21,6 +21,7 @@ export class OrderEditComponent implements OnInit {
   filteredProducts: Observable<IProduct[]>;
   order: any;
   DISCOUNT_RATE = 0.15;
+  discountList = [0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.5];
 
   constructor(private fb:FormBuilder, private productService:ProductService, private orderService: OrderService, private route:ActivatedRoute, private router: Router) { 
 
@@ -38,14 +39,14 @@ export class OrderEditComponent implements OnInit {
     this.loadProducts();
        
     this.orderForm = this.fb.group({
-      createdDate: new FormControl({value:  Date.now(), disabled: false}),
-      table:['', [Validators.required]],
-      pax: '',      
-      total: ['', [Validators.required]],
-      discount: 0,
-      discountRate: this.DISCOUNT_RATE,
-      close: false,
-      items: this.fb.array([this.buildItems()])
+      'createdDate': new FormControl({value:  Date.now(), disabled: false}),
+      'table':['', [Validators.required]],
+      'pax': '',      
+      'total': ['', [Validators.required]],
+      'discount': 0,
+      'discountRate': new FormControl(this.DISCOUNT_RATE),
+      'close': false,
+      'items': this.fb.array([this.buildItems()])
     });
     
     this.onChanges();     
@@ -180,12 +181,14 @@ export class OrderEditComponent implements OnInit {
       num += +data.items[i]['quantity'];
       total += +data.items[i]['quantity']*(+data.items[i]['price']);
       
-    data.discount = (total * data.discountRate).toFixed(2);
-    total = total - data.discount;
     }
 
+    data.discount = total * data.discountRate;
+
+    total = total - data.discount;    
+
     data.quantity = num;
-    data.total = total;
+    data.total = Math.round(total/1000) * 1000;
 
     this.orderForm.patchValue(data, {emitEvent:false});
   }
@@ -212,6 +215,7 @@ export class OrderEditComponent implements OnInit {
   onSubmit() {
     if(this.orderForm.valid){
       this.orderService.createOrder(this.orderForm.value, this.orderForm.value.createdDate.toString());
+      this.router.navigate(['inside/orders']);
     } else {
       this.validateAll(this.orderForm);
     }
@@ -273,29 +277,43 @@ export class OrderEditComponent implements OnInit {
     td {
       font-family: Merchant Copy;
       text-transform: uppercase;
-
+      font-size: 10px;
     }
 
     th{
-      font-size: 16px;
+      font-size: 11px;
+    }
+
+    .quantity{
+      padding-right: 5px;
     }
       .header {
         text-align: center;
         
-        font-size: 12px;
+        font-size: 9px;
+        font-style: bold;
+      }
+
+      .header1 {
+        text-align: center;
+        
+        font-size: 14px;
         font-style: bold;
       }
     `;
     let printhtml =`
-    <table width='100%'><tr><th class='header' colspan='3'>HAKABEER STATION</th></tr>
-    <tr><td colspan='3' class='header'><img src='assets/img/apple-touch-icon.png' height='50' width='70'></td></tr>
+    <table width='100%'><tr><th class='header1' colspan='3'>HAKABEER STATION</th></tr>
       <tr><td colspan='3' class='header'>CS31 Prosper Plaza</td></tr>
-      <tr><td colspan='3' class='header'>22/14 Phan Van Hon, Dist. 12, HCMc</td></tr>
       <tr><td colspan='3' class='header'>www.Hakabeerstation.com</td></tr>
       <tr><td colspan='3' class='header'>0938 2000 20</td></tr>
       <tr><td colspan='3' ></td><tr>
-      <tr><td>Date</td><td colspan='2' style='font-size:10px'>` + this.getDateString(this.orderForm.value.createdDate) + `</td><tr>
-      <tr><td>Table</td><td></td><td>` + this.orderForm.value.table + `</td><tr>
+      <tr><td colspan='3' ></td><tr>
+      <tr><td colspan='3' ></td><tr>
+      <tr><td colspan='3'><table>
+      <tr><td>Date</td><td>` + this.getDateString(this.orderForm.value.createdDate) + `</td><tr>
+      <tr><td>Table</td><td>` + this.orderForm.value.table + `</td><tr></table></td></tr>
+      <tr><td colspan='3' ><hr /></td><tr>
+      <tr><td colspan='3' ></td><tr>
       <tr><td colspan='3' >Details</td><tr>`;
 
     let data = this.orderForm.value;
@@ -305,23 +323,28 @@ export class OrderEditComponent implements OnInit {
         continue;
       }
       let row = "<tr><td>" + data.items[i].product.productName + "</td>";
-        row += "<td>" + data.items[i].quantity + "</td>",
+        row += "<td class='quantity'>" + data.items[i].quantity + "</td>",
         row += "<td>" + data.items[i].price * data.items[i].quantity + "</td></tr>"
         
         printhtml += row;
     }
 
     if(this.orderForm.value.discount > 0) {
-    printhtml += `<tr><td>Discount </td><td></td><td>` + 100* this.orderForm.value.discountRate + `%</td><tr>
+    printhtml += `<tr><td colspan='3' ></td><tr>
+                  <tr><td colspan='3' ><hr /></td><tr>
+                  <tr><td>Discount </td><td></td><td>` + 100* this.orderForm.value.discountRate + `%</td><tr>
                   <tr><td>Discount amount</td><td></td><td>` + this.orderForm.value.discount + `</td><tr>`  
     }
     
-    printhtml += `<tr><td>Total</td><td></td><td>` + this.orderForm.value.total + `</td><tr>
+    printhtml += `<tr><td colspan='3' ><hr /></td><tr>
+    <tr><td>Total</td><td></td><td>` + this.orderForm.value.total + `</td><tr>
     <tr><td colspan='3' ></td><tr>
     <tr><td colspan='3' ></td><tr>
-    <tr><td colspan='3' class='header'>xin cam on va hen gap lai quy khach</td><tr>
+    <tr><td colspan='3' ></td><tr>
+    <tr><td colspan='3' ></td><tr>
+    <tr><td colspan='3' class='header'>Thank you</td><tr>
 
-    <tr><td colspan='3' class='header'>Thank you and hope to see you again</td><tr>
+    <tr><td colspan='3' class='header'>hope to see you again</td><tr>
 
     </table>`;
 
