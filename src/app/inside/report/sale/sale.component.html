@@ -4,53 +4,26 @@
   <p center><a mat-flat-button color="warn" [routerLink]="['/inside/orders', 0, 'edit']">New Order</a></p>
   
   <h3>sale report</h3>
-  <!--
+  <form class="report-form" [formGroup]="reportForm" > 
   <mat-label>From Date</mat-label>
-  <mat-form-field class="order-50-width" appearance="outline" >
-      <mat-label>Ngày </mat-label>
-      <mat-select formControlName="fromDay">
-        <mat-option *ngFor="let day of days" [value]="today">{{day}}</mat-option>
-       </mat-select>
+  <mat-form-field class="report-onethird-width">
+      <input matInput [matDatepicker]="fromPicker" placeholder="From Date" formControlName="fromDate">
+      <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+      <mat-datepicker #fromPicker></mat-datepicker>
     </mat-form-field>
-
-    <mat-form-field class="order-50-width" appearance="outline" >
-        <mat-label>Tháng </mat-label>
-        <mat-select formControlName="fromMonth">
-          <mat-option *ngFor="let month of months" [value]="thismonth">{{month}}</mat-option>
-         </mat-select>
-      </mat-form-field>
-
-      <mat-form-field class="order-50-width" appearance="outline" >
-          <mat-label>Năm </mat-label>
-          <mat-select formControlName="fromYear">
-            <mat-option *ngFor="let y of years" [value]="thisyear">{{y}}</mat-option>
-           </mat-select>
-        </mat-form-field>
   
-        <mat-label>To Date</mat-label>
-  <mat-form-field class="order-50-width" appearance="outline" >
-      <mat-label>Ngày </mat-label>
-      <mat-select formControlName="toDay">
-        <mat-option *ngFor="let day of days" [value]="today">{{day}}</mat-option>
-       </mat-select>
-    </mat-form-field>
-
-    <mat-form-field class="order-50-width" appearance="outline" >
-        <mat-label>Tháng </mat-label>
-        <mat-select formControlName="toMonth">
-          <mat-option *ngFor="let month of months" [value]="thismonth">{{month}}</mat-option>
-         </mat-select>
+    <mat-label>To Date</mat-label>
+    <mat-form-field class="report-onethird-width">
+        <input matInput [matDatepicker]="toPicker" placeholder="To Date" formControlName="toDate">
+        <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+        <mat-datepicker #toPicker></mat-datepicker>
       </mat-form-field>
-
-      <mat-form-field class="order-50-width" appearance="outline" >
-          <mat-label>Năm </mat-label>
-          <mat-select formControlName="toYear">
-            <mat-option *ngFor="let y of years" [value]="thisyear">{{y}}</mat-option>
-           </mat-select>
-        </mat-form-field>
-      -->
+      <div class="report-full-width">
+      <button mat-raised-button color="warn" (click)="onSubmit()">Run report</button></div>
   <h4>Tổng số order: {{ordersCount}}</h4>
-  <h4>Doanh số trong ngày: {{ordersSum}}</h4>
+  <h4>Doanh số: {{ordersSum}}</h4>
+
+  </form>
   <table mat-table [dataSource]="dataSource" class="order-form mat-elevation-z8">
     <!-- ProductName Column -->
      <ng-container matColumnDef="createdDate">

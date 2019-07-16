@@ -9,10 +9,15 @@
   </mat-form-field>
   <mat-form-field class="order-50-width"  [floatLabel]="always" appearance="outline">
     <mat-label>Số người</mat-label>
-  <input matInput placeholder="" formControlName="pax">
+  <input matInput placeholder="" formControlName="pax">  
 </mat-form-field>
    <div formArrayName="items" *ngFor="let item of items.controls, let i=index">
       <div [formGroupName]="i" class="itemrow">
+          <mat-radio-group formControlName="cat">
+              <mat-radio-button  value="beer">beer</mat-radio-button>&nbsp;&nbsp;
+              <mat-radio-button  value="others">others</mat-radio-button>&nbsp;&nbsp;
+              <mat-radio-button   value="outside">outside</mat-radio-button>&nbsp;&nbsp;
+            </mat-radio-group><p></p>
       <mat-form-field class="order-50-width" appearance="outline">
         <mat-label>Bia</mat-label>
         <input type="text" matInput placeholder="" formControlName="product" [matAutocomplete]="auto">
@@ -50,15 +55,7 @@
         <mat-label>Khuyến mãi</mat-label>
         <mat-select formControlName="discountRate">
           <mat-option *ngFor="let discountrate of discountList" [value]="discountrate">{{(discountrate * 100) + "%"}}</mat-option>
-          <!--<mat-option [value]="0.05">5%</mat-option>
-          <mat-option value="0.1">10%</mat-option>
-          <mat-option value="0.2">20%</mat-option>
-          <mat-option value="0.25">25%</mat-option>
-          <mat-option value="0.3">30%</mat-option>
-          <mat-option value="0.35">35%</mat-option>
-          <mat-option value="0.4">40%</mat-option>
-          <mat-option value="0.5">50%</mat-option>-->
-        </mat-select>
+         </mat-select>
       </mat-form-field>
 
       <mat-form-field class="order-50-width" appearance="outline">

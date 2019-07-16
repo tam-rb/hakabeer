@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SaleComponent } from './sale/sale.component';
 import { RouterModule } from '@angular/router';
-import { MatButtonModule, MatTableModule, MatPaginatorModule, MatDatepickerModule, MatFormFieldModule } from '@angular/material';
+import { MatButtonModule, MatTableModule, MatPaginatorModule, MatDatepickerModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
@@ -14,6 +14,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatPaginatorModule,
     MatDatepickerModule,
     MatFormFieldModule,
+    MatInputModule,
     ReactiveFormsModule,
     RouterModule.forChild([
       {path: '', component: SaleComponent},

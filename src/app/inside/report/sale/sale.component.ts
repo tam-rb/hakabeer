@@ -4,6 +4,7 @@ import { IOrder } from '../../orders/order';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import { ReportService } from '../report.service';
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-sale',
@@ -19,10 +20,12 @@ export class SaleComponent implements OnInit {
   ordersCount = 0;
   ordersSum = 0;
 
+  reportForm: FormGroup
+
 
   @ViewChild(MatPaginator) paginator : MatPaginator;
 
-  constructor(private router: Router, private reportService: ReportService){
+  constructor(private fb: FormBuilder,  private router: Router, private reportService: ReportService){
    }
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -36,18 +39,38 @@ export class SaleComponent implements OnInit {
     
   }
 
-  ngOnInit(): void{     
-    this.reportService.getOrders().subscribe((data:IOrder[]) => {
-      let from = new Date(2019, 6, 14, 0, 0, 0);
-      let to = new Date(2019, 6, 14, 23, 59, 59);
+  onSubmit(){
+    let from = this.reportForm.value.fromDate;
+    let fd = from.getDate();
+    let fm = from.getMonth();
+    let fy = from.getFullYear();
 
-      let fromstamp =  from.getTime();
-      let tostamp = to.getTime();
+    let to = this.reportForm.value.toDate;
+    let td = to.getDate();
+    let tm = to.getMonth();
+    let ty = to.getFullYear();
+    
+    from = new Date(fy, fm, fd, 0, 0, 0);
+    to = new Date(ty, tm, td, 23, 59, 59);   
+
+    let fromstamp =  from.getTime();
+    let tostamp = to.getTime();
+
+    this.reportService.getOrders().subscribe((data:IOrder[]) => {      
       this.dataSource = new MatTableDataSource(this.filterData(data, fromstamp, tostamp));
       this.dataSource.paginator = this.paginator;
       this.displayedColumns = ["createdDate", "date", "table", "total", "state", "action"];
-      //this.displayedColumns.push("action");
     });
+    
+  }
+
+  ngOnInit(): void{   
+    
+    this.reportForm = this.fb.group({
+      fromDate: new FormControl(new Date()),
+      toDate: new FormControl(new Date())
+    })
+    
   }
 
   filterData(data: IOrder[], from, to){

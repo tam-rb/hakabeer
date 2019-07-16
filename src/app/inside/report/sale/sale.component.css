@@ -1,0 +1,29 @@
+.report-form {
+    min-width: 150px;
+    max-width: 600px;
+    width: 100%;    
+  }
+
+  .report-full-width {
+    width: 100%;
+  }
+  .report-50-width {
+    width: 45%;
+  }
+
+  .report-onethird-width {
+    width: 31%;
+  }
+
+  .report-25-width {
+    width: 20%;
+  }
+
+  .example-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .itemrow {
+    margin: 5px;
+  }

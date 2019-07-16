@@ -20,7 +20,7 @@ export class OrderEditComponent implements OnInit {
   products : IProduct[];
   filteredProducts: Observable<IProduct[]>;
   order: any;
-  DISCOUNT_RATE = 0.15;
+  DISCOUNT_RATE = 0;
   discountList = [0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.5];
 
   constructor(private fb:FormBuilder, private productService:ProductService, private orderService: OrderService, private route:ActivatedRoute, private router: Router) { 
@@ -133,7 +133,8 @@ export class OrderEditComponent implements OnInit {
       product: '',
       quantity: [1, [Validators.required]],
       price: [0, [Validators.required]],
-      pack: ""
+      pack: "",
+      cat: ""
     })
   }
 
