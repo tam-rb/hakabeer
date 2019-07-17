@@ -17,6 +17,7 @@ import * as printJS from 'print-js';
 export class OrderEditComponent implements OnInit {
   orderForm : FormGroup;
   errorMessage: string;
+  productsAll: IProduct[];
   products : IProduct[];
   filteredProducts: Observable<IProduct[]>;
   order: any;
@@ -114,13 +115,14 @@ export class OrderEditComponent implements OnInit {
   }
 
   loadProducts() {  
-    this.productService.getProducts().subscribe(data => {      
+    this.productService.getProducts().subscribe(data => {
+      this.productsAll = data;
+      this.products = this.productService.getProductsByCategory(this.productsAll, "beer");
       this.populateProducts(data);
     });
   }
 
   populateProducts(data):void {
-    this.products = data;
     //this.filteredProducts = from(data);
     this.filteredProducts = this.orderForm.valueChanges.pipe(
       startWith(''),
@@ -134,7 +136,7 @@ export class OrderEditComponent implements OnInit {
       quantity: [1, [Validators.required]],
       price: [0, [Validators.required]],
       pack: "",
-      cat: ""
+      cat: "beer"
     })
   }
 
@@ -152,10 +154,15 @@ export class OrderEditComponent implements OnInit {
   }
 
   addItem(){
+    this.refreshItems();
     this.items.push(this.buildItems());
   }
   
+  refreshItems(){
+    this.products = this.productService.getProductsByCategory(this.productsAll, "beer");
+  }
   removeItem(i : number){
+    this.products = this.productsAll;
     this.items.removeAt(i);
   }
 
@@ -166,7 +173,13 @@ export class OrderEditComponent implements OnInit {
       this.updateOrderItem();     
     })
   }
-
+  
+  categorizeProducts(i: number, e){
+    let cat = e.orderForm.controls.items.controls[i].controls.cat.value;
+    this.products = this.productService.getProductsByCategory(this.productsAll, cat);
+    this.populateProducts(this.products);
+    
+  }
   updateOrderItem(){
     let data = this.orderForm.value;
     if (data.createdDate === null) return;

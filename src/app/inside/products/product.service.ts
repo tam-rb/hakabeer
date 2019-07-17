@@ -37,4 +37,31 @@ export class ProductService{
         return this.firestore.collection("products").doc<IProduct>(code).valueChanges();  
     }
 
+    getProductsByCategory(data: IProduct[], cat:string){        
+        let result = [];
+
+        if(cat === "beer"){
+            for(let i=0; i <data.length; i ++){
+                if(data[i].category === cat){
+                    result.push(data[i]);
+                }
+            }
+        } else if (cat === "others"){
+            for(let i=0; i <data.length; i ++){
+                if(data[i].category !== "beer" && data[i].category !== "outside"){
+                    result.push(data[i]);
+                }
+            }
+        } else if (cat === "outside") {
+            for(let i=0; i <data.length; i ++){
+                if(data[i].category === cat){
+                    result.push(data[i]);
+                }
+            }
+        }
+        
+
+        return result;
+    }
+
 }
