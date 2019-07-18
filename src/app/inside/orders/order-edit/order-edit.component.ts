@@ -92,7 +92,7 @@ export class OrderEditComponent implements OnInit {
     }
     let items = this.order.items;
     for(var i =0; i < items.length; i ++){
-      this.items.push(this.buildItemsWithValue([items[i].product, items[i].quantity, items[i].price, items[i].pack]));
+      this.items.push(this.buildItemsWithValue([items[i].product, items[i].quantity, items[i].price, items[i].pack, items[i].cat]));
     }
     
   }
@@ -146,7 +146,8 @@ export class OrderEditComponent implements OnInit {
       product: values[0],
       quantity: [values[1], [Validators.required]],
       price: [values[2], [Validators.required]],
-      pack: values[3]
+      pack: values[3],
+      cat: values[4]
     })
   }
 
@@ -257,6 +258,9 @@ export class OrderEditComponent implements OnInit {
     console.log(event);
     let row = this.orderForm.get("items." + index) as any; 
     row.controls.product.patchValue('', {emitEvent:false});
+    let cat = row.controls.cat.value;
+    this.products = this.productService.getProductsByCategory(this.productsAll, cat);
+    this.populateProducts(index);
   }
 
   printReceiptJSON(){  
