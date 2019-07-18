@@ -19,7 +19,7 @@ export class OrderEditComponent implements OnInit {
   errorMessage: string;
   productsAll: IProduct[];
   products : IProduct[];
-  filteredProducts: Observable<IProduct[]>;
+  filteredProducts: Observable<IProduct[]>[] = [];
   order: any;
   DISCOUNT_RATE = 0;
   discountList = [0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.5];
@@ -53,22 +53,6 @@ export class OrderEditComponent implements OnInit {
     this.onChanges();     
   }
 
-  private _filter(value): IProduct[] {
-    if(this.products === undefined){ return; }
-    if(value ===''){
-      return this.products;
-    }
-    let  filterValue = '';
-
-    if(typeof (value.items[0].product) ==='object'){
-      filterValue = value.items[0].product.productName.toLowerCase();
-    }
-    else {
-      filterValue =  value.items[0].product.toLowerCase();
-    }
-    return this.products.filter(option => option.productName.toLowerCase().includes(filterValue));
-  }
-
   getOrder(code:string){
     if(code === "0" || code === undefined) {
       return;
@@ -82,7 +66,6 @@ export class OrderEditComponent implements OnInit {
   }
   
   displayOrder(order : IOrder) : void{
-    console.log(order);
     if(order === undefined) return;
    
     this.order = order;    
@@ -118,16 +101,34 @@ export class OrderEditComponent implements OnInit {
     this.productService.getProducts().subscribe(data => {
       this.productsAll = data;
       this.products = this.productService.getProductsByCategory(this.productsAll, "beer");
-      this.populateProducts(data);
+      this.populateProducts(0);
     });
   }
 
-  populateProducts(data):void {
+  populateProducts(index: number):void {
     //this.filteredProducts = from(data);
-    this.filteredProducts = this.orderForm.valueChanges.pipe(
+    this.filteredProducts[index] = this.orderForm.valueChanges.pipe(
       startWith(''),
-      map(value => this._filter(value))
+      map(value => this._filter(value, index))
     ); 
+  }
+
+  private _filter(value, index): IProduct[] {
+    if(this.products === undefined){ return; }
+    if(value ===''){
+      return this.products;
+    }
+    let  filterValue = '';
+    if(index >= value.items.length){
+      return;
+    }
+    if(typeof (value.items[index].product) ==='object'){
+      filterValue = value.items[index].product.productName.toLowerCase();
+    }
+    else {
+      filterValue =  value.items[index].product.toLowerCase();
+    }
+    return this.products.filter(option => option.productName.toLowerCase().startsWith(filterValue));
   }
 
   buildItems() : FormGroup {
@@ -155,6 +156,7 @@ export class OrderEditComponent implements OnInit {
 
   addItem(){
     this.refreshItems();
+    this.populateProducts(this.items.length);
     this.items.push(this.buildItems());
   }
   
@@ -162,26 +164,33 @@ export class OrderEditComponent implements OnInit {
     this.products = this.productService.getProductsByCategory(this.productsAll, "beer");
   }
   removeItem(i : number){
-    this.products = this.productsAll;
+    
     this.items.removeAt(i);
+    this.products = this.productsAll;
+    this.populateProducts(i);
+    this.filteredProducts.slice(i,1);
   }
 
   getErrorMessage(){}
 
   onChanges(): void {
     this.orderForm.valueChanges.subscribe(val =>{
-      this.updateOrderItem();     
+      this.updateOrder();     
     })
   }
   
   categorizeProducts(i: number, e){
     let cat = e.orderForm.controls.items.controls[i].controls.cat.value;
     this.products = this.productService.getProductsByCategory(this.productsAll, cat);
-    this.populateProducts(this.products);
+    this.populateProducts(i);
     
   }
-  updateOrderItem(){
+  updateOrder(){
     let data = this.orderForm.value;
+    let patchData = {
+      'discount': 0,
+      'total' : 0
+    }
     if (data.createdDate === null) return;
     let total = 0;
     let num = 0;
@@ -194,31 +203,39 @@ export class OrderEditComponent implements OnInit {
     
       num += +data.items[i]['quantity'];
       total += +data.items[i]['quantity']*(+data.items[i]['price']);
-      
     }
 
-    data.discount = total * data.discountRate;
-
+    patchData.discount = total * data.discountRate;
     total = total - data.discount;    
 
-    data.quantity = num;
-    data.total = Math.round(total/1000) * 1000;
-
-    this.orderForm.patchValue(data, {emitEvent:false});
+    patchData.total = Math.round(total/1000) * 1000;
+    
+    this.orderForm.patchValue(patchData, {emitEvent:false});
   }
 
   
-  /*
+ 
 
-  itemSelected(event, rowIndex){
-    console.log(event.option.value);
-    let pack = "price" + this.orderForm.get("items." + rowIndex + ".pack");
+  productSelected(event, rowIndex){     
+    let pack = "price" + this.orderForm.get("items." + rowIndex + ".pack").value;
     let itemPrice = event.option.value[pack];
-    this.orderForm.get("items." + rowIndex + ".price").patchValue(itemPrice);
+    this.orderForm.get("items." + rowIndex + ".price").patchValue(itemPrice, {emitEvent:false});  
+    this.updateOrder();
   }
-*/
+
+  packSelected(event, rowIndex){
+    let pack = "price" + event.value;
+    let iprice = this.orderForm.get("items." + rowIndex) as any; 
+    let itemPrice = iprice.controls.product.value[pack];
+    this.orderForm.get("items." + rowIndex + ".price").patchValue(itemPrice, {emitEvent:false}); 
+    this.updateOrder();
+  }
+
+  updateRowValues(rowIndex : number){
+    
+  }
+
   displayProductFn(product? :IProduct) : string | undefined {
-    console.log(product);
     return product? product.productName : undefined;
   }
 
@@ -227,12 +244,19 @@ export class OrderEditComponent implements OnInit {
   }
 
   onSubmit() {
+    this.updateOrder();
     if(this.orderForm.valid){
       this.orderService.createOrder(this.orderForm.value, this.orderForm.value.createdDate.toString());
       this.router.navigate(['inside/orders']);
     } else {
       this.validateAll(this.orderForm);
     }
+  }
+
+  resetItem(event, index : number){
+    console.log(event);
+    let row = this.orderForm.get("items." + index) as any; 
+    row.controls.product.patchValue('', {emitEvent:false});
   }
 
   printReceiptJSON(){  

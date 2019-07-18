@@ -22,24 +22,28 @@
       <mat-form-field class="order-50-width" appearance="outline">
         <mat-label>Bia</mat-label>
         <input type="text" matInput placeholder="" formControlName="product" [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayProductFn">
-          <mat-option *ngFor="let option of (filteredProducts | async) " [value]="option" >
+        <button mat-button  matSuffix mat-icon-button aria-label="Clear" (click)="resetItem($event, i)">
+            <mat-icon>close</mat-icon>
+          </button>
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayProductFn" (optionSelected)='productSelected($event, i)'>
+          <mat-option *ngFor="let option of (filteredProducts[i] | async) " [value]="option" >
             {{option.productName}}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
       <mat-form-field class="order-25-width" appearance="outline">
+          <mat-label>Số lượng</mat-label>
+          <input matInput placeholder="" formControlName="quantity" type="number">
+        </mat-form-field>
+      <mat-form-field class="order-25-width" appearance="outline">
           <mat-label>Giá</mat-label>
           <input matInput placeholder="" formControlName="price" type="number">
         </mat-form-field>
-        <mat-form-field class="order-25-width" appearance="outline">
-            <mat-label>Số lượng</mat-label>
-            <input matInput placeholder="" formControlName="quantity" type="number">
-          </mat-form-field>
+        
           &nbsp;<button  color="basic" (click)="removeItem(i)" type="button"><i class="material-icons">
             clear
             </i></button>
-          <mat-radio-group formControlName="pack">
+          <mat-radio-group formControlName="pack" (change)='packSelected($event, i)'>
             <mat-radio-button  value="">Chai lẻ</mat-radio-button>&nbsp;&nbsp;
             <mat-radio-button  value="six">Gói 6 </mat-radio-button>&nbsp;&nbsp;
             <mat-radio-button   value="ten">Gói 10 </mat-radio-button>&nbsp;&nbsp;
