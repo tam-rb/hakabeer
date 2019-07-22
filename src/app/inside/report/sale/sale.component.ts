@@ -46,12 +46,12 @@ export class SaleComponent implements OnInit {
     let fy = from.getFullYear();
 
     let to = this.reportForm.value.toDate;
-    let td = to.getDate();
+    let td = 1 + to.getDate();
     let tm = to.getMonth();
     let ty = to.getFullYear();
     
-    from = new Date(fy, fm, fd, 0, 0, 0);
-    to = new Date(ty, tm, td, 23, 59, 59);   
+    from = new Date(fy, fm, fd, 5, 0, 0);
+    to = new Date(ty, tm, td, 4, 59, 59);   
 
     let fromstamp =  from.getTime();
     let tostamp = to.getTime();

@@ -364,8 +364,8 @@ export class OrderEditComponent implements OnInit {
       if(data.items[i].product===''){
         continue;
       }
-      let row = "<tr><td>" + data.items[i].product.productName + "</td>";
-        row += "<td class='quantity'>" + data.items[i].quantity + "</td>",
+      let row = "<tr><td>" + data.items[i].product.productName + " " +  this.getPackString(data.items[i].pack) + "</td>";
+        row += "<td class='quantity'>" + data.items[i].quantity +  "</td>",
         row += "<td>" + data.items[i].price * data.items[i].quantity + "</td></tr>"
         
         printhtml += row;
@@ -398,7 +398,17 @@ export class OrderEditComponent implements OnInit {
       })
     }
   
+  getPackString(pack){
+    if(pack === "six") {
+      return "6";
+    } 
+    
+    if(pack === "ten"){
+      return "10";
+    }
 
+    return "";   
+  }
   getDateString(createdDate){
     var dateString = '';
     var billDate;
