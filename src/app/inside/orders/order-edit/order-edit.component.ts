@@ -207,7 +207,7 @@ export class OrderEditComponent implements OnInit {
     }
 
     patchData.discount = total * data.discountRate;
-    total = total - data.discount;    
+    total = total - patchData.discount;    
 
     patchData.total = Math.round(total/1000) * 1000;
     
