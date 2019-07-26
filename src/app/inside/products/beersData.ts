@@ -350,7 +350,7 @@ export class BeersData{
    },
 
    {
-      "productName":"Leffe Vàng",
+      "productName":"Leffe Blonde",
       "productCode":"B19",
       "category":"beer",
       "flavor":"","odour":"","color":"","abv":"6.6%","ibu":"","tags":"Bỉ","availableDate":"",
@@ -361,7 +361,7 @@ export class BeersData{
    },
 
    {
-      "productName":"Leffe Nâu",
+      "productName":"Leffe Brune",
       "productCode":"B20",
       "category":"beer",
       "flavor":"","odour":"","color":"","abv":"6.5%","ibu":"","tags":"","availableDate":"",
@@ -369,20 +369,10 @@ export class BeersData{
       "pricesix":"0","priceten":"0","description":"","starRating":"","imageUrl":"",
       "inventory":"10", 
       "cost": "35400"
-   },
-   {
-      "productName":"Leffe Brune",
-      "productCode":"B21",
-      "category":"beer",
-      "flavor":"","odour":"","color":"","abv":"6.5%","ibu":"","tags":"","availableDate":"",
-      "price":"59000",
-      "pricesix":"0","priceten":"0","description":"","starRating":"","imageUrl":"",
-      "inventory":"10", 
-      "cost": "32900"
-   },
+   },   
    {
       "productName":"Hoegaarden Rosee",
-      "productCode":"B22",
+      "productCode":"B21",
       "category":"beer",
       "flavor":"","odour":"","color":"","abv":"3%","ibu":"","tags":"","availableDate":"",
       "price":"57000",
@@ -393,7 +383,7 @@ export class BeersData{
    
    {
       "productName":"Hoegaarden",
-      "productCode":"B19",
+      "productCode":"B22",
       "category":"beer",
       "flavor":"","odour":"","color":"","abv":"4.9%","ibu":"","tags":"","availableDate":"",
       "price":"57000",
@@ -403,7 +393,7 @@ export class BeersData{
    },
    {
       "productName":"Stella Astois",
-      "productCode":"B19",
+      "productCode":"B23",
       "category":"beer",
       "flavor":"","odour":"","color":"","abv":"5%","ibu":"","tags":"","availableDate":"",
       "price":"59000",
@@ -413,18 +403,18 @@ export class BeersData{
    },
    {
       "productName":"Corona Extra",
-      "productCode":"B20",
+      "productCode":"B24",
       "category":"beer",
       "abv":"4.6%",
       "cost": "27100",
-      "price":"52000",
+      "price":"45000",
       "flavor":"","odour":"","color":"","ibu":"","tags":"","availableDate":"",      
       "pricesix":"0","priceten":"0","description":"","starRating":"","imageUrl":"",
       "inventory":"10", 
    },
    {
       "productName":"Kaiserdom Kellerbier",
-      "productCode":"B21",
+      "productCode":"B25",
       "category":"beer",
       "abv":"4.7%",
       "cost": "28800",
@@ -435,7 +425,7 @@ export class BeersData{
    },
    {
       "productName":"Kaiserdom Dark Lager",
-      "productCode":"B22",
+      "productCode":"B26",
       "category":"beer",
       "abv":"4.7%",
       "cost": "28800",
@@ -447,7 +437,7 @@ export class BeersData{
 
    {
       "productName":"Chang",
-      "productCode":"B23",
+      "productCode":"B27",
       "category":"beer",
       "abv":"5%",
       "cost": "18800",
@@ -458,7 +448,7 @@ export class BeersData{
    },
    {
       "productName":"U",
-      "productCode":"B24",
+      "productCode":"B28",
       "category":"beer",
       "abv":"5%",
       "cost": "24400",
@@ -743,6 +733,69 @@ export class BeersData{
         "inventory":"10",
         "cost":""
      },
+     {
+      "productName":"Thịt xông khói",
+      "productCode":"F13",
+      "category":"food",
+      "price":"49000",
+      "cost":"",
+      "flavor":"",
+      "odour":"",
+      "color":"",
+      "abv":"",
+      "ibu":"",
+      "tags":"",
+      "availableDate":"",
+      "pricesix":"",
+      "priceten":"",
+      "description":"",
+      "starRating":"",
+      "imageUrl":"",
+      "inventory":"10"
+   },
+   {
+      "productName":"Lạp xưởng",
+      "productCode":"F14",
+      "category":"food",
+      "price":"49000",
+      "cost":"",
+      "flavor":"",
+      "odour":"",
+      "color":"",
+      "abv":"",
+      "ibu":"",
+      "tags":"",
+      "availableDate":"",
+      "pricesix":"",
+      "priceten":"",
+      "description":"",
+      "starRating":"",
+      "imageUrl":"",
+      "inventory":"10"
+   },
+   {
+      "productName":"Phô mai",
+      "productCode":"F15",
+      "category":"food",
+      "price":"49000",
+      "cost":"",
+      "flavor":"",
+      "odour":"",
+      "color":"",
+      "abv":"",
+      "ibu":"",
+      "tags":"",
+      "availableDate":"",
+      "pricesix":"",
+      "priceten":"",
+      "description":"",
+      "starRating":"",
+      "imageUrl":"",
+      "inventory":"10"
+   },
+
+
+
 
      // cafe 
      {
