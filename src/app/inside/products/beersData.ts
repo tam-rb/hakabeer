@@ -456,6 +456,28 @@ export class BeersData{
       "flavor":"","odour":"","color":"","ibu":"","tags":"","availableDate":"",      
       "pricesix":"0","priceten":"0","description":"","starRating":"","imageUrl":"",
       "inventory":"10", 
+   },
+   {
+      "productName":"Kenn Pháp",
+      "productCode":"B29",
+      "category":"beer",
+      "abv":"5%",
+      "cost": "24400",
+      "price":"49000",
+      "flavor":"","odour":"","color":"","ibu":"","tags":"","availableDate":"",      
+      "pricesix":"0","priceten":"0","description":"","starRating":"","imageUrl":"",
+      "inventory":"10", 
+   },
+   {
+      "productName":"Bockbier",
+      "productCode":"B30",
+      "category":"beer",
+      "abv":"5%",
+      "cost": "24400",
+      "price":"99000",
+      "flavor":"","odour":"","color":"","ibu":"","tags":"","availableDate":"",      
+      "pricesix":"0","priceten":"0","description":"","starRating":"","imageUrl":"",
+      "inventory":"10", 
    },      
      {
         "productName":"Strongbow Red Berries",
@@ -779,22 +801,63 @@ export class BeersData{
       "category":"food",
       "price":"49000",
       "cost":"",
-      "flavor":"",
-      "odour":"",
-      "color":"",
-      "abv":"",
-      "ibu":"",
-      "tags":"",
-      "availableDate":"",
-      "pricesix":"",
-      "priceten":"",
+      "flavor":"","odour":"","color":"","abv":"","ibu":"", "tags":"","availableDate":"", "pricesix":"", "priceten":"",
       "description":"",
       "starRating":"",
       "imageUrl":"",
       "inventory":"10"
    },
 
+   {
+      "productName":"Đậu phộng rang muối",
+      "productCode":"F16",
+      "category":"food",
+      "price":"20000",
+      "cost":"",
+      "flavor":"","odour":"","color":"","abv":"","ibu":"", "tags":"","availableDate":"", "pricesix":"", "priceten":"",
+      "description":"",
+      "starRating":"",
+      "imageUrl":"",
+      "inventory":"10"
+   },
 
+   {
+      "productName":"Nem chua",
+      "productCode":"F17",
+      "category":"food",
+      "price":"49000",
+      "cost":"",
+      "flavor":"","odour":"","color":"","abv":"","ibu":"", "tags":"","availableDate":"", "pricesix":"", "priceten":"",
+      "description":"",
+      "starRating":"",
+      "imageUrl":"",
+      "inventory":"10"
+   },
+   {
+      "productName":"Bò lá lốt",
+      "productCode":"F18",
+      "category":"food",
+      "price":"49000",
+      "cost":"",
+      "flavor":"","odour":"","color":"","abv":"","ibu":"", "tags":"","availableDate":"", "pricesix":"", "priceten":"",
+      "description":"",
+      "starRating":"",
+      "imageUrl":"",
+      "inventory":"10"
+   },
+
+   {
+      "productName":"Bánh mì ốp la xúc xích",
+      "productCode":"F19",
+      "category":"food",
+      "price":"29000",
+      "cost":"",
+      "flavor":"","odour":"","color":"","abv":"","ibu":"", "tags":"","availableDate":"", "pricesix":"", "priceten":"",
+      "description":"",
+      "starRating":"",
+      "imageUrl":"",
+      "inventory":"10"
+   },
 
 
      // cafe 
