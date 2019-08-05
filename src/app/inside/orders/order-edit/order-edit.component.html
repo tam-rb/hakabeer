@@ -57,6 +57,18 @@
       <hr />  
 
       <mat-form-field class="order-50-width" appearance="outline" >
+        <mat-label>Phụ thu</mat-label>
+        <mat-select formControlName="serviceChargeRate">
+          <mat-option *ngFor="let serviceChargeRate of serviceChargeList" [value]="serviceChargeRate">{{(serviceChargeRate * 100) + "%"}}</mat-option>
+         </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="order-50-width" appearance="outline">
+        <mat-label>Tiền Phụ thu</mat-label>
+        <input matInput placeholder="" formControlName="serviceCharge" value="{{serviceCharge}}" type="number" >
+      </mat-form-field>
+
+      <mat-form-field class="order-50-width" appearance="outline" >
         <mat-label>Khuyến mãi</mat-label>
         <mat-select formControlName="discountRate">
           <mat-option *ngFor="let discountrate of discountList" [value]="discountrate">{{(discountrate * 100) + "%"}}</mat-option>

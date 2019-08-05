@@ -5,14 +5,13 @@
   
   <h3>sale report</h3>
   <form class="report-form" [formGroup]="reportForm" > 
-  <mat-label>From Date</mat-label>
+  
   <mat-form-field class="report-onethird-width">
       <input matInput [matDatepicker]="fromPicker" placeholder="From Date" formControlName="fromDate">
       <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
       <mat-datepicker #fromPicker></mat-datepicker>
     </mat-form-field>
-  
-    <mat-label>To Date</mat-label>
+  &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp;
     <mat-form-field class="report-onethird-width">
         <input matInput [matDatepicker]="toPicker" placeholder="To Date" formControlName="toDate">
         <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>

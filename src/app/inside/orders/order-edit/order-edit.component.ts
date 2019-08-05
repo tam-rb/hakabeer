@@ -22,13 +22,25 @@ export class OrderEditComponent implements OnInit {
   filteredProducts: Observable<IProduct[]>[] = [];
   order: any;
   DISCOUNT_RATE = 0;
+  
   discountList = [0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.5];
+  serviceChargeRate = 0;
+  serviceChargeList = [0, 0.1];
 
   constructor(private fb:FormBuilder, private productService:ProductService, private orderService: OrderService, private route:ActivatedRoute, private router: Router) { 
 
   }
 
+  defaultServiceCharge(){
+    let today = new Date();
+    
+    if(today.getDay() === 6 && today.getHours() > 7 && today.getHours() < 10){
+      this.serviceChargeRate = 0.1;
+    }
+  }
+
   ngOnInit() {
+    this.defaultServiceCharge();
 
     this.route.paramMap.subscribe(
       params => {
@@ -46,6 +58,8 @@ export class OrderEditComponent implements OnInit {
       'total': ['', [Validators.required]],
       'discount': 0,
       'discountRate': new FormControl(this.DISCOUNT_RATE),
+      'serviceCharge': 0,
+      'serviceChargeRate': new FormControl(this.serviceChargeRate),
       'close': false,
       'items': this.fb.array([this.buildItems()])
     });
@@ -80,6 +94,8 @@ export class OrderEditComponent implements OnInit {
       table: this.order.table,
       total: this.order.total,
       pax: this.order.pax,
+      serviceCharge: this.order.serviceCharge,
+      serviceChargeRate: this.order.serviceChargeRate,
       discount: this.order.discount,
       discountRate: this.order.discountRate,
       close: this.order.close
@@ -190,6 +206,7 @@ export class OrderEditComponent implements OnInit {
     let data = this.orderForm.value;
     let patchData = {
       'discount': 0,
+      'serviceCharge': 0,
       'total' : 0
     }
     if (data.createdDate === null) return;
@@ -205,7 +222,8 @@ export class OrderEditComponent implements OnInit {
       num += +data.items[i]['quantity'];
       total += +data.items[i]['quantity']*(+data.items[i]['price']);
     }
-
+    patchData.serviceCharge = total * data.serviceChargeRate;
+    total = total + patchData.serviceCharge;
     patchData.discount = total * data.discountRate;
     total = total - patchData.discount;    
 
@@ -370,6 +388,13 @@ export class OrderEditComponent implements OnInit {
         
         printhtml += row;
     }
+
+    if(this.orderForm.value.serviceCharge > 0) {
+      printhtml += `<tr><td colspan='3' ></td><tr>
+                    <tr><td colspan='3' ><hr /></td><tr>
+                    <tr><td>Service charge </td><td></td><td>` + 100* this.orderForm.value.serviceChargeRate + `%</td><tr>
+                    <tr><td>Service charge amount</td><td></td><td>` + this.orderForm.value.serviceCharge + `</td><tr>`  
+      }
 
     if(this.orderForm.value.discount > 0) {
     printhtml += `<tr><td colspan='3' ></td><tr>
