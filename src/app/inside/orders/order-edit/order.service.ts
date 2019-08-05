@@ -31,7 +31,7 @@ export class OrderService{
     getOrders(): Observable<IOrder[]> { 
         return this.firestore.collection('orders',
         ref => ref
-        .where("close", "==", false)
+        //.where("close", "==", false)
         .orderBy('createdDate', 'desc'))        
         .snapshotChanges()
         .pipe(map(snaps => {
