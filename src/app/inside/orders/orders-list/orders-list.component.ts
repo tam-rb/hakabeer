@@ -34,7 +34,7 @@ export class OrdersListComponent implements OnInit {
   }
 
   ngOnInit(): void{     
-    this.orderService.getOrders().subscribe((data:IOrder[]) => {     
+    this.orderService.getOpenOrders().subscribe((data:IOrder[]) => {     
       this.dataSource = new MatTableDataSource(data);
       this.dataSource.paginator = this.paginator;
       this.displayedColumns = ["date", "table", "total", "action"];

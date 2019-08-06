@@ -46,7 +46,7 @@ export class OrderService{
         return this.firestore.collection(
             'orders',
                 ref=>ref.where("close", "==", false)
-                .orderBy('table', ))        
+                .orderBy('createdDate', 'desc'))        
         .snapshotChanges()
         .pipe(map(snaps => {
             return snaps.map(snap=>{
