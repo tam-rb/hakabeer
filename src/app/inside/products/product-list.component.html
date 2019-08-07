@@ -1,16 +1,16 @@
    
   
    <p><a mat-flat-button color="warn" [routerLink]="['/inside/products', 0, 'edit']">New Product</a></p>
-     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+     <table mat-table [dataSource]="dataSource" matSort  class="mat-elevation-z8">
        <!-- ProductName Column -->
         <ng-container matColumnDef="productName">
-          <th mat-header-cell *matHeaderCellDef>{{productTexts.productName}} </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{productTexts.productName}} </th>
           <td mat-cell *matCellDef="let element">
             <a [routerLink] = "['/inside/products', element.productCode]">{{element.productName}}</a></td>
         </ng-container>
       
         <ng-container matColumnDef="productCode">
-          <th mat-header-cell *matHeaderCellDef> {{productTexts.productCode}} </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{productTexts.productCode}} </th>
           <td mat-cell *matCellDef="let element"> {{element.productCode}} </td>
         </ng-container>
       

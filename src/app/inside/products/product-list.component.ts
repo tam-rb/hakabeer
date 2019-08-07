@@ -1,5 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource, MatPaginator} from '@angular/material';
+import {MatSort} from '@angular/material/sort';
 import {Router} from '@angular/router';
 import { IProduct } from './product';
 import { ProductService } from './product.service';
@@ -44,6 +45,7 @@ export class ProductListComponent implements OnInit {
   ];
 
   @ViewChild(MatPaginator) paginator : MatPaginator;
+  @ViewChild(MatSort, {read:true}) sort: MatSort;
 
   constructor(private router: Router, private productService: ProductService){
    }
@@ -63,6 +65,8 @@ export class ProductListComponent implements OnInit {
     this.productService.getProducts().subscribe((data:IProduct[]) => {      
       this.dataSource = new MatTableDataSource(data);
       this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+
       this.displayedColumns.push("action");
     });
   }
