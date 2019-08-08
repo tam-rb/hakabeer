@@ -51,6 +51,10 @@ export class ProductListComponent implements OnInit {
    }
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   private navigate(id) {
@@ -65,7 +69,7 @@ export class ProductListComponent implements OnInit {
     this.productService.getProducts().subscribe((data:IProduct[]) => {      
       this.dataSource = new MatTableDataSource(data);
       this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+      this.dataSource.sort = this.sort;
 
       this.displayedColumns.push("action");
     });
