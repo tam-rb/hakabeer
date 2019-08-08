@@ -20,6 +20,7 @@ export class ProductEditComponent implements OnInit {
   product : IProduct;
   errorMessage : string;
   cats = ["beer", "food", "coffee", "soft", "outside"];
+  productIDs = [];
   
   constructor(private formBuilder  : FormBuilder, private productService: ProductService, private route: ActivatedRoute, private router: Router) {    
    }
@@ -29,6 +30,9 @@ export class ProductEditComponent implements OnInit {
     this.route.paramMap.subscribe(
       params => {
         const productCode = params.get('code');
+        if(productCode === "0"){
+          this.generateProductID();
+        }
         console.log(productCode);
         this.getProduct(productCode);
 
@@ -57,6 +61,65 @@ export class ProductEditComponent implements OnInit {
     })
   }
 
+  generateProductID(){
+    let ids = ["B01", "C01", "J01", "S01", "F01", "O01"];
+    this.productService.getProducts().subscribe((data:IProduct[]) => {       
+      for(let i=0; i <data.length; i++){
+        if(data[i].category === "beer"){
+          if(data[i].productCode.toUpperCase() > ids[0]){
+            ids[0] = data[i].productCode;
+          }
+          
+        } 
+        if(data[i].category === "coffee"){
+          if(data[i].productCode > ids[1]){
+            ids[1] = data[i].productCode;
+          }          
+        } 
+
+        if(data[i].category === "juice"){
+          if(data[i].productCode > ids[2]){
+            ids[2] = data[i].productCode;
+          }          
+        }
+
+        if(data[i].category === "soft"){
+          if(data[i].productCode > ids[3]){
+            ids[3] = data[i].productCode;
+          }          
+        }
+
+        if(data[i].category === "food"){
+          if(data[i].productCode > ids[4]){
+            ids[4] = data[i].productCode;
+          }          
+        }
+
+        if(data[i].category === "outside"){
+          if(data[i].productCode > ids[5]){
+            ids[5] = data[i].productCode;
+          }          
+        }
+      } 
+      
+      this.productIDs = this.idIncrement(ids);
+
+    });
+    
+  }
+  
+  idIncrement(ids : string []) : string []{
+    for(let i = 0; i < ids.length; i ++){
+      let num = parseInt(ids[i].substr(1));
+      num = num + 1;
+      if(num < 10){
+        ids[i] = ids[i].substr(0, 1) + "0" + num;
+      } else {
+        ids[i] = ids[i].substr(0,1) + num;
+      }
+    }
+    return ids;
+  }
   getProduct(code:string){
     if(code === "0") {
       return;

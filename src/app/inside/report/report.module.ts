@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SaleComponent } from './sale/sale.component';
 import { RouterModule } from '@angular/router';
-import { MatButtonModule, MatTableModule, MatPaginatorModule, MatDatepickerModule, MatFormFieldModule, MatInputModule } from '@angular/material';
+import { MatButtonModule, MatTableModule, MatPaginatorModule, MatDatepickerModule, MatFormFieldModule, MatInputModule, MatAutocompleteModule } from '@angular/material';
 import { ReactiveFormsModule } from '@angular/forms';
 import { WarehouseComponent } from './warehouse/warehouse.component';
 
@@ -17,6 +17,7 @@ import { WarehouseComponent } from './warehouse/warehouse.component';
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
+    MatAutocompleteModule,
     RouterModule.forChild([
       {path: '', component: SaleComponent},
       {path: 'wh', component: WarehouseComponent},

@@ -9,3 +9,30 @@
   Gói 6 {{IPAPack6}} <br>
   Gói 10 {{IPAPack10}} <br>
 </p>
+
+<div>
+    <form class="report-form" [formGroup]="reportForm" > 
+    <mat-form-field>
+      <input type="text" matInput [formControl]="product" [matAutocomplete]="auto">
+    </mat-form-field>
+    
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let p of products" [value]="p.productName">{{p.productName}}</mat-option>
+    </mat-autocomplete>
+    <button mat-raised-button color="warn" (click)="onSubmit()">Run report</button>
+    </form>
+  </div>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <!-- ProductName Column -->
+  <ng-container matColumnDef="createdDate">
+    <th mat-header-cell *matHeaderCellDef>ID </th>
+    <td mat-cell *matCellDef="let element">
+      <a [routerLink] = "['/inside/orders', element.createdDate]">{{element.createdDate}}</a></td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<mat-paginator [pageSizeOptions]="[20, 5, 10]" showFirstLastButtons></mat-paginator>

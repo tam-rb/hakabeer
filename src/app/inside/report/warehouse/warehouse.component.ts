@@ -3,7 +3,9 @@ import { ProductService } from '../../products/product.service';
 import { OrderService } from '../../orders/order-edit/order.service';
 import { AngularFirestoreCollection } from '@angular/fire/firestore';
 import { IOrder } from '../../orders/order';
+import {IProduct} from '../../products/product';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-warehouse',
@@ -17,11 +19,23 @@ export class WarehouseComponent implements OnInit {
   IPAPack10 = 0;
   IPA = 0;
   orderCount;
+
+  reportForm: FormGroup;
+
+  products: IProduct[] = [];
+
   ordersCollection: AngularFirestoreCollection<IOrder>;
   
-  constructor(private router: Router, private orderService: OrderService) { }
+  constructor(private fb: FormBuilder, private router: Router, private orderService: OrderService, private productService : ProductService) { }
 
   ngOnInit() {
+    this.reportForm = this.fb.group({
+      product: new FormControl()
+    });
+    
+    this.productService.getProducts().subscribe((data: IProduct[]) =>{
+      this.products = data;
+    })
     this.orderService.getOrders().subscribe((data:IOrder[]) => {     
       this.parseOrderList(data);
     });
@@ -35,15 +49,15 @@ export class WarehouseComponent implements OnInit {
         let orderItem = data[i].items[itemIndex] as any;
         if(orderItem.product.productCode === "B03" ){
           if(orderItem.pack === "six" ){
-            count += 6;
+            count += 6 * orderItem.quantity;
             this.IPAPack6 += 1;
           } else if(orderItem.pack === "ten" ){
-            count += 10;
+            count += 10 + orderItem.quantity;
             this.IPAPack10 += 1;
           }
           else {
-            count += 1;
-            this.IPA += 1;
+            count += orderItem.quantity;
+            this.IPA += orderItem.quantity;
           }
         }
       }

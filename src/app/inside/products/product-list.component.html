@@ -11,7 +11,7 @@
         <ng-container matColumnDef="productName">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>{{productTexts.productName}} </th>
           <td mat-cell *matCellDef="let element">
-            <a [routerLink] = "['/inside/products', element.productCode]">{{element.productName}}</a></td>
+            {{element.productName}}</td>
         </ng-container>
       
         <ng-container matColumnDef="productCode">
