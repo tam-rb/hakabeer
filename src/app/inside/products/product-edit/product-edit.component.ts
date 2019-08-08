@@ -19,6 +19,7 @@ export class ProductEditComponent implements OnInit {
   productForm : FormGroup;
   product : IProduct;
   errorMessage : string;
+  cats = ["beer", "food", "coffee", "soft", "outside"];
   
   constructor(private formBuilder  : FormBuilder, private productService: ProductService, private route: ActivatedRoute, private router: Router) {    
    }
@@ -45,6 +46,7 @@ export class ProductEditComponent implements OnInit {
       ibu: '',
       tags: '',
       availableDate: '',
+      cost: 0,
       price: 0,
       pricesix: 0,
       priceten: 0,
@@ -85,6 +87,7 @@ export class ProductEditComponent implements OnInit {
       ibu: this.product.ibu,
       tags:this.product.tags,
       availableDate:this.product.availableDate,
+      cost: this.product.cost,
       price:this.product.price,
       pricesix: this.product.pricesix,
       priceten: this.product.priceten,

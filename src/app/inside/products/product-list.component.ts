@@ -32,16 +32,18 @@ export class ProductListComponent implements OnInit {
     "productName",
     "productCode",
     "category",
-    "flavor",
-    "odour",
-    "color",
-    "abv",
-    "ibu",
+   // "flavor",
+    //"odour",
+    //"color",
+    //"abv",
+    //"ibu",
+    "cost",
     "price",
-    "description",
-    "tags",    
-    "imageUrl",
-    "inventory"    
+    //"description",
+    //"tags",    
+    //"imageUrl",
+    "inventory",
+    "action" 
   ];
 
   @ViewChild(MatPaginator) paginator : MatPaginator;
@@ -71,7 +73,7 @@ export class ProductListComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
 
-      this.displayedColumns.push("action");
+      //this.displayedColumns.push("action");
     });
   }
 }

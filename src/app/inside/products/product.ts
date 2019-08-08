@@ -4,6 +4,7 @@ export interface IProduct {
     category: string;
     tags?: string[];
     availableDate: string;
+    cost: number;
     price: number;
     pricesix: number;
     priceten: number;

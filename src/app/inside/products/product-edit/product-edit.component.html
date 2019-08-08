@@ -10,9 +10,36 @@
   </mat-form-field>
   <mat-form-field class="example-full-width" appearance="outline">
       <mat-label>{{productTexts.category}}</mat-label>
-    <input matInput  formControlName="category">
+      <mat-select formControlName="category">
+        <mat-option *ngFor="let cat of cats" [value]="cat">
+          {{cat}}
+        </mat-option>
+      </mat-select>
+  </mat-form-field>
+  <mat-form-field class="example-full-width" appearance="outline">
+    <mat-label>Cost</mat-label>
+  <input matInput formControlName="cost">
   </mat-form-field>
   
+    <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>{{productTexts.price}}</mat-label>
+      <input matInput formControlName="price">
+    </mat-form-field>
+  
+    <mat-form-field class="example-full-width" appearance="outline">
+      <mat-label>{{productTexts.pricesix}}</mat-label>
+    <input matInput formControlName="pricesix">
+  </mat-form-field>
+  
+  <mat-form-field class="example-full-width" appearance="outline">
+    <mat-label>{{productTexts.priceten}}</mat-label>
+  <input matInput formControlName="priceten">
+  </mat-form-field>
+     
+    <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>{{productTexts.inventory}}</mat-label>
+      <input matInput  formControlName="inventory">
+    </mat-form-field>
   <mat-form-field class="example-full-width" appearance="outline">
     <mat-label>{{productTexts.odour}}</mat-label>
   <input matInput  formControlName="odour">
@@ -38,25 +65,7 @@
 <input matInput  formControlName="ibu">
 </mat-form-field> 
 
-  <mat-form-field class="example-full-width" appearance="outline">
-      <mat-label>{{productTexts.price}}</mat-label>
-    <input matInput formControlName="price">
-  </mat-form-field>
 
-  <mat-form-field class="example-full-width" appearance="outline">
-    <mat-label>{{productTexts.pricesix}}</mat-label>
-  <input matInput formControlName="pricesix">
-</mat-form-field>
-
-<mat-form-field class="example-full-width" appearance="outline">
-  <mat-label>{{productTexts.priceten}}</mat-label>
-<input matInput formControlName="priceten">
-</mat-form-field>
-   
-  <mat-form-field class="example-full-width" appearance="outline">
-      <mat-label>{{productTexts.inventory}}</mat-label>
-    <input matInput  formControlName="inventory">
-  </mat-form-field>
 
   <mat-form-field class="example-full-width" appearance="outline">
       <mat-label>{{productTexts.description}}</mat-label>
@@ -70,7 +79,7 @@
   
   <button mat-raised-button color="primary" type="submit" >Lưu SP</button>
   <button mat-raised-button color="basic" [routerLink]="['/inside/products']">Quay về</button>
-  <button mat-raised-button color="primary" type="button" (click)="createAllProducts()" >Create All</button>
+  <!--button mat-raised-button color="primary" type="button" (click)="createAllProducts()" >Create All</button-->
 </form>  
 
 value {{productForm.value | json}}
