@@ -6,6 +6,8 @@ import { IOrder } from '../../orders/order';
 import {IProduct} from '../../products/product';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-warehouse',
@@ -23,6 +25,7 @@ export class WarehouseComponent implements OnInit {
   reportForm: FormGroup;
 
   products: IProduct[] = [];
+  filteredProducts: Observable<IProduct[]>;
 
   ordersCollection: AngularFirestoreCollection<IOrder>;
   
@@ -33,12 +36,27 @@ export class WarehouseComponent implements OnInit {
       product: new FormControl()
     });
     
+    /*
     this.productService.getProducts().subscribe((data: IProduct[]) =>{
       this.products = data;
+      this.filteredProducts = this.reportForm.controls["product"].valueChanges
+        .pipe(
+          startWith(''),
+          map(value ==> this._filter(value))
+        );
     })
+
     this.orderService.getOrders().subscribe((data:IOrder[]) => {     
       this.parseOrderList(data);
     });
+
+    */
+  }
+
+  private _filter(value: string): IProduct[] {
+    const filterValue = value.toLowerCase();
+
+    return this.products.filter(p => p.productName.toLowerCase().includes(filterValue));
   }
 
   parseOrderList(data: IOrder[]) {

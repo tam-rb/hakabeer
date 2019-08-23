@@ -17,14 +17,14 @@
     </mat-form-field>
     
     <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let p of products" [value]="p.productName">{{p.productName}}</mat-option>
+      <mat-option *ngFor="let p of filteredProducts | async" [value]="p.productName">{{p.productName}}</mat-option>
     </mat-autocomplete>
     <button mat-raised-button color="warn" (click)="onSubmit()">Run report</button>
     </form>
   </div>
 
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-  <!-- ProductName Column -->
+<!--table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <!-- ProductName Column ->
   <ng-container matColumnDef="createdDate">
     <th mat-header-cell *matHeaderCellDef>ID </th>
     <td mat-cell *matCellDef="let element">
@@ -35,4 +35,4 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
 
-<mat-paginator [pageSizeOptions]="[20, 5, 10]" showFirstLastButtons></mat-paginator>
+<mat-paginator [pageSizeOptions]="[20, 5, 10]" showFirstLastButtons></mat-paginator -->
