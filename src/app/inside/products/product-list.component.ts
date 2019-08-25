@@ -6,6 +6,8 @@ import { IProduct } from './product';
 import { ProductService } from './product.service';
 import { Metadata } from "./metadata"
 import { AngularFirestoreCollection } from '@angular/fire/firestore';
+import { OrderService } from '../orders/order-edit/order.service';
+import { IOrder } from '../orders/order';
 
 export interface PeriodicElement {
   name: string;
@@ -26,6 +28,7 @@ export interface PeriodicElement {
 export class ProductListComponent implements OnInit {
   productsCollection: AngularFirestoreCollection<IProduct>;  
   products: any;
+  orders: any;
   productTexts = Metadata.productTexts;
   dataSource ;
   displayedColumns: string[] = [
@@ -42,6 +45,7 @@ export class ProductListComponent implements OnInit {
     //"description",
     //"tags",    
     //"imageUrl",
+    "sold",
     "inventory",
     "action" 
   ];
@@ -49,7 +53,7 @@ export class ProductListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator : MatPaginator;
   @ViewChild(MatSort, {read:true}) sort: MatSort;
 
-  constructor(private router: Router, private productService: ProductService){
+  constructor(private router: Router, private productService: ProductService, private orderService: OrderService){
    }
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -67,13 +71,55 @@ export class ProductListComponent implements OnInit {
     
   }
 
-  ngOnInit(): void{     
-    this.productService.getProducts().subscribe((data:IProduct[]) => {      
-      this.dataSource = new MatTableDataSource(data);
+  ngOnInit(): void{    
+    
+  }
+
+  showProducts(){
+    let data = [];
+    this.productService.getProducts().subscribe((data:IProduct[]) => {  
+      this.products = data;
+      this.generateSaleReport(); 
+    });
+
+    this.orderService.getOrders().subscribe((saleData:IOrder[]) => {     
+      this.orders = saleData;
+      this.generateSaleReport(); 
+    });
+
+  }
+  generateSaleReport(){
+    if(this.products === undefined || this.orders === undefined){
+      return; 
+    }
+    let productData = this.parseOrderList(this.products, this.orders);
+      this.dataSource = new MatTableDataSource(productData);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+  }
 
-      //this.displayedColumns.push("action");
-    });
+  parseOrderList(products, orders) : IProduct[] {
+    for(let i = 0; i < products.length; i ++){
+    let count = 0;
+      for (let orderIndex = 0; orderIndex < orders.length; orderIndex ++){
+        for(let itemIndex = 0; itemIndex < orders[orderIndex].items.length; itemIndex ++){
+          let orderItem = orders[orderIndex].items[itemIndex] as any;
+          if(orderItem.product.productCode === products[i].productCode){
+            if(orderItem.pack === "six"){
+              count += 6 * orderItem.quantity;
+            }
+            else if (orderItem.pack === "ten"){
+              count += 10 * orderItem.quantity;
+            }
+            else{
+              count += orderItem.quantity;
+            }
+          }
+        }
+      }
+
+      products[i].sold = count;
+    }
+      return products;
   }
 }

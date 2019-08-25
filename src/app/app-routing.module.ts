@@ -12,15 +12,8 @@ const routes: Routes = [
   {
     path: 'inside',
     canLoad: [AuthGuard],
-    loadChildren: './inside/inside.module#InsideModule'},
-  {
-    path: 'products',    
-    canLoad: [AuthGuard],
-    loadChildren: './inside/products/products.module#ProductsModule'},
-  {
-    path: 'orders',
-    canLoad: [AuthGuard],
-    loadChildren: './inside/orders/orders.module#OrdersModule'},
+    loadChildren: './inside/inside.module#InsideModule'
+  },  
   {
     path: '**', component: HomeComponent }
 ];

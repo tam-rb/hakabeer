@@ -1,20 +1,77 @@
 <mat-card class="example-card">
     <mat-card-header>
       <div mat-card-avatar class="example-header-image"></div>
-      <mat-card-title>Shiba Inu</mat-card-title>
-      <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+      <mat-card-title><b>{{productName}}</b> sale details</mat-card-title>
+      <mat-card-subtitle>{{productCode}}</mat-card-subtitle>
     </mat-card-header>
-    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
     <mat-card-content>
-      <p>
-        The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-        A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-        bred for hunting.
-      </p>
+      <table>
+        <tr>
+          <td>Sold</td>
+          <td>{{summary.soldCount}}</td>
+        </tr>
+        <tr>
+            <td>Total order</td>
+            <td>{{summary.orderCount}}</td>
+          </tr>
+          <tr>
+              <td>Details</td>
+              <td>
+                <table>
+                  <tr><td>Single</td><td>{{summary.single  }}</td></tr>
+                  <tr><td>Pack 6</td><td>{{summary.packSix }}</td></tr>
+                  <tr><td>Pack 10</td><td>{{summary.packTen }}</td></tr>
+
+                </table>
+              </td>
+            </tr>
+      </table>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-button>LIKE</button>
-      <button mat-button>SHARE</button>
+      <button mat-button [routerLink]="['/inside/products']">Back</button>
     </mat-card-actions>
   </mat-card>
+<hr>
+  <table mat-table [dataSource]="dataSource" class="order-form mat-elevation-z8">
+      <!-- ProductName Column -->
+       <ng-container matColumnDef="createdDate">
+         <th mat-header-cell *matHeaderCellDef>ID </th>
+         <td mat-cell *matCellDef="let element">
+           <a [routerLink] = "['/inside/orders', element.createdDate]">{{element.createdDate}}</a></td>
+       </ng-container>          
+       
+       <ng-container matColumnDef="table">
+         <th mat-header-cell *matHeaderCellDef> Table</th>
+         <td mat-cell *matCellDef="let element"> {{element.table}} </td>
+       </ng-container>
+
+       <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef> Date</th>
+        <td mat-cell *matCellDef="let element"> {{getDateString(element.createdDate)}} </td>
+      </ng-container>
+
+       <ng-container matColumnDef="total">
+         <th mat-header-cell *matHeaderCellDef> total </th>
+         <td mat-cell *matCellDef="let element"> {{element.total}} </td>
+       </ng-container>
+
+       <ng-container matColumnDef="state">
+        <th mat-header-cell *matHeaderCellDef> Status </th>
+        <td mat-cell *matCellDef="let element"> {{parseState(element.close)}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="detail">
+          <th mat-header-cell *matHeaderCellDef> Status </th>
+          <td mat-cell *matCellDef="let element"> {{parseItems(element.items)}} </td>
+        </ng-container>
+
+       <ng-container matColumnDef="items">
+         <th mat-header-cell *matHeaderCellDef> product </th>
+         <td mat-cell *matCellDef="let element"> {{element.items}} </td>
+       </ng-container>       
+       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+       
+     </table>
+     <mat-paginator [pageSizeOptions]="[20, 5, 10]" showFirstLastButtons></mat-paginator>
   

@@ -7,13 +7,15 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 import { ProductEditComponent } from './product-edit/product-edit.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { GoodsreceiptComponent } from './goodsreceipt/goodsreceipt.component';
 
 
 @NgModule({
   declarations: [
       ProductListComponent,
       ProductDetailComponent,
-      ProductEditComponent
+      ProductEditComponent,
+      GoodsreceiptComponent
   ],
   imports: [
     CommonModule,
@@ -41,6 +43,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatAutocompleteModule,
     RouterModule.forChild([
         {path: '', component: ProductListComponent},
+        {path: 'stock', component: GoodsreceiptComponent},
         {path: ':code', component: ProductDetailComponent},
         {path: ':code/edit', component: ProductEditComponent},
     ])

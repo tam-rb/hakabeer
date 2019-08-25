@@ -4,10 +4,9 @@ import { SaleComponent } from './sale/sale.component';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule, MatTableModule, MatPaginatorModule, MatDatepickerModule, MatFormFieldModule, MatInputModule, MatAutocompleteModule } from '@angular/material';
 import { ReactiveFormsModule } from '@angular/forms';
-import { WarehouseComponent } from './warehouse/warehouse.component';
 
 @NgModule({
-  declarations: [SaleComponent, WarehouseComponent],
+  declarations: [SaleComponent],
   imports: [
     CommonModule,
     MatTableModule,
@@ -19,8 +18,7 @@ import { WarehouseComponent } from './warehouse/warehouse.component';
     ReactiveFormsModule,
     MatAutocompleteModule,
     RouterModule.forChild([
-      {path: '', component: SaleComponent},
-      {path: 'wh', component: WarehouseComponent},
+      {path: '', component: SaleComponent}
   ])
   ]
 })
