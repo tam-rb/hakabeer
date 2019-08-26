@@ -20,6 +20,16 @@ export class OrderService{
 
     }
 
+    create(collectionName, data, code){
+        return new Promise<any> ((resolve, reject) => {
+        this.firestore
+            .collection(collectionName).doc(code)
+            .set(data)
+            .then(res => {}, err => reject(console.log(err)));
+    })
+
+}
+
     getOrder(code:string):Observable<IOrder>{
         if(code === "0"){
         }

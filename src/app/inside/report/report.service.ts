@@ -11,7 +11,7 @@ export class ReportService{
     constructor(private firestore: AngularFirestore){}
 
     getOrders(): Observable<IOrder[]> { 
-        return this.firestore.collection('orders')
+        return this.firestore.collection('order')
         .snapshotChanges()
         .pipe(map(snaps => {
             return snaps.map(snap=>{
@@ -23,7 +23,7 @@ export class ReportService{
 
     getOpenOrders(): Observable<IOrder[]> { 
         return this.firestore.collection(
-            'orders',
+            'order',
                 ref=>ref.where("close", "==", false)
                 .orderBy('table', ))        
         .snapshotChanges()
@@ -37,7 +37,7 @@ export class ReportService{
 
     getClosedOrders(): Observable<IOrder[]> { 
         return this.firestore.collection(
-            'orders',
+            'order',
                 ref=>ref.where("close", "==", true)
                 .orderBy('createdDate', ))        
         .snapshotChanges()

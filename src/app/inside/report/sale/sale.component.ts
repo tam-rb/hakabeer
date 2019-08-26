@@ -56,8 +56,13 @@ export class SaleComponent implements OnInit {
     let fromstamp =  from.getTime();
     let tostamp = to.getTime();
 
-    this.reportService.getOrders().subscribe((data:IOrder[]) => {      
-      this.dataSource = new MatTableDataSource(this.filterData(data, fromstamp, tostamp));
+    this.reportService.getOrders().subscribe((data : any) => {
+      let allOrders = data[0].orders;
+      for(let i = 1; i < data.length; i++){
+        allOrders = allOrders.concat(data[i].orders);
+      }
+          
+      this.dataSource = new MatTableDataSource(this.filterData(allOrders, fromstamp, tostamp));
       this.dataSource.paginator = this.paginator;
       this.displayedColumns = ["createdDate", "date", "table", "total", "state", "action"];
     });
