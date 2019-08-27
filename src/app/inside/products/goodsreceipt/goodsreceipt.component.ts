@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IOrder } from '../../orders/order';
 import { IProduct } from '../product';
 import { Utilities } from 'src/app/utilities';
+import { ProductService } from '../product.service';
 
 @Component({
   selector: 'app-goodsreceipt',
@@ -15,15 +16,32 @@ export class GoodsreceiptComponent implements OnInit {
   orderAll : IOrder[];
   productAll : IProduct[];
 
-  constructor(private orderService: OrderService, private route:ActivatedRoute, private router: Router) { }
+  constructor(private orderService: OrderService, private productService: ProductService, private route:ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
   }
 
   mergeProduct()
   {
-    this.mergeDataTest([]);
+    this.productService.getProducts().subscribe((data:IProduct[]) => {  
+      this.mergeProductData(data); 
+    });
+  }
 
+  mergeProductData(data: IProduct[]){
+    let prodMinimal = [];
+    for(let i =0; i <data.length; i++){
+      prodMinimal.push({
+        productCode: data[i].productCode,
+        productName: data[i].productName, 
+        category: data[i].category,   
+        price: data[i].price,    
+        pricesix: data[i].pricesix,
+        priceten: data[i].priceten
+      })
+    }
+
+    this.orderService.create("productsMin", {products: prodMinimal}, "all");
   }
 
   mergeDataTest(items){
@@ -61,9 +79,5 @@ return result;
     for(let i =0; i < orders.length; i++){
       this.orderService.create("order", {dayOrders: orders[i].items}, orders[i].saleDate);
     }
-  }
-
-  mergeData(data){  
-
-  }
+  } 
 }

@@ -20,6 +20,19 @@ export class ProductService{
         })
     }
 
+    update(collection, docname, data){
+        return new Promise<any> ((resolve, reject) => {
+            this.firestore
+                .collection(collection).doc(docname)
+                .set(data)
+                .then(res => {}, err => reject(console.log(err)));
+        })
+    }
+
+    get(collection, docname):Observable<IProduct>{
+        return this.firestore.collection(collection).doc<IProduct>(docname).valueChanges();  
+    }
+
     getProducts(): Observable<IProduct[]> { 
         return this.firestore.collection("products").snapshotChanges().pipe(map(products =>{
             return products.map(p=>{
@@ -35,6 +48,13 @@ export class ProductService{
             //return of(this.initProduct());
         }
         return this.firestore.collection("products").doc<IProduct>(code).valueChanges();  
+    }
+
+    deleteProduct(code:string){
+        if(code === "0"){
+            //return of(this.initProduct());
+        }
+        return this.firestore.collection("products").doc<IProduct>(code).delete();  
     }
 
     getProductsByCategory(data: IProduct[], cat:string){        

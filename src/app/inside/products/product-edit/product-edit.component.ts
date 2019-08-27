@@ -21,7 +21,8 @@ export class ProductEditComponent implements OnInit {
   errorMessage : string;
   cats = ["beer", "food", "coffee", "soft", "outside"];
   productIDs = [];
-  
+  productsMin = [];
+  mode = 0;
   constructor(private formBuilder  : FormBuilder, private productService: ProductService, private route: ActivatedRoute, private router: Router) {    
    }
 
@@ -32,9 +33,13 @@ export class ProductEditComponent implements OnInit {
         const productCode = params.get('code');
         if(productCode === "0"){
           this.generateProductID();
+          this.mode = 1;
+        } else {
+          this.getProductMin();
         }
         console.log(productCode);
         this.getProduct(productCode);
+        
 
       }
     )    
@@ -61,51 +66,57 @@ export class ProductEditComponent implements OnInit {
     })
   }
 
+  getProductMin(){
+    this.productService.get("productsMin", "all").subscribe((data: any) => {  
+      this.productsMin = data.products;  
+    });
+  }
   generateProductID(){
     let ids = ["B01", "C01", "J01", "S01", "F01", "O01"];
-    this.productService.getProducts().subscribe((data:IProduct[]) => {       
-      for(let i=0; i <data.length; i++){
-        if(data[i].category === "beer"){
-          if(data[i].productCode.toUpperCase() > ids[0]){
-            ids[0] = data[i].productCode;
+    this.productService.get("productsMin", "all").subscribe((data: any) => {  
+      this.productsMin = data.products;  
+    
+      let d = this.productsMin;
+      for(let i=0; i <d.length; i++){
+        if(d[i].category === "beer"){
+          if(d[i].productCode.toUpperCase() > ids[0]){
+            ids[0] = d[i].productCode;
           }
           
         } 
-        if(data[i].category === "coffee"){
-          if(data[i].productCode > ids[1]){
-            ids[1] = data[i].productCode;
+        if(d[i].category === "coffee"){
+          if(d[i].productCode > ids[1]){
+            ids[1] = d[i].productCode;
           }          
         } 
 
-        if(data[i].category === "juice"){
-          if(data[i].productCode > ids[2]){
-            ids[2] = data[i].productCode;
+        if(d[i].category === "juice"){
+          if(d[i].productCode > ids[2]){
+            ids[2] = d[i].productCode;
           }          
         }
 
-        if(data[i].category === "soft"){
-          if(data[i].productCode > ids[3]){
-            ids[3] = data[i].productCode;
+        if(d[i].category === "soft"){
+          if(d[i].productCode > ids[3]){
+            ids[3] = d[i].productCode;
           }          
         }
 
-        if(data[i].category === "food"){
-          if(data[i].productCode > ids[4]){
-            ids[4] = data[i].productCode;
+        if(d[i].category === "food"){
+          if(d[i].productCode > ids[4]){
+            ids[4] = d[i].productCode;
           }          
         }
 
-        if(data[i].category === "outside"){
-          if(data[i].productCode > ids[5]){
-            ids[5] = data[i].productCode;
+        if(d[i].category === "outside"){
+          if(d[i].productCode > ids[5]){
+            ids[5] = d[i].productCode;
           }          
         }
       } 
       
       this.productIDs = this.idIncrement(ids);
-
     });
-    
   }
   
   idIncrement(ids : string []) : string []{
@@ -120,6 +131,7 @@ export class ProductEditComponent implements OnInit {
     }
     return ids;
   }
+
   getProduct(code:string){
     if(code === "0") {
       return;
@@ -178,13 +190,46 @@ export class ProductEditComponent implements OnInit {
 
   onSubmit() {
     if(this.productForm.valid){
+      this.updateProductMin();
       this.productService.createProduct(this.productForm.value, this.productForm.controls["productCode"].value);
+      this.productService.update("productsMin", "all",{products: this.productsMin});       
       this.router.navigate(['/inside/products']);
     } else {
       this.validateAll(this.productForm);
     }    
   }
 
+  updateProductMin(){
+    if(this.mode !== 1 ){
+      const idx = this.productsMin.findIndex(obj=>obj.productCode === this.productForm.value.productCode);
+      if(idx === -1){
+        this.productsMin.push({productCode: this.productForm.value.productCode,
+          productName: this.productForm.value.productName, 
+          category: this.productForm.value.category,   
+          price: this.productForm.value.price,    
+          pricesix: this.productForm.value.pricesix,
+          priceten: this.productForm.value.priceten
+        });
+      }
+      this.productsMin[idx] = {productCode: this.productForm.value.productCode,
+        productName: this.productForm.value.productName, 
+        category: this.productForm.value.category,   
+        price: this.productForm.value.price,    
+        pricesix: this.productForm.value.pricesix,
+        priceten: this.productForm.value.priceten
+      }
+     
+    }
+    else{
+      this.productsMin.push({productCode: this.productForm.value.productCode,
+        productName: this.productForm.value.productName, 
+        category: this.productForm.value.category,   
+        price: this.productForm.value.price,    
+        pricesix: this.productForm.value.pricesix,
+        priceten: this.productForm.value.priceten
+      });
+    }
+  }
   createAllProducts(){
     let data = BeersData.items;
     data = data.concat(CoffeeData.items, FoodData.items, OutsideMenu.items);
