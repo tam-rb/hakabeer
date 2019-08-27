@@ -33,6 +33,11 @@ export class GoodsreceiptComponent implements OnInit {
   }
 
   mergeData(data){
+    let orderdate = "";
+    for(let i=0; i <data.length; i++){
+      orderdate = Utilities.getDate(data[i].createdDate).dateOnlyString;
+    }
+
     let order7 = [];
     let order8 = [];
     let orderelse = [];
