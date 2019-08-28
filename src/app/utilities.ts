@@ -1,16 +1,16 @@
 export class Utilities {
   static getDate(timestampString: any): object {
-        
         var dateObj = {dateString: "", dateOnlyString: "", day: "", month: "", year:"", hour: "", minute: "", second: ""};
 
         if(timestampString === undefined || timestampString === ''){
             return dateObj;
         }
-        
 
+        let ts = Number(timestampString);
+        
         var dateString = '';
         var date;
-        date = new Date(timestampString);
+        date = new Date(ts);
 
         let dd = date.getDate();
         let mm = date.getMonth() +1;
@@ -45,7 +45,7 @@ export class Utilities {
     }
     
 
-    static getDateString(timestampString) : string {
+    static getDateString(timestampString : string) : string {
         var dateString = '';
         var billDate;
         if(timestampString === undefined || timestampString === ''){

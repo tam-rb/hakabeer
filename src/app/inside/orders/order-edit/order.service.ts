@@ -30,12 +30,12 @@ export class OrderService{
 
 }
 
-    getOrder(code:string):Observable<IOrder>{
-        if(code === "0"){
-        }
-        
-        return this.firestore.collection("orders").doc<IOrder>(code).valueChanges();  
-        
+    getOrder(code:string):Observable<any>{        
+        return this.firestore.collection("orders").doc<IOrder>(code).valueChanges();         
+    }
+
+    get(collection, docname):Observable<any>{
+        return this.firestore.collection(collection).doc<any>(docname).valueChanges();  
     }
 
     getOrders(): Observable<IOrder[]> { 

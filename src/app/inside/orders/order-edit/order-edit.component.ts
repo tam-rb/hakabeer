@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrderService } from './order.service';
-import { IProduct } from '../../products/product';
+import { IProduct, IProductMin } from '../../products/product';
 import { ProductService } from '../../products/product.service';
 import { Observable, from } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { IOrder } from '../order';
 import * as printJS from 'print-js';
+import { Utilities } from 'src/app/utilities';
 
 @Component({
   selector: 'app-order-edit',
@@ -17,11 +18,15 @@ import * as printJS from 'print-js';
 export class OrderEditComponent implements OnInit {
   orderForm : FormGroup;
   errorMessage: string;
-  productsAll: IProduct[];
-  products : IProduct[];
-  filteredProducts: Observable<IProduct[]>[] = [];
-  order: any;
+  productsAll: IProductMin[];
+  products : IProductMin[];
+  filteredProducts: Observable<IProductMin[]>[] = [];
+  todayOrder: any;
+  orders: any;
+  orderDocname : string;
   DISCOUNT_RATE = 0;
+  mode = 0;
+  
   
   discountList = [0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.5];
   serviceChargeRate = 0;
@@ -29,15 +34,7 @@ export class OrderEditComponent implements OnInit {
 
   constructor(private fb:FormBuilder, private productService:ProductService, private orderService: OrderService, private route:ActivatedRoute, private router: Router) { 
 
-  }
-
-  defaultServiceCharge(){
-    let today = new Date();
-    
-    if(today.getDay() === 6 && today.getHours() > 7 && today.getHours() < 10){
-      this.serviceChargeRate = 0.1;
-    }
-  }
+  }  
 
   ngOnInit() {
     this.defaultServiceCharge();
@@ -67,22 +64,33 @@ export class OrderEditComponent implements OnInit {
     this.onChanges();     
   }
 
+  defaultServiceCharge(){
+    let today = new Date();
+    
+    if(today.getDay() === 6 && today.getHours() > 7 && today.getHours() < 10){
+      this.serviceChargeRate = 0.1;
+    }
+  }
+
   getOrder(code:string){
     if(code === "0" || code === undefined) {
+      this.mode = 1;
       return;
     }
-
-     this.orderService.getOrder(code)
+    let dateObj = Utilities.getDate(code) as any;
+    this.orderDocname = dateObj.dateOnlyString;
+     this.orderService.get("order", dateObj.dateOnlyString)
       .subscribe(
-        (order) => this.displayOrder(order),
+        (orders) => this.displayOrder(orders, code),
         error =>console.log("get order error" + error)       
       ); 
   }
   
-  displayOrder(order : IOrder) : void{
-    if(order === undefined) return;
+  displayOrder(orders : any, created: string) : void{
+    if(orders === undefined) return;
    
-    this.order = order;    
+    this.orders = orders.dayOrders;
+    this.todayOrder = this.orders.find(o=>o.createdDate == created);    
 
     if (this.orderForm){
       this.orderForm.reset();
@@ -90,15 +98,15 @@ export class OrderEditComponent implements OnInit {
     }
 
     this.orderForm.patchValue({
-      createdDate: this.order.createdDate,
-      table: this.order.table,
-      total: this.order.total,
-      pax: this.order.pax,
-      serviceCharge: this.order.serviceCharge,
-      serviceChargeRate: this.order.serviceChargeRate,
-      discount: this.order.discount,
-      discountRate: this.order.discountRate,
-      close: this.order.close
+      createdDate: this.todayOrder.createdDate,
+      table: this.todayOrder.table,
+      total: this.todayOrder.total,
+      pax: this.todayOrder.pax,
+      serviceCharge: this.todayOrder.serviceCharge,
+      serviceChargeRate: this.todayOrder.serviceChargeRate,
+      discount: this.todayOrder.discount,
+      discountRate: this.todayOrder.discountRate,
+      close: this.todayOrder.close
     }, {emitEvent:false})
   }
 
@@ -106,7 +114,7 @@ export class OrderEditComponent implements OnInit {
     while(this.items.length !==0){
       this.items.removeAt(0);
     }
-    let items = this.order.items;
+    let items = this.todayOrder.items;
     for(var i =0; i < items.length; i ++){
       this.items.push(this.buildItemsWithValue([items[i].product, items[i].quantity, items[i].price, items[i].pack, items[i].cat]));
     }
@@ -114,22 +122,21 @@ export class OrderEditComponent implements OnInit {
   }
 
   loadProducts() {  
-    this.productService.getProducts().subscribe(data => {
-      this.productsAll = data;
+    this.productService.getMin("productsMin", "all").subscribe((data : any) => {
+      this.productsAll = data.products;
       this.products = this.productService.getProductsByCategory(this.productsAll, "beer");
       this.populateProducts(0);
     });
   }
 
   populateProducts(index: number):void {
-    //this.filteredProducts = from(data);
     this.filteredProducts[index] = this.orderForm.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value, index))
     ); 
   }
 
-  private _filter(value, index): IProduct[] {
+  private _filter(value, index): IProductMin[] {
     if(this.products === undefined){ return; }
     if(value ===''){
       return this.products;
@@ -230,6 +237,9 @@ export class OrderEditComponent implements OnInit {
     patchData.total = Math.round(total/1000) * 1000;
     
     this.orderForm.patchValue(patchData, {emitEvent:false});
+    this.todayOrder = this.orderForm.value;
+    let dateObj = Utilities.getDate(this.todayOrder.createdDate) as any;
+    this.orderDocname = dateObj.dateOnlyString;
   }
 
   
@@ -254,7 +264,7 @@ export class OrderEditComponent implements OnInit {
     
   }
 
-  displayProductFn(product? :IProduct) : string | undefined {
+  displayProductFn(product? :IProductMin) : string | undefined {
     return product? product.productName : undefined;
   }
 
@@ -264,14 +274,33 @@ export class OrderEditComponent implements OnInit {
 
   onSubmit() {
     this.updateOrder();
+    this.updateDayOrder();
     if(this.orderForm.valid){
-      this.orderService.createOrder(this.orderForm.value, this.orderForm.value.createdDate.toString());
+      this.orderService.create("order", {dayOrders: this.orders}, this.orderDocname);
       this.router.navigate(['inside/orders']);
     } else {
       this.validateAll(this.orderForm);
     }
   }
 
+  updateDayOrder(){
+    let idx = this.canFindOrder();
+    if(this.orders === undefined || this.orders.length === 0 || idx < 0){
+      if(this.orders === undefined){
+        this.orders = [];
+      }
+      this.orders.push(this.todayOrder);
+    }
+    else{
+      this.orders[idx] = this.todayOrder;
+    }
+  }
+
+  canFindOrder(){
+    if(this.orders === undefined || this.orders.length === 0) return -1;
+    return this.orders.findIndex(obj=>obj.createdDate === this.todayOrder.createdDate);
+
+  }
   resetItem(event, index : number){
     console.log(event);
     let row = this.orderForm.get("items." + index) as any; 

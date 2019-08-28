@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IProduct } from './product';
+import { IProduct, IProductMin } from './product';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
@@ -33,6 +33,10 @@ export class ProductService{
         return this.firestore.collection(collection).doc<IProduct>(docname).valueChanges();  
     }
 
+    getMin(collection, docname):Observable<IProductMin>{
+        return this.firestore.collection(collection).doc<IProductMin>(docname).valueChanges();  
+    }
+
     getProducts(): Observable<IProduct[]> { 
         return this.firestore.collection("products").snapshotChanges().pipe(map(products =>{
             return products.map(p=>{
@@ -57,7 +61,7 @@ export class ProductService{
         return this.firestore.collection("products").doc<IProduct>(code).delete();  
     }
 
-    getProductsByCategory(data: IProduct[], cat:string){        
+    getProductsByCategory(data: IProductMin[], cat:string){        
         let result = [];
 
         if(cat === "beer"){

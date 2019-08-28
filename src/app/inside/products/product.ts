@@ -19,6 +19,15 @@ export interface IProduct {
     ibu: number
   }
   
+  export interface IProductMin {
+    productName: string;
+    productCode: string;
+    category: string;
+    price: number;
+    pricesix: number;
+    priceten: number;
+  }
+
   export interface ProductResolved {
     product: IProduct;
     error?: any;

@@ -76,19 +76,19 @@ export class ProductListComponent implements OnInit {
   }
 
   showProducts(){
-    let data = [];
-    this.productService.getProducts().subscribe((data:IProduct[]) => {  
-      this.products = data;
+    this.productService.getMin("productsMin", "all").subscribe((data:any) => {  
+      this.products = data.products;
       this.generateSaleReport(); 
     });
 
     this.orderService.getOrders().subscribe((saleData:IOrder[]) => {     
       this.orders = saleData;
-      this.generateSaleReport(); 
+      //this.generateSaleReport(); 
     });
 
   }
   generateSaleReport(){
+    this.orders = [];
     if(this.products === undefined || this.orders === undefined){
       return; 
     }
