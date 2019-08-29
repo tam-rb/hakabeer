@@ -39,11 +39,15 @@ export class OrdersListComponent implements OnInit {
     let today = Utilities.getDate(Date.now()) as any;    
     this.orderService.get("order", today.dateOnlyString).subscribe((data: any) => { 
       if(data !== undefined && data.dayOrders !== undefined) {   
-        this.dataSource = new MatTableDataSource(data.dayOrders);
+        this.dataSource = new MatTableDataSource(this.filterOrder(data.dayOrders));
         this.dataSource.paginator = this.paginator;
         this.displayedColumns = ["date", "table", "total", "action"];
       }
     });
+  }
+
+  filterOrder(orders): IOrder[]{
+    return orders.filter(order=>order.close === false);
   }
 
   parseState(isClose){

@@ -75,7 +75,7 @@ export class OrderEditComponent implements OnInit {
   getOrder(code:string){
     if(code === "0" || code === undefined) {
       this.mode = 1;
-      return;
+      code = Date.now() + "";
     }
     let dateObj = Utilities.getDate(code) as any;
     this.orderDocname = dateObj.dateOnlyString;
@@ -87,7 +87,12 @@ export class OrderEditComponent implements OnInit {
   }
   
   displayOrder(orders : any, created: string) : void{
-    if(orders === undefined) return;
+    if(orders === undefined ) return;
+
+    if(this.mode === 1) {
+      this.orders = orders.dayOrders;
+      return;
+    }
    
     this.orders = orders.dayOrders;
     this.todayOrder = this.orders.find(o=>o.createdDate == created);    

@@ -5,6 +5,8 @@ import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import { ReportService } from '../report.service';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { OrderService } from '../../orders/order-edit/order.service';
+import { Utilities } from 'src/app/utilities';
 
 @Component({
   selector: 'app-sale',
@@ -25,7 +27,7 @@ export class SaleComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator : MatPaginator;
 
-  constructor(private fb: FormBuilder,  private router: Router, private reportService: ReportService){
+  constructor(private fb: FormBuilder,  private router: Router, private orderService: OrderService){
    }
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -55,16 +57,18 @@ export class SaleComponent implements OnInit {
 
     let fromstamp =  from.getTime();
     let tostamp = to.getTime();
-
-    this.reportService.getOrders().subscribe((data : any) => {
-      let allOrders = data[0].orders;
+    let reportName = Utilities.getDate(fromstamp) as any;
+    this.orderService.get("order", reportName.dateOnlyString).subscribe((data : any) => {
+      /*let allOrders = data[0].orders;
       for(let i = 1; i < data.length; i++){
         allOrders = allOrders.concat(data[i].orders);
+      }*/
+      if(data !== undefined){
+        this.filterData(data.dayOrders, "", "");
+        this.dataSource = new MatTableDataSource(data.dayOrders);
+        this.dataSource.paginator = this.paginator;
+        this.displayedColumns = ["createdDate", "date", "table", "total", "state", "action"];
       }
-          
-      this.dataSource = new MatTableDataSource(this.filterData(allOrders, fromstamp, tostamp));
-      this.dataSource.paginator = this.paginator;
-      this.displayedColumns = ["createdDate", "date", "table", "total", "state", "action"];
     });
     
   }
@@ -79,18 +83,18 @@ export class SaleComponent implements OnInit {
   }
 
   filterData(data: IOrder[], from, to){
-    var returnData =[];
+    //var returnData =[];
     this.ordersCount = 0;
     this.ordersSum = 0;
     for(var i = 0; i < data.length; i ++){
-      if(data[i].createdDate > from && data[i].createdDate < to){
-        returnData.push(data[i]);
+      //if(data[i].createdDate > from && data[i].createdDate < to){
+        //returnData.push(data[i]);
         this.ordersCount ++;
         this.ordersSum += data[i].total;
-      }
+      //}
     }
 
-    return returnData;
+    return data;
   }
 
   parseState(isClose){

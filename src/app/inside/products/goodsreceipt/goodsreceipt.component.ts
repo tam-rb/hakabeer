@@ -15,12 +15,34 @@ export class GoodsreceiptComponent implements OnInit {
 
   orderAll : IOrder[];
   productAll : IProduct[];
+  moved = false;
 
   constructor(private orderService: OrderService, private productService: ProductService, private route:ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
   }
 
+  move(){
+   //this.productService.get("order", "2019-08-29").subscribe((orders => this.copyto(orders, "2019-08-28")));
+ }
+
+  copyto(orders: any, docname: string){
+    let toMove = orders.dayOrders.filter(order=>order.table == "99");
+
+    this.productService.get("order", docname).subscribe((torders:any) => {   
+      torders.dayOrders = [torders.dayOrders[0]];   
+      for(let i = 0; i<toMove.length; i++){
+        torders.dayOrders.push(toMove[i]);
+      }
+      
+      if(this.moved===false){
+      this.orderService.create("order", torders, docname);
+      this.moved = true;
+      }
+    });
+
+
+  }
   mergeProduct()
   {
     this.productService.getProducts().subscribe((data:IProduct[]) => {  
