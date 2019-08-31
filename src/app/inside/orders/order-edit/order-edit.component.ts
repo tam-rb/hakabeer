@@ -78,14 +78,30 @@ export class OrderEditComponent implements OnInit {
       code = Date.now() + "";
     }
     let dateObj = Utilities.getDate(code) as any;
-    this.orderDocname = dateObj.dateOnlyString;
-     this.orderService.get("order", dateObj.dateOnlyString)
+    this.orderDocname = this.getDocName(dateObj);
+     this.orderService.get("order", this.orderDocname)
       .subscribe(
         (orders) => this.displayOrder(orders, code),
         error =>console.log("get order error" + error)       
       ); 
   }
   
+  getDocName(dateObj){
+    let dateString = dateObj.dateOnlyString;
+    let h = parseInt(dateObj.hour); 
+    if(h < 6 && h >= 0)
+    {
+      let d = parseInt(dateObj.day) - 1;
+      if(d < 10){
+        dateObj.day = "0" + d;
+      }
+
+      dateString = dateObj.year + "-" + dateObj.month + "-" + dateObj.day;
+
+    }
+    return dateString;
+  }
+
   displayOrder(orders : any, created: string) : void{
     if(orders === undefined ) return;
 

@@ -16,16 +16,29 @@ export class GoodsreceiptComponent implements OnInit {
   orderAll : IOrder[];
   productAll : IProduct[];
   moved = false;
+  order30 : any;
+  order31: any;
 
   constructor(private orderService: OrderService, private productService: ProductService, private route:ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
+    this.productService.get("order", "2019-08-30").subscribe((torders:any) => {   
+      this.order30 = torders.dayOrders;
+    });
+
+    this.productService.get("order", "2019-08-31").subscribe((o:any) => {   
+      this.order31 = o.dayOrders;
+    });
   }
 
   move(){
    //this.productService.get("order", "2019-08-29").subscribe((orders => this.copyto(orders, "2019-08-28")));
  }
 
+ fixData(){
+   this.orderService.create("order", {dayOrders: this.order30}, "2019-08-30");
+
+ }
   copyto(orders: any, docname: string){
     let toMove = orders.dayOrders.filter(order=>order.table == "99");
 
