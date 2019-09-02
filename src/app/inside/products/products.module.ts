@@ -46,6 +46,7 @@ import { PostGoodsComponent } from './post-goods/post-goods.component';
     RouterModule.forChild([
         {path: '', component: ProductListComponent},
         {path: 'stock', component: GoodsreceiptComponent},
+        {path: 'goods/post', component: PostGoodsComponent},
         {path: ':code', component: ProductDetailComponent},
         {path: ':code/edit', component: ProductEditComponent},
     ])
