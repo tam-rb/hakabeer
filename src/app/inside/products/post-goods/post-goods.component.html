@@ -1,22 +1,23 @@
 <form class="order-form" [formGroup]="form" (ngSubmit)="onSubmit()" autocomplete="off">  
 
-    <mat-form-field class="order-full-width" appearance="outline">
+    <mat-form-field class="input-full-width" appearance="outline">
         <mat-label>Tổng bill nhập</mat-label>
-        <input matInput placeholder="" formControlName="total" value="{{total}}" type="number" >
+        <input matInput placeholder="" formControlName="total"  type="number" value="{{total}}" >
       </mat-form-field> &nbsp;&nbsp;&nbsp;
 
-      <mat-form-field class="report-onethird-width">
+      <mat-form-field class="input-full-width">
           <input matInput [matDatepicker]="fromPicker" placeholder="Ngày nhập" formControlName="postDate">
           <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
           <mat-datepicker #fromPicker></mat-datepicker>
         </mat-form-field>&nbsp;&nbsp;&nbsp;
 
-        <mat-form-field class="order-full-width" appearance="outline">
+        <mat-form-field class="input-full-width" appearance="outline">
             <mat-label>Người nhập</mat-label>
-            <input matInput placeholder="" formControlName="postBy" value="{{total}}" type="text" >
+            <input matInput placeholder="" formControlName="postBy" type="text" >
           </mat-form-field>&nbsp;&nbsp;&nbsp;
-  <h4>Chi tiết đơn hàng nhập</h4>
-  <div formArrayName="items" *ngFor="let item of items.controls, let i=index" class="itemsForm">
+  <strong>Chi tiết nhập đơn hàng </strong>
+  <div class="itemsForm">
+  <div formArrayName="items" *ngFor="let item of items.controls, let i=index" >
       <div [formGroupName]="i" class="itemrow">
           <mat-button-toggle-group appearance="legacy" class="menuToggle" formControlName="cat" (click)="categorizeProducts(i, this)" value="beer"> 
               <mat-button-toggle  value="beer">beer</mat-button-toggle>&nbsp;&nbsp;
@@ -24,7 +25,7 @@
               <mat-button-toggle   value="outside">outside menu</mat-button-toggle>&nbsp;&nbsp;
             </mat-button-toggle-group>
             <mat-divider inset="false"></mat-divider>
-      <mat-form-field class="order-50-width" appearance="outline">
+      <mat-form-field class="input-50-width" appearance="outline">
         <mat-label>Bia</mat-label>
         <input type="text" matInput placeholder="" formControlName="product" [matAutocomplete]="auto">
         <button mat-button  matSuffix mat-icon-button aria-label="Clear" (click)="resetItem($event, i)">
@@ -36,13 +37,13 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
-      <mat-form-field class="order-25-width" appearance="outline">
+      <mat-form-field class="input-25-width" appearance="outline">
           <mat-label>Số lượng</mat-label>
           <input matInput placeholder="" formControlName="quantity" type="number">
         </mat-form-field>
-      <mat-form-field class="order-25-width" appearance="outline">
-          <mat-label>Giá</mat-label>
-          <input matInput placeholder="" formControlName="price" type="number">
+      <mat-form-field class="input-25-width" appearance="outline">
+          <mat-label>Tổng</mat-label>
+          <input matInput placeholder="" formControlName="cost" type="number">
         </mat-form-field>
         
           &nbsp;<button  color="basic" (click)="removeItem(i)" type="button"><i class="material-icons">
@@ -54,9 +55,9 @@
     <button mat-raised-button color="primary" (click)="addItem()" type="button"><i class="material-icons">
       add
       </i></button>
-      <hr />  
-    
-<br><p>
+<br>
+</div>
+<p>
 
 </p>
 <button mat-raised-button color="primary" type="submit" >Save</button>

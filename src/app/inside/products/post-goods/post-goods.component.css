@@ -1,5 +1,22 @@
 .itemsForm{
-    border: 1px solid grey;
+    binput: 1px solid grey;
     padding: 2px;
     margin: 2px;
 }
+
+.input-full-width{
+    width: 100%;
+    max-width: 370px;
+}
+
+.input-50-width {
+    width: 45%;
+  }
+
+  .input-onethird-width {
+    width: 31%;
+  }
+
+  .input-25-width {
+    width: 20%;
+  }

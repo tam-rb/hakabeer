@@ -19,6 +19,7 @@ export class PostGoodsComponent implements OnInit {
   products : IProductMin[];
   filteredProducts: Observable<IProductMin[]>[] = [];
   mode = 0;
+  total = 0;
 
   constructor(private fb:FormBuilder, private productService:ProductService, private route:ActivatedRoute, private router: Router) { 
 
@@ -35,8 +36,9 @@ export class PostGoodsComponent implements OnInit {
     this.loadProducts();
        
     this.form = this.fb.group({
-      'createdDate': new FormControl({value:  Date.now(), disabled: false}),
+      'postDate': new FormControl({value:  Date.now(), disabled: false}),
       'total': ['', [Validators.required]],
+      'postBy':[""],
       'items': this.fb.array([this.buildItems()])
     });
     
@@ -45,8 +47,9 @@ export class PostGoodsComponent implements OnInit {
  
 
   getGoodReceipt(code:string){
-    if(code === "0" || code === undefined) {
+    if(code === "0" || code === undefined|| code === null){
       this.mode = 1;
+      return;
     }
 
      this.productService.get("goodReceipts", code)
@@ -131,6 +134,7 @@ export class PostGoodsComponent implements OnInit {
     return this.fb.group({
       product: '',
       quantity: [1, [Validators.required]],
+      cost: this.total,
       cat: "beer"
     })
   }
@@ -139,6 +143,7 @@ export class PostGoodsComponent implements OnInit {
     return this.fb.group({
       product: values[0],
       quantity: [values[1], [Validators.required]],
+      cost: 0,
       cat: values[4]
     })
   }
@@ -168,7 +173,7 @@ export class PostGoodsComponent implements OnInit {
 
   onChanges(): void {
     this.form.valueChanges.subscribe(val =>{
-      this.updateOrder();     
+      //this.updateOrder();     
     })
   }
   
@@ -178,9 +183,7 @@ export class PostGoodsComponent implements OnInit {
     this.populateProducts(i);
     
   }
-  updateOrder(){
-    
-  }
+ 
 
   updateRowValues(rowIndex : number){
     
@@ -196,20 +199,21 @@ export class PostGoodsComponent implements OnInit {
 
   onSubmit() {   
     if(this.form.valid){
-     
+      this.updateProductCost();
+      this.saveGoodReceipt();      
     } else {
       this.validateAll(this.form);
     }
   }
 
-  updateDayOrder(){
-    
+  updateProductCost(){
+    console.log(this.form.value);
   }
 
-  canFindOrder(){
-    
+  saveGoodReceipt(){  
 
   }
+
   resetItem(event, index : number){
     
   }
