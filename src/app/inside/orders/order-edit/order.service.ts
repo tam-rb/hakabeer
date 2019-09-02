@@ -34,15 +34,26 @@ export class OrderService{
         return this.firestore.collection("orders").doc<IOrder>(code).valueChanges();         
     }
 
-    get(collection, docname):Observable<any>{
+    getDocByName(collection, docname):Observable<any>{
         return this.firestore.collection(collection).doc<any>(docname).valueChanges();  
     }
 
-    getOrders(): Observable<IOrder[]> { 
-        return this.firestore.collection('orders',
+    getDocs(collectionName) : Observable<any>{
+        return this.firestore.collection(collectionName).snapshotChanges() .pipe(map(snaps => {
+            return snaps.map(snap=>{
+                const data= snap.payload.doc.data() as any;
+                const id = snap.payload.doc.id;            
+                return {docname: id, dayOrders: data.dayOrders};
+            })
+        }));  
+
+    }
+
+    
+    getDocsRange(collectionName: string, from:string, to:string): Observable<IOrder[]> { 
+        return this.firestore.collection(collectionName,
         ref => ref
-        //.where("close", "==", false)
-        .orderBy('createdDate', 'desc'))        
+        .orderBy('docname').startAt(from).endAt(to))        
         .snapshotChanges()
         .pipe(map(snaps => {
             return snaps.map(snap=>{

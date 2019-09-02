@@ -81,11 +81,12 @@ export class ProductListComponent implements OnInit {
       this.generateSaleReport(); 
     });
 
+    /*
     this.orderService.getOrders().subscribe((saleData:IOrder[]) => {     
       this.orders = saleData;
       //this.generateSaleReport(); 
     });
-
+    */
   }
   generateSaleReport(){
     this.orders = [];

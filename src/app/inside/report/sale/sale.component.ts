@@ -15,9 +15,9 @@ import { Utilities } from 'src/app/utilities';
 })
 export class SaleComponent implements OnInit {
 
-  ordersCollection: AngularFirestoreCollection<IOrder>;  
+  ordersCollection: AngularFirestoreCollection<IOrder>;
   orders: any;
-  dataSource ;
+  dataSource;
   displayedColumns: string[] = [];
   ordersCount = 0;
   ordersSum = 0;
@@ -25,10 +25,10 @@ export class SaleComponent implements OnInit {
   reportForm: FormGroup
 
 
-  @ViewChild(MatPaginator) paginator : MatPaginator;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private fb: FormBuilder,  private router: Router, private orderService: OrderService){
-   }
+  constructor(private fb: FormBuilder, private router: Router, private orderService: OrderService) {
+  }
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
@@ -38,106 +38,91 @@ export class SaleComponent implements OnInit {
   }
 
   private delete(id) {
-    
+
   }
 
-  onSubmit(){
+  onSubmit() {
     let from = this.reportForm.value.fromDate;
-    let fd = from.getDate();
-    let fm = from.getMonth();
-    let fy = from.getFullYear();
-
     let to = this.reportForm.value.toDate;
-    let td = 1 + to.getDate();
-    let tm = to.getMonth();
-    let ty = to.getFullYear();
+    let fromName = Utilities.getDate(from.getTime()) as any;
+    let toName = Utilities.getDate(to.getTime()) as any;
     
-    from = new Date(fy, fm, fd, 5, 0, 0);
-    to = new Date(ty, tm, td, 4, 59, 59);   
-
-    let fromstamp =  from.getTime();
-    let tostamp = to.getTime();
-    let reportName = Utilities.getDate(fromstamp) as any;
-    this.orderService.get("order", reportName.dateOnlyString).subscribe((data : any) => {
-      /*let allOrders = data[0].orders;
+    this.orderService.getDocsRange("order", fromName.dateOnlyString,  toName.dateOnlyString).subscribe((data: any) => {
+      let allOrders = data[0].dayOrders;
       for(let i = 1; i < data.length; i++){
-        allOrders = allOrders.concat(data[i].orders);
-      }*/
-      if(data !== undefined){
-        this.filterData(data.dayOrders, "", "");
-        this.dataSource = new MatTableDataSource(data.dayOrders);
+        allOrders = allOrders.concat(data[i].dayOrders);
+      }
+
+      if (allOrders !== undefined) {
+        allOrders =  this.filterData(allOrders);
+        this.dataSource = new MatTableDataSource(allOrders);
         this.dataSource.paginator = this.paginator;
         this.displayedColumns = ["createdDate", "date", "table", "total", "state", "action"];
       }
     });
-    
+
   }
 
-  ngOnInit(): void{   
-    
+  ngOnInit(): void {
     this.reportForm = this.fb.group({
       fromDate: new FormControl(new Date()),
       toDate: new FormControl(new Date())
     })
-    
+
   }
 
-  filterData(data: IOrder[], from, to){
-    //var returnData =[];
+  filterData(data: IOrder[]) {
     this.ordersCount = 0;
     this.ordersSum = 0;
-    for(var i = 0; i < data.length; i ++){
-      //if(data[i].createdDate > from && data[i].createdDate < to){
-        //returnData.push(data[i]);
-        this.ordersCount ++;
-        this.ordersSum += data[i].total;
-      //}
+    for (var i = 0; i < data.length; i++) {     
+      this.ordersCount++;
+      this.ordersSum += data[i].total;
     }
 
     return data;
   }
 
-  parseState(isClose){
-    if(isClose){
+  parseState(isClose) {
+    if (isClose) {
       return "Đã thanh toán";
     }
-    else{
+    else {
       return "Chưa thanh toán";
     }
 
   }
-  getDateString(createdDate){
+  getDateString(createdDate) {
     var dateString = '';
     var billDate;
-    if(createdDate === undefined || createdDate === ''){
-       billDate = new Date();
+    if (createdDate === undefined || createdDate === '') {
+      billDate = new Date();
     } else {
       billDate = new Date(createdDate);
     }
-    
-      let dd = billDate.getDate();
-      let mm = billDate.getMonth() +1;
-      let yyyy = billDate.getFullYear();
-      let h = '' + billDate.getHours();
-      let m = '' + billDate.getMinutes();
-      let s = '' + billDate.getSeconds();
-      
-      let D = '' + dd;
-      let M = ''+ mm;
-      let Y = ''+ yyyy;
 
-      if(dd < 10){
-        D = '0' + D;
-      }
+    let dd = billDate.getDate();
+    let mm = billDate.getMonth() + 1;
+    let yyyy = billDate.getFullYear();
+    let h = '' + billDate.getHours();
+    let m = '' + billDate.getMinutes();
+    let s = '' + billDate.getSeconds();
 
-      if(mm < 10){
-        M = '0' + M;
-      }
-      dateString =  Y + '-' + M + '-' + D + ' ' + h + ":" + m;
-    
+    let D = '' + dd;
+    let M = '' + mm;
+    let Y = '' + yyyy;
+
+    if (dd < 10) {
+      D = '0' + D;
+    }
+
+    if (mm < 10) {
+      M = '0' + M;
+    }
+    dateString = Y + '-' + M + '-' + D + ' ' + h + ":" + m;
+
 
     return dateString;
-    }
+  }
 
 
 }

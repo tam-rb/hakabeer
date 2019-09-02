@@ -79,7 +79,7 @@ export class OrderEditComponent implements OnInit {
     }
     let dateObj = Utilities.getDate(code) as any;
     this.orderDocname = this.getDocName(dateObj);
-     this.orderService.get("order", this.orderDocname)
+     this.orderService.getDocByName("order", this.orderDocname)
       .subscribe(
         (orders) => this.displayOrder(orders, code),
         error =>console.log("get order error" + error)       
@@ -91,12 +91,11 @@ export class OrderEditComponent implements OnInit {
     let h = parseInt(dateObj.hour); 
     if(h < 6 && h >= 0)
     {
-      let d = parseInt(dateObj.day) - 1;
-      if(d < 10){
-        dateObj.day = "0" + d;
-      }
-
-      dateString = dateObj.year + "-" + dateObj.month + "-" + dateObj.day;
+      let today = new Date();
+      let yesterday = new Date(today);
+      yesterday.setDate(today.getDate() - 1);
+      
+      dateString = (Utilities.getDate(yesterday) as any).dateOnlyString;
 
     }
     return dateString;
@@ -259,8 +258,8 @@ export class OrderEditComponent implements OnInit {
     
     this.orderForm.patchValue(patchData, {emitEvent:false});
     this.todayOrder = this.orderForm.value;
-    let dateObj = Utilities.getDate(this.todayOrder.createdDate) as any;
-    this.orderDocname = dateObj.dateOnlyString;
+    //let dateObj = Utilities.getDate(this.todayOrder.createdDate) as any;
+    //this.orderDocname = dateObj.dateOnlyString;
   }
 
   
@@ -297,7 +296,7 @@ export class OrderEditComponent implements OnInit {
     this.updateOrder();
     this.updateDayOrder();
     if(this.orderForm.valid){
-      this.orderService.create("order", {dayOrders: this.orders}, this.orderDocname);
+      this.orderService.create("order", {docname: this.orderDocname, dayOrders: this.orders}, this.orderDocname);
       this.router.navigate(['inside/orders']);
     } else {
       this.validateAll(this.orderForm);

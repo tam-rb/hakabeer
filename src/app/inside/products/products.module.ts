@@ -8,6 +8,7 @@ import { ProductEditComponent } from './product-edit/product-edit.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { GoodsreceiptComponent } from './goodsreceipt/goodsreceipt.component';
+import { PostGoodsComponent } from './post-goods/post-goods.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { GoodsreceiptComponent } from './goodsreceipt/goodsreceipt.component';
       ProductListComponent,
       ProductDetailComponent,
       ProductEditComponent,
-      GoodsreceiptComponent
+      GoodsreceiptComponent,
+      PostGoodsComponent
   ],
   imports: [
     CommonModule,

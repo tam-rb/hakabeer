@@ -36,14 +36,31 @@ export class OrdersListComponent implements OnInit {
   }
 
   ngOnInit(): void{
-    let today = Utilities.getDate(Date.now()) as any;    
-    this.orderService.get("order", today.dateOnlyString).subscribe((data: any) => { 
+    let dateObj = Utilities.getDate(Date.now()) as any;
+    let orderDocname = this.getDocName(dateObj);
+
+    this.orderService.getDocByName("order", orderDocname).subscribe((data: any) => { 
       if(data !== undefined && data.dayOrders !== undefined) {   
         this.dataSource = new MatTableDataSource(this.filterOrder(data.dayOrders));
         this.dataSource.paginator = this.paginator;
         this.displayedColumns = ["date", "table", "total", "action"];
       }
     });
+  }
+
+  getDocName(dateObj){
+    let dateString = dateObj.dateOnlyString;
+    let h = parseInt(dateObj.hour); 
+    if(h < 6 && h >= 0)
+    {
+      let today = new Date();
+      let yesterday = new Date(today);
+      yesterday.setDate(today.getDate() - 1);
+      
+      dateString = (Utilities.getDate(yesterday) as any).dateOnlyString;
+
+    }
+    return dateString;
   }
 
   filterOrder(orders): IOrder[]{

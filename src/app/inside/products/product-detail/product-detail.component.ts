@@ -31,6 +31,7 @@ export class ProductDetailComponent implements OnInit {
       }
     );
     
+    /*
     this.orderService.getOrders().subscribe((data:IOrder[]) => {     
       let filteredOrders = this.parseOrderList(data, this.productCode);
       this.dataSource = new MatTableDataSource(filteredOrders);
@@ -38,6 +39,7 @@ export class ProductDetailComponent implements OnInit {
       this.dataSource.sort = this.sort;
 
     });
+    */
     
   }
 
