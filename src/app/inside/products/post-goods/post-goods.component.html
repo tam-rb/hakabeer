@@ -2,7 +2,7 @@
 
     <mat-form-field class="input-full-width" appearance="outline">
         <mat-label>Tổng bill nhập</mat-label>
-        <input matInput placeholder="" formControlName="total"  type="number" value="{{total}}" >
+        <input matInput placeholder="" formControlName="total"  type="number" >
       </mat-form-field> &nbsp;&nbsp;&nbsp;
 
       <mat-form-field class="input-full-width">
@@ -15,7 +15,7 @@
             <mat-label>Người nhập</mat-label>
             <input matInput placeholder="" formControlName="postBy" type="text" >
           </mat-form-field>&nbsp;&nbsp;&nbsp;
-  <strong>Chi tiết nhập đơn hàng </strong>
+  <span><strong><br>Chi tiết nhập đơn hàng </strong></span>
   <div class="itemsForm">
   <div formArrayName="items" *ngFor="let item of items.controls, let i=index" >
       <div [formGroupName]="i" class="itemrow">
@@ -43,7 +43,7 @@
         </mat-form-field>
       <mat-form-field class="input-25-width" appearance="outline">
           <mat-label>Tổng</mat-label>
-          <input matInput placeholder="" formControlName="cost" type="number">
+          <input matInput placeholder="" formControlName="subTotal" type="number">
         </mat-form-field>
         
           &nbsp;<button  color="basic" (click)="removeItem(i)" type="button"><i class="material-icons">

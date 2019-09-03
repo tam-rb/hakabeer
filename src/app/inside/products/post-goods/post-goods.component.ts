@@ -134,7 +134,7 @@ export class PostGoodsComponent implements OnInit {
     return this.fb.group({
       product: '',
       quantity: [1, [Validators.required]],
-      cost: this.total,
+      subTotal: this.total,
       cat: "beer"
     })
   }
@@ -143,7 +143,7 @@ export class PostGoodsComponent implements OnInit {
     return this.fb.group({
       product: values[0],
       quantity: [values[1], [Validators.required]],
-      cost: 0,
+      subTotal: 0,
       cat: values[4]
     })
   }
@@ -208,6 +208,14 @@ export class PostGoodsComponent implements OnInit {
 
   updateProductCost(){
     console.log(this.form.value);
+    let values = this.form.value;
+    for(let i = 0; i<values.items.length; i++){
+      delete values.items[i].product.price;
+      delete values.items[i].product.pricesix;
+      delete values.items[i].product.priceten;
+    }
+
+    console.log(values);
   }
 
   saveGoodReceipt(){  
