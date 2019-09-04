@@ -20,7 +20,7 @@ export class ProductService{
         })
     }
 
-    update(collection, docname, data){
+    set(collection, docname, data){
         return new Promise<any> ((resolve, reject) => {
             this.firestore
                 .collection(collection).doc(docname)

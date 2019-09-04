@@ -20,6 +20,9 @@ export class PostGoodsComponent implements OnInit {
   filteredProducts: Observable<IProductMin[]>[] = [];
   mode = 0;
   total = 0;
+  receiptsAll;
+  receipt;
+  postDate : Date;
 
   constructor(private fb:FormBuilder, private productService:ProductService, private route:ActivatedRoute, private router: Router) { 
 
@@ -45,14 +48,16 @@ export class PostGoodsComponent implements OnInit {
     this.onChanges();     
   }
  
+  checkTotal(){
+    return false;
+  }
 
   getGoodReceipt(code:string){
     if(code === "0" || code === undefined|| code === null){
       this.mode = 1;
-      return;
     }
 
-     this.productService.get("goodReceipts", code)
+     this.productService.get("goodReceipts", "2019")
       .subscribe(
         (goodReceipts) => this.displayReceipt(goodReceipts, code),
         error =>console.log("get order error" + error)       
@@ -60,41 +65,40 @@ export class PostGoodsComponent implements OnInit {
   }
   
   
-  displayReceipt(receipt : any, created: string) : void{    
-    if(receipt === undefined || this.mode === 1 ) return;
-    
-   /*
-    this.orders = orders.dayOrders;
-    this.todayOrder = this.orders.find(o=>o.createdDate == created);    
+  displayReceipt(receiptDocument : any, created: string) : void{    
+    if(receiptDocument === undefined ) return;    
+   
+    this.receiptsAll = receiptDocument.receipts;
+
+    if(this.mode === 1) {
+      return;
+    }
+
+    this.receipt = this.receiptsAll.find(r=>r.createdDate == created);    
 
     if (this.form){
       this.form.reset();
-      this.displayOrderItems();
+      this.displayItems();
     }
-
+    this.postDate = new Date(this.receipt.postDate);
     this.form.patchValue({
-      createdDate: this.todayOrder.createdDate,
-      table: this.todayOrder.table,
-      total: this.todayOrder.total,
-      pax: this.todayOrder.pax,
-      serviceCharge: this.todayOrder.serviceCharge,
-      serviceChargeRate: this.todayOrder.serviceChargeRate,
-      discount: this.todayOrder.discount,
-      discountRate: this.todayOrder.discountRate,
-      close: this.todayOrder.close
-    }, {emitEvent:false})*/
+      createdDate: this.receipt.createdDate,
+      postDate: this.postDate,
+      total: this.receipt.total,
+      postBy: this.receipt.postBy,
+    }, {emitEvent:false})
   }
 
   displayItems(){
     while(this.items.length !==0){
       this.items.removeAt(0);
     }
-    /*
-    let items = this.todayOrder.items;
+    
+    let items = this.receipt.items;
     for(var i =0; i < items.length; i ++){
-      this.items.push(this.buildItemsWithValue([items[i].product, items[i].quantity, items[i].price, items[i].pack, items[i].cat]));
+      this.items.push(this.buildItemsWithValue([items[i].product, items[i].quantity, items[i].subTotal, items[i].cat]));
     }
-    */
+    
   }
 
   loadProducts() {  
@@ -172,9 +176,7 @@ export class PostGoodsComponent implements OnInit {
   getErrorMessage(){}
 
   onChanges(): void {
-    this.form.valueChanges.subscribe(val =>{
-      //this.updateOrder();     
-    })
+    
   }
   
   categorizeProducts(i: number, e){
@@ -183,11 +185,7 @@ export class PostGoodsComponent implements OnInit {
     this.populateProducts(i);
     
   }
- 
 
-  updateRowValues(rowIndex : number){
-    
-  }
 
   displayProductFn(product? :IProductMin) : string | undefined {
     return product? product.productName : undefined;
@@ -199,14 +197,18 @@ export class PostGoodsComponent implements OnInit {
 
   onSubmit() {   
     if(this.form.valid){
+      this.refineReceiptData();
+      this.updateReceipts();
+      this.saveGoodReceipt();  
       this.updateProductCost();
-      this.saveGoodReceipt();      
+      this.router.navigate(['inside/products']);
+
     } else {
       this.validateAll(this.form);
     }
   }
 
-  updateProductCost(){
+  refineReceiptData(){
     console.log(this.form.value);
     let values = this.form.value;
     for(let i = 0; i<values.items.length; i++){
@@ -217,17 +219,47 @@ export class PostGoodsComponent implements OnInit {
 
     if(this.mode === 1){
       let dateCreaated = Date.now();
-    //  let post = {created: dateCreaated, }
+      this.receipt = values;
+      this.receipt.createdDate = dateCreaated;
     }
-    console.log(values);
+    this.receipt.postDate = this.form.value.postDate.getTime();
+
+    console.log(this.receipt);
+  }
+
+  updateProductCost(){
+    for(let i = 0; i < this.receiptsAll.length; i ++){
+      for(let ii = 0; ii < this.receiptsAll[i].items.length; ii ++){
+        
+      }
+    }
+  }
+
+  updateReceipts(){
+    let idx = this.canFind();
+    if(this.receiptsAll === undefined || this.receiptsAll.length === 0 || idx < 0){
+      if(this.receiptsAll === undefined){
+        this.receiptsAll = [];
+      }
+      this.receiptsAll.push(this.receipt);
+    }
+    else{
+      this.receiptsAll[idx] = this.receipt;
+    }
+  }
+
+  canFind(){
+    if(this.receiptsAll === undefined || this.receiptsAll.length === 0) return -1;
+    return this.receiptsAll.findIndex(obj=>obj.createdDate === this.receipt.createdDate);
+
   }
 
   saveGoodReceipt(){  
-
+    this.productService.set("goodReceipts", "2019", {docname: "2019", receipts: this.receiptsAll});
   }
 
   resetItem(event, index : number){
-    
+    return;
   }
     validateAll(formGroup: FormGroup){
       Object.keys(formGroup.controls).forEach(field => {  

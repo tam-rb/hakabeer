@@ -192,7 +192,7 @@ export class ProductEditComponent implements OnInit {
     if(this.productForm.valid){
       this.updateProductMin();
       this.productService.createProduct(this.productForm.value, this.productForm.controls["productCode"].value);
-      this.productService.update("productsMin", "all",{products: this.productsMin});       
+      this.productService.set("productsMin", "all",{products: this.productsMin});       
       this.router.navigate(['/inside/products']);
     } else {
       this.validateAll(this.productForm);

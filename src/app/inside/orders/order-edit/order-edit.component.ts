@@ -2,11 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrderService } from './order.service';
-import { IProduct, IProductMin } from '../../products/product';
+import { IProductMin } from '../../products/product';
 import { ProductService } from '../../products/product.service';
-import { Observable, from } from 'rxjs';
+import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
-import { IOrder } from '../order';
 import * as printJS from 'print-js';
 import { Utilities } from 'src/app/utilities';
 
@@ -103,13 +102,13 @@ export class OrderEditComponent implements OnInit {
 
   displayOrder(orders : any, created: string) : void{
     if(orders === undefined ) return;
+    
+    this.orders = orders.dayOrders;
 
     if(this.mode === 1) {
-      this.orders = orders.dayOrders;
       return;
     }
    
-    this.orders = orders.dayOrders;
     this.todayOrder = this.orders.find(o=>o.createdDate == created);    
 
     if (this.orderForm){
