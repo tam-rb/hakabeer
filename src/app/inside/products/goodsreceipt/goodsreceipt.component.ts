@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { OrderService } from '../../orders/order-edit/order.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IOrder } from '../../orders/order';
 import { IProduct } from '../product';
 import { Utilities } from 'src/app/utilities';
 import { ProductService } from '../product.service';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: 'app-goodsreceipt',
@@ -19,10 +20,27 @@ export class GoodsreceiptComponent implements OnInit {
   order30: any;
   order31: any;
   allOrders: any;
+  allReceiptPosts: any;
+  dataSource;
 
+  displayedColumns: string[] = [
+    "postDate",
+    "total",
+    "postBy"
+  ];
+
+  @ViewChild(MatPaginator) paginator : MatPaginator;
+  @ViewChild(MatSort, {read:true}) sort: MatSort;
+  
   constructor(private orderService: OrderService, private productService: ProductService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
+    this.productService.get("goodReceipts", "2019").subscribe((data:any) => {   
+      this.allReceiptPosts = data.receipts;
+      this.dataSource = new MatTableDataSource(this.allReceiptPosts);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
     /*
     this.productService.get("order", "2019-08-30").subscribe((torders:any) => {   
       this.order30 = torders.dayOrders;

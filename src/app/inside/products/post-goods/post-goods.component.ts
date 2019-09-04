@@ -192,7 +192,7 @@ export class PostGoodsComponent implements OnInit {
   }
 
   cancel(){
-    this.router.navigate(['inside/orders']);
+    this.router.navigate(['inside/products/goods']);
   }
 
   onSubmit() {   
@@ -201,7 +201,7 @@ export class PostGoodsComponent implements OnInit {
       this.updateReceipts();
       this.saveGoodReceipt();  
       this.updateProductCost();
-      this.router.navigate(['inside/products']);
+     // this.router.navigate(['inside/products']);
 
     } else {
       this.validateAll(this.form);
@@ -224,15 +224,45 @@ export class PostGoodsComponent implements OnInit {
     }
     this.receipt.postDate = this.form.value.postDate.getTime();
 
-    console.log(this.receipt);
+    //console.log(this.receipt);
   }
 
   updateProductCost(){
-    for(let i = 0; i < this.receiptsAll.length; i ++){
-      for(let ii = 0; ii < this.receiptsAll[i].items.length; ii ++){
-        
+    let items = this.receiptsAll[0].items;
+    for(let i = 1; i < this.receiptsAll.length; i ++){
+      items = items.concat(this.receiptsAll[i].items);
+    }
+
+    let grouppredItems = Utilities.group(items);
+    //console.log(grouppredItems);
+
+    let productArr = [];
+    
+    for(let j=0; j<grouppredItems.length; j++){
+      let prod = {code: "", quantity: 0, total: 0};
+      prod.code = grouppredItems[j].items[0].product.productCode;
+          for(let k =0; k<grouppredItems[j].items.length; k++ ){
+            prod.quantity += grouppredItems[j].items[k].quantity;
+            prod.total +=  grouppredItems[j].items[k].subTotal;
+          }
+          productArr.push(prod);
+    }
+  console.log(productArr);
+    this.updateProducts(productArr);
+  }
+
+  updateProducts(prodArr){
+    let prods = this.productsAll as any;
+    for(let i = 0; i <prodArr.length; i ++){      
+      for(let p = 0; p<prods.length; p++){
+        if(prods[p].productCode === prodArr[i].code){
+          prods[p].quantity = prodArr[i].quantity;
+          prods[p].cost =Math.round(100* (prodArr[i].total / prodArr[i].quantity)) / 100;
+        }
       }
     }
+
+    this.productService.set("productsMin", "all", { products: prods});
   }
 
   updateReceipts(){

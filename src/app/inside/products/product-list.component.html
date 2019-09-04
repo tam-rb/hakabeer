@@ -2,6 +2,8 @@
   
    <p><a mat-flat-button color="warn" [routerLink]="['/inside/products', 0, 'edit']">New Product</a> 
     &nbsp; &nbsp;
+    <a mat-flat-button color="warn" [routerLink]="['/inside/products/goods']">Goods Receipts</a> 
+    &nbsp; &nbsp;
    <!--<a mat-flat-button color="warn" [routerLink]="['/inside/products/stock']">Post Goods Receipt</a>-->
    <a mat-flat-button color="warn" [routerLink]="['/inside/products/0/goods/post']">Post Goods Receipt</a>
     </p>
@@ -85,9 +87,9 @@
           <th mat-header-cell *matHeaderCellDef> {{productTexts.starRating}} </th>
           <td mat-cell *matCellDef="let element"> {{element.starRating}} </td>
         </ng-container>
-        <ng-container matColumnDef="inventory">
-          <th mat-header-cell *matHeaderCellDef> {{productTexts.inventory}} </th>
-          <td mat-cell *matCellDef="let element"> {{element.inventory}} </td>
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef> Đã nhập </th>
+          <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
         </ng-container>
         <ng-container matColumnDef="sold">
           <th mat-header-cell *matHeaderCellDef> Đã bán </th>

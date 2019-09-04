@@ -123,4 +123,27 @@ export class Utilities {
         console.log(e);
       }
     }
+
+    static group(items){
+      var result = items.reduce(function (accumulator, item) {
+        let code = item.product.productCode;
+        var current = accumulator.hash[code];
+  
+        if (!current) {
+          current = accumulator.hash[code] = {
+            productCode: code,
+            items: []
+          };
+  
+          accumulator.arr.push(current);
+        }
+  
+        current.items.push(item);
+  
+        return accumulator;
+      }, { hash: {}, arr: [] }).arr;
+  
+      console.log(result);
+      return result;
+    }    
 }

@@ -46,7 +46,7 @@ export class ProductListComponent implements OnInit {
     //"tags",    
     //"imageUrl",
     "sold",
-    "inventory",
+    "quantity",
     "action" 
   ];
 
