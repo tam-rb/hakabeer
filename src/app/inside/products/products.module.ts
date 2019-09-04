@@ -47,6 +47,7 @@ import { PostGoodsComponent } from './post-goods/post-goods.component';
         {path: '', component: ProductListComponent},
         {path: 'stock', component: GoodsreceiptComponent},
         {path: 'goods/post', component: PostGoodsComponent},
+        {path: ':code/goods/post', component: PostGoodsComponent},
         {path: ':code', component: ProductDetailComponent},
         {path: ':code/edit', component: ProductEditComponent},
     ])

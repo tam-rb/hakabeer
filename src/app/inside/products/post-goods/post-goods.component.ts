@@ -60,8 +60,8 @@ export class PostGoodsComponent implements OnInit {
   }
   
   
-  displayReceipt(receipt : any, created: string) : void{
-    if(receipt === undefined ) return;
+  displayReceipt(receipt : any, created: string) : void{    
+    if(receipt === undefined || this.mode === 1 ) return;
     
    /*
     this.orders = orders.dayOrders;
@@ -215,6 +215,10 @@ export class PostGoodsComponent implements OnInit {
       delete values.items[i].product.priceten;
     }
 
+    if(this.mode === 1){
+      let dateCreaated = Date.now();
+    //  let post = {created: dateCreaated, }
+    }
     console.log(values);
   }
 
