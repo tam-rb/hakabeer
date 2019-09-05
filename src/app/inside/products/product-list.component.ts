@@ -7,7 +7,7 @@ import { ProductService } from './product.service';
 import { Metadata } from "./metadata"
 import { AngularFirestoreCollection } from '@angular/fire/firestore';
 import { OrderService } from '../orders/order-edit/order.service';
-import { IOrder } from '../orders/order';
+import { Observable, forkJoin, of } from 'rxjs';
 
 export interface PeriodicElement {
   name: string;
@@ -75,7 +75,20 @@ export class ProductListComponent implements OnInit {
     
   }
 
-  showProducts(){
+  runReport(){
+    let tasks$ = [];
+    tasks$.push(this.productService.getMin("productsMin", "all"));
+    tasks$.push(this.productService.get("reports", "all"));
+    forkJoin(...tasks$).subscribe(
+      results => {
+        console.log(results);
+      });
+    /*
+    this.productService.getMin("reports", "metadata").subscribe((data:any) => {  
+
+      this.generateSaleReport(); 
+    });
+
     this.productService.getMin("productsMin", "all").subscribe((data:any) => {  
       this.products = data.products;
       this.generateSaleReport(); 
@@ -88,17 +101,21 @@ export class ProductListComponent implements OnInit {
     });
     */
   }
+
   generateSaleReport(){
-    this.orders = [];
     if(this.products === undefined || this.orders === undefined){
       return; 
     }
+
+    this.orders = [];
+
     let productData = this.parseOrderList(this.products, this.orders);
       this.dataSource = new MatTableDataSource(productData);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
   }
 
+ 
   parseOrderList(products, orders) : IProduct[] {
     for(let i = 0; i < products.length; i ++){
     let count = 0;

@@ -4,7 +4,10 @@ table {
   }
   
   .mat-form-field {
-    font-size: 14px;
     width: 50%;
   }
-  
+
+  .submenu{
+    padding: 1px;
+    font-size: 11px;
+  }

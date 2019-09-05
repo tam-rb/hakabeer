@@ -8,11 +8,16 @@
 
 
 .inside-content{
-    width: 1200px;
+    width: 100%;
+    
 }
 
 .inside-toolbar{
     width: 100%;
+}
+
+td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type, th.mat-header-cell:first-of-type{
+    padding-left: 1px !important;
 }
 
 /* Medium screens */

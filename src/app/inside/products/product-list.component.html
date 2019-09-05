@@ -1,16 +1,17 @@
    
   
-   <p><a mat-flat-button color="warn" [routerLink]="['/inside/products', 0, 'edit']">New Product</a> 
-    &nbsp; &nbsp;
-    <a mat-flat-button color="warn" [routerLink]="['/inside/products/goods']">Goods Receipts</a> 
-    &nbsp; &nbsp;
+   <div class="submenu">
+   <a mat-stroked-button color="warn" [routerLink]="['/inside/products', 0, 'edit']">New Product</a> 
+   
+    <a mat-stroked-button  color="warn" [routerLink]="['/inside/products/goods']">Goods Receipts</a> 
+   
    <!--<a mat-flat-button color="warn" [routerLink]="['/inside/products/stock']">Post Goods Receipt</a>-->
-   <a mat-flat-button color="warn" [routerLink]="['/inside/products/0/goods/post']">Post Goods Receipt</a>
-    </p>
+   <a mat-stroked-button color="warn" [routerLink]="['/inside/products/0/goods/post']">Post Receipt</a>
+  </div>
 
    <hr>
 
-   <p><a mat-stroked-button color="primary" (click)="showProducts()" >Show all products</a></p>
+   <p><a mat-stroked-button color="primary" (click)="runReport()" ><strong>Run Invetory report</strong></a></p>
 
    <mat-form-field>
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
@@ -102,7 +103,7 @@
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let element">
               <a mat-stroked-button color="primary" [routerLink]="['/inside/products', element.productCode, 'edit']">Edit</a>
-              <a mat-stroked-button color="warn" routerLink="." (click)="delete(element.productCode)">Delete</a>
+              <!--<a mat-stroked-button color="warn" routerLink="." (click)="delete(element.productCode)">Delete</a>-->
             </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
