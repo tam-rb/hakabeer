@@ -108,6 +108,24 @@ export class Utilities {
         return '' + mm;
     }
 
+    static getHakaBusinessDay(timestampString){
+      let dateObj = Utilities.getDate(timestampString) as any;
+      let dateString = dateObj.dateOnlyString;
+      let h = parseInt(dateObj.hour); 
+      if(h < 6 && h >= 0)
+      {                
+        dateString = Utilities.getPreviousDay(timestampString);  
+      }
+      return dateString;
+    }
+
+    static getPreviousDay(timestampString){
+      let date = new Date(timestampString);
+      date.setDate(date.getDate() - 1);
+        
+      return (Utilities.getDate(date) as any).dateOnlyString;       
+    }
+
     static formatMoney(amount, decimalCount = 2, decimal = ".", thousands = ",") {
       try {
         decimalCount = Math.abs(decimalCount);

@@ -29,7 +29,7 @@ export class OrderEditComponent implements OnInit {
   
   discountList = [0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.5];
   serviceChargeRate = 0;
-  serviceChargeList = [0, 0.1];
+  serviceChargeList = [0, 0.05, 0.1];
 
   constructor(private fb:FormBuilder, private productService:ProductService, private orderService: OrderService, private route:ActivatedRoute, private router: Router) { 
 
@@ -76,28 +76,13 @@ export class OrderEditComponent implements OnInit {
       this.mode = 1;
       code = Date.now() + "";
     }
-    let dateObj = Utilities.getDate(code) as any;
-    this.orderDocname = this.getDocName(dateObj);
+
+    this.orderDocname = Utilities.getHakaBusinessDay(code);
      this.orderService.getDocByName("order", this.orderDocname)
       .subscribe(
         (orders) => this.displayOrder(orders, code),
         error =>console.log("get order error" + error)       
       ); 
-  }
-  
-  getDocName(dateObj){
-    let dateString = dateObj.dateOnlyString;
-    let h = parseInt(dateObj.hour); 
-    if(h < 6 && h >= 0)
-    {
-      let today = new Date();
-      let yesterday = new Date(today);
-      yesterday.setDate(today.getDate() - 1);
-      
-      dateString = (Utilities.getDate(yesterday) as any).dateOnlyString;
-
-    }
-    return dateString;
   }
 
   displayOrder(orders : any, created: string) : void{
@@ -228,42 +213,7 @@ export class OrderEditComponent implements OnInit {
     this.populateProducts(i);
     
   }
-  updateOrder(){
-    let data = this.orderForm.value;
-    let patchData = {
-      'discount': 0,
-      'serviceCharge': 0,
-      'total' : 0
-    }
-    if (data.createdDate === null) return;
-    let total = 0;
-    let num = 0;
-    for (let i = 0; i < data.items.length; i ++){
-      if(data.items[i].product===''){
-        continue;
-      }
-      data.items[i].price = +data.items[i].product["price" +data.items[i].pack];
-
-    
-      num += +data.items[i]['quantity'];
-      total += +data.items[i]['quantity']*(+data.items[i]['price']);
-    }
-    patchData.serviceCharge = total * data.serviceChargeRate;
-    total = total + patchData.serviceCharge;
-    patchData.discount = total * data.discountRate;
-    total = total - patchData.discount;    
-
-    patchData.total = Math.round(total/1000) * 1000;
-    
-    this.orderForm.patchValue(patchData, {emitEvent:false});
-    this.todayOrder = this.orderForm.value;
-    //let dateObj = Utilities.getDate(this.todayOrder.createdDate) as any;
-    //this.orderDocname = dateObj.dateOnlyString;
-  }
-
   
- 
-
   productSelected(event, rowIndex){     
     let pack = "price" + this.orderForm.get("items." + rowIndex + ".pack").value;
     let itemPrice = event.option.value[pack];
@@ -300,6 +250,39 @@ export class OrderEditComponent implements OnInit {
     } else {
       this.validateAll(this.orderForm);
     }
+  }
+
+  updateOrder(){
+    let data = this.orderForm.value;
+    let patchData = {
+      'discount': 0,
+      'serviceCharge': 0,
+      'total' : 0
+    }
+    if (data.createdDate === null) return;
+    let total = 0;
+    let num = 0;
+    for (let i = 0; i < data.items.length; i ++){
+      if(data.items[i].product===''){
+        continue;
+      }
+      data.items[i].price = +data.items[i].product["price" +data.items[i].pack];
+
+    
+      num += +data.items[i]['quantity'];
+      total += +data.items[i]['quantity']*(+data.items[i]['price']);
+    }
+    patchData.serviceCharge = total * data.serviceChargeRate;
+    total = total + patchData.serviceCharge;
+    patchData.discount = total * data.discountRate;
+    total = total - patchData.discount;    
+
+    patchData.total = Math.round(total/1000) * 1000;
+    
+    this.orderForm.patchValue(patchData, {emitEvent:false});
+    this.todayOrder = this.orderForm.value;
+    //let dateObj = Utilities.getDate(this.todayOrder.createdDate) as any;
+    //this.orderDocname = dateObj.dateOnlyString;
   }
 
   updateDayOrder(){
