@@ -22,7 +22,7 @@
       <mat-form-field class="order-50-width" appearance="outline">
         <mat-label>Bia</mat-label>
         <input type="text" matInput placeholder="" formControlName="product" [matAutocomplete]="auto">
-        <button mat-button  matSuffix mat-icon-button aria-label="Clear" (click)="resetItem($event, i)">
+        <button type="button" mat-button  matSuffix mat-icon-button aria-label="Clear" (click)="resetItem($event, i); return;">
             <mat-icon>close</mat-icon>
           </button>
         <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayProductFn" (optionSelected)='productSelected($event, i)'>

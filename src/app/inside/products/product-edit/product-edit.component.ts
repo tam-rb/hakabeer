@@ -204,7 +204,7 @@ export class ProductEditComponent implements OnInit {
       const idx = this.productsMin.findIndex(obj=>obj.productCode === this.productForm.value.productCode);
       if(idx === -1){
         this.productsMin.push({productCode: this.productForm.value.productCode,
-          productName: this.productForm.value.productName, 
+          productName: this.productForm.value.productName.trim(), 
           category: this.productForm.value.category,   
           price: this.productForm.value.price,    
           pricesix: this.productForm.value.pricesix,
@@ -212,7 +212,7 @@ export class ProductEditComponent implements OnInit {
         });
       }
       this.productsMin[idx] = {productCode: this.productForm.value.productCode,
-        productName: this.productForm.value.productName, 
+        productName: this.productForm.value.productName.trim(), 
         category: this.productForm.value.category,   
         price: this.productForm.value.price,    
         pricesix: this.productForm.value.pricesix,
@@ -222,7 +222,7 @@ export class ProductEditComponent implements OnInit {
     }
     else{
       this.productsMin.push({productCode: this.productForm.value.productCode,
-        productName: this.productForm.value.productName, 
+        productName: this.productForm.value.productName.trim(), 
         category: this.productForm.value.category,   
         price: this.productForm.value.price,    
         pricesix: this.productForm.value.pricesix,
