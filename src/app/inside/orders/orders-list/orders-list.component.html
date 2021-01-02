@@ -1,55 +1,38 @@
    
-    <p center><a mat-flat-button color="warn" [routerLink]="['/inside/orders', 0, 'edit']">New Order</a></p>
-    <table mat-table [dataSource]="dataSource" class="order-form mat-elevation-z8">
-      <!-- ProductName Column -->
-       <ng-container matColumnDef="createdDate">
-         <th mat-header-cell *matHeaderCellDef>ID </th>
-         <td mat-cell *matCellDef="let element">
-           <a [routerLink] = "['/inside/orders', element.createdDate]">{{element.createdDate}}</a></td>
-       </ng-container>          
-       
-       <ng-container matColumnDef="table">
-         <th mat-header-cell *matHeaderCellDef> Table</th>
-         <td mat-cell *matCellDef="let element"> {{element.table}} </td>
-       </ng-container>
-
-       <ng-container matColumnDef="date">
-        <th mat-header-cell *matHeaderCellDef> Date</th>
-        <td mat-cell *matCellDef="let element"> {{getDateString(element.createdDate)}} </td>
-      </ng-container>
-
-       <ng-container matColumnDef="total">
-         <th mat-header-cell *matHeaderCellDef> total </th>
-         <td mat-cell *matCellDef="let element"> {{element.total}} </td>
-       </ng-container>
-
-       <ng-container matColumnDef="state">
-        <th mat-header-cell *matHeaderCellDef> Status </th>
-        <td mat-cell *matCellDef="let element"> {{parseState(element.close)}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="detail">
-          <th mat-header-cell *matHeaderCellDef> Status </th>
-          <td mat-cell *matCellDef="let element"> {{parseItems(element.items)}} </td>
-        </ng-container>
-
-       <ng-container matColumnDef="items">
-         <th mat-header-cell *matHeaderCellDef> product </th>
-         <td mat-cell *matCellDef="let element"> {{element.items}} </td>
-       </ng-container>
-
-       <ng-container matColumnDef="action">
-         <th mat-header-cell *matHeaderCellDef></th>
-         <td mat-cell *matCellDef="let element">
-             <a mat-stroked-button color="primary" [routerLink]="['/inside/orders', element.createdDate, 'edit']">Edit</a>
-             <!--<a mat-stroked-button color="warn" routerLink="." (click)="delete(element.createdDate)">Delete</a>-->
-           </td>
-       </ng-container>
-       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-       
-     </table>
-     <mat-paginator [pageSizeOptions]="[20, 5, 10]" showFirstLastButtons></mat-paginator>
-
-
-     
+   <!-- <p center><a mat-flat-button color="warn" [routerLink]="['/inside/orders', 0, 'edit']">New Order</a></p>-->
+    <div id="container" >
+        <div id="left-column" >
+          <div *ngFor="let order of this.orderList">
+            <div [ngClass]="(order.od !== undefined)?'table-box-occupied':'table-box-free'" >
+            <span> {{order.tblNo}} </span> <br>
+             <div *ngIf="order.od !== undefined; else elseBlock" >
+                <!--<a routerLink="/inside/orders/{{order.od.id}}">{{order.od.total}}</a> -->
+                <a [routerLink]="'/inside/orders/edit/'+ order.od.createdDate">{{order.od.total}}</a>
+              </div>
+              <ng-template #elseBlock><a [routerLink]="'/inside/orders/' + order.tblNo + '/0'">New order</a> </ng-template>
+            </div>
+          </div>
+        </div>
+        <div id="mid-column">
+          <b>Bill tách riêng <br> Bàn ngoài sân <br></b>
+          <br>
+          <a mat-flat-button color="warn" [routerLink]="['/inside/orders/99/0']">Tạo bill riêng</a>
+          <div *ngFor="let o of this.orderListSpecial">
+            <div class='table-box-occupied'>
+            <a [routerLink]="'/inside/orders/edit/'+ o.od.createdDate">bàn {{o.tblNo}} <br> {{o.od.pax}} {{o.od.total}}</a>
+          </div>
+          </div>
+        </div>
+        <div id="right-column">
+          <div *ngFor="let orderRight of this.orderListRight">
+            <div [ngClass]="(orderRight.od !== undefined)?'table-box-occupied':'table-box-free'" >
+            <span> {{orderRight.tblNo}} </span> <br>
+             <div *ngIf="orderRight.od !== undefined; else elseBlock" >
+                <!--<a routerLink="/inside/orders/{{order.od.id}}">{{order.od.total}}</a> -->
+                <a [routerLink]="'/inside/orders/edit/'+ orderRight.od.createdDate">{{orderRight.od.total}}</a>
+              </div>
+              <ng-template #elseBlock><a [routerLink]="'/inside/orders/' + orderRight.tblNo + '/0'">New order</a> </ng-template>
+            </div>
+          </div>
+        </div>
+  </div>

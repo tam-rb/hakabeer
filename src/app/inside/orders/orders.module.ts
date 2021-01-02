@@ -34,8 +34,8 @@ import { OrderEditComponent } from './order-edit/order-edit.component';
     ReactiveFormsModule,      
     RouterModule.forChild([
         {path: '', component: OrdersListComponent},
-        {path: ':code', component: OrderEditComponent},
-        {path: ':code/edit', component: OrderEditComponent}
+        {path: ':table/:code', component: OrderEditComponent},
+        {path: '/edit/:code', component: OrderEditComponent}
     ])
   ]
 })

@@ -25,6 +25,7 @@ export class OrderEditComponent implements OnInit {
   orderDocname : string;
   DISCOUNT_RATE = 0;
   mode = 0;
+  table: number;
   
   
   discountList = [0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.5];
@@ -40,7 +41,13 @@ export class OrderEditComponent implements OnInit {
 
     this.route.paramMap.subscribe(
       params => {
+        const table = params.get('table');
+        if(table !== undefined){
+          this.table = parseInt(table);
+          console.log(this.table);
+        }
         const orderCode = params.get('code');
+        
         this.getOrder(orderCode);
       }
     )    
@@ -49,7 +56,7 @@ export class OrderEditComponent implements OnInit {
        
     this.orderForm = this.fb.group({
       'createdDate': new FormControl({value:  Date.now(), disabled: false}),
-      'table':['', [Validators.required]],
+      'table':new FormControl({value:  this.table, disabled: false}),
       'pax': '',      
       'total': ['', [Validators.required]],
       'discount': 0,
@@ -318,8 +325,6 @@ export class OrderEditComponent implements OnInit {
       let header='<div style="text-align: center; left:-15px;"><H4>HAKABEER STATION</H4>'
       header += p + 'CS31 Prosper Plaza</p>';
       header += p + '22/14 Phan Van Hon, Dist. 12, HCMc</p>';
-      header += p + 'www.Hakabeerstation.com</p>';
-      header += p + '0938 2000 20</p> ';
       header += '<p>';
       header += '<hr /> </div>';
       header += 'Table ' + this.orderForm.value.table;
@@ -355,7 +360,7 @@ export class OrderEditComponent implements OnInit {
         ],
         type: 'json',
         gridHeaderStyle: 'color :black; border: 0;',
-        gridStyle: 'border: 0; font-size:8px',
+        gridStyle: 'border: 0; font-size:8px; font-weight: bold',
         header: header
       })
     }
@@ -376,7 +381,7 @@ export class OrderEditComponent implements OnInit {
     }
 
     .quantity{
-      padding-right: 5px;
+      
     }
       .header {
         text-align: center;
@@ -391,12 +396,15 @@ export class OrderEditComponent implements OnInit {
         font-size: 14px;
         font-style: bold;
       }
+
+      .detailTable{
+        margin-left:-10px;
+        
+      }
     `;
     let printhtml =`
     <table width='100%'><tr><th class='header1' colspan='3'>HAKABEER STATION</th></tr>
       <tr><td colspan='3' class='header'>CS31 Prosper Plaza</td></tr>
-      <tr><td colspan='3' class='header'>www.Hakabeerstation.com</td></tr>
-      <tr><td colspan='3' class='header'>0938 2000 20</td></tr>
       <tr><td colspan='3' ></td><tr>
       <tr><td colspan='3' ></td><tr>
       <tr><td colspan='3' ></td><tr>
@@ -404,8 +412,10 @@ export class OrderEditComponent implements OnInit {
       <tr><td>Date</td><td>` + this.getDateString(this.orderForm.value.createdDate) + `</td><tr>
       <tr><td>Table</td><td>` + this.orderForm.value.table + `</td><tr></table></td></tr>
       <tr><td colspan='3' ><hr /></td><tr>
-      <tr><td colspan='3' ></td><tr>
-      <tr><td colspan='3' >Details</td><tr>`;
+      <tr><td colspan='3' ></td><tr> </table>
+      <table class='detailTable'>
+      <tr><td colspan='3' >Details</td><tr>
+      <tr><td width='300px'>Ten mon</td><td width='35px' >Gia</td><td width='15px'>SL</td></tr>`;
 
     let data = this.orderForm.value;
     
@@ -414,9 +424,8 @@ export class OrderEditComponent implements OnInit {
         continue;
       }
       let row = "<tr><td>" + data.items[i].product.productName + " " +  this.getPackString(data.items[i].pack) + "</td>";
-        row += "<td class='quantity'>" + data.items[i].quantity +  "</td>",
-        row += "<td>" + data.items[i].price * data.items[i].quantity + "</td></tr>"
-        
+        row += "<td>" + data.items[i].price + "</td>"
+        row += "<td>" + data.items[i].quantity +  "</td></tr>",
         printhtml += row;
     }
 
@@ -435,7 +444,7 @@ export class OrderEditComponent implements OnInit {
     }
     
     printhtml += `<tr><td colspan='3' ><hr /></td><tr>
-    <tr><td>Total</td><td></td><td>` + this.orderForm.value.total + `</td><tr>
+    <tr><td>Total</td><td colspan='2'>` + this.orderForm.value.total + `</td><tr>
     <tr><td colspan='3' ></td><tr>
     <tr><td colspan='3' ></td><tr>
     <tr><td colspan='3' ></td><tr>

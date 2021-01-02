@@ -76,6 +76,20 @@ export class OrderService{
             })
         }));        
     }
+    
+    getOpenOrdersByName(docname): Observable<IOrder[]> { 
+        return this.firestore.collection(
+            docname,
+                ref=>ref.where("close", "==", false)
+                .orderBy('createdDate', 'desc'))        
+        .snapshotChanges()
+        .pipe(map(snaps => {
+            return snaps.map(snap=>{
+                const data= snap.payload.doc.data() as IOrder;
+                return data;
+            })
+        }));        
+    }
 
     getClosedOrders(): Observable<IOrder[]> { 
         return this.firestore.collection(

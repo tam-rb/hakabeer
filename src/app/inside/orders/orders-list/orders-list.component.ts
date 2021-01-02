@@ -15,8 +15,15 @@ export class OrdersListComponent implements OnInit {
 
   ordersCollection: AngularFirestoreCollection<IOrder>;  
   orders: any;
+  orderList: any;
+  orderListRight: any;
+  orderListSpecial: any;
   dataSource ;
   displayedColumns: string[] = [];
+  tableLeft = [1, 2, 3, 4, 5, 6, 7, 8];
+  tableRight =[9, 10, 11, 12, 13, 14, 15, 16]
+  tableOutside = [];
+  takeAway = ['take away'];
 
 
   @ViewChild(MatPaginator) paginator : MatPaginator;
@@ -38,9 +45,11 @@ export class OrdersListComponent implements OnInit {
   ngOnInit(): void{
     let dateObj = Utilities.getDate(Date.now()) as any;
     let orderDocname = this.getDocName(dateObj);
+    this.initTableList();
 
     this.orderService.getDocByName("order", orderDocname).subscribe((data: any) => { 
-      if(data !== undefined && data.dayOrders !== undefined) {   
+      if(data !== undefined && data.dayOrders !== undefined) {
+        this.parseTable( data.dayOrders );   
         this.dataSource = new MatTableDataSource(this.filterOrder(data.dayOrders));
         this.dataSource.paginator = this.paginator;
         this.displayedColumns = ["date", "table", "total", "action"];
@@ -48,6 +57,46 @@ export class OrdersListComponent implements OnInit {
     });
   }
 
+  initTableList(){
+    this.orderList = [];
+    for (let i=1; i <= 8; i ++){
+      let tb = {tblNo: i, od: undefined}
+      this.orderList.push(tb);
+    }
+
+    this.orderListRight = [];
+    for (let i=9; i <= 16; i ++){
+      let tb = {tblNo: i, od: undefined}
+      this.orderListRight.push(tb);
+    }
+
+    this.orderListSpecial = [];
+  }
+
+  parseTable (ods){
+    for (let i=1; i <= 16; i ++){
+      ods.forEach(element => {
+        if(element.close == false){
+        if(element.table == i ){
+          if(i < 9){
+          this.orderList[i-1].od = element;
+          }
+          else if (i < 17){
+            this.orderListRight[i-9].od = element;
+          }
+        }
+      }
+      
+      });
+    }
+
+    ods.forEach(element => {
+      if(element.table == 99 && element.close == false){
+        this.orderListSpecial.push({tblNo: 99, od: element});
+      }
+    });
+  }
+  
   getDocName(dateObj){
     let dateString = dateObj.dateOnlyString;
     let h = parseInt(dateObj.hour); 

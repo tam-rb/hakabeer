@@ -48,17 +48,19 @@ export class SaleComponent implements OnInit {
     let toName = Utilities.getDate(to.getTime()) as any;
     
     this.orderService.getDocsRange("order", fromName.dateOnlyString,  toName.dateOnlyString).subscribe((data: any) => {
+      if(data !== undefined && data[0] !== undefined){
       let allOrders = data[0].dayOrders;
       for(let i = 1; i < data.length; i++){
         allOrders = allOrders.concat(data[i].dayOrders);
       }
-
+    
       if (allOrders !== undefined) {
         allOrders =  this.filterData(allOrders);
         this.dataSource = new MatTableDataSource(allOrders);
         this.dataSource.paginator = this.paginator;
         this.displayedColumns = ["createdDate", "date", "table", "total", "state", "action"];
       }
+    }
     });
 
   }

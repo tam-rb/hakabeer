@@ -3,3 +3,57 @@
     max-width: 600px;
     width: 100%;    
   }
+
+  .table-box-occupied{
+    width: 60px;
+    height: 60px;
+    background-color: chocolate;
+    margin:10px;
+    border-radius: 50%;
+  display: inline-block;
+  text-align: center;
+  padding: 2px 0;
+  border: rgb(59, 10, 10) solid 1px;
+  }
+
+  .table-box-free{
+    width: 60px;
+    height: 60px;
+    background-color:lightgray;
+    margin:10px;
+    border-radius: 50%;
+  display: inline-block;
+  text-align: center;
+  padding: 2px 0;
+  border: rgb(59, 10, 10) solid 1px;
+  }
+
+  .table-box-free, .table-box-occupied a:link, a:visited, a:active{
+    color: black;
+   
+  }
+
+
+  #container {
+    width: 380px;
+    border: solid 1px #000;
+    display: flex;
+    
+}
+
+#left-column {
+    width: 20%;
+    margin-right: auto;
+}
+
+#right-column {
+    width: 20%;
+   
+    margin-left: auto;
+}
+
+a{
+  text-decoration: none;
+  color: black;
+}
+
